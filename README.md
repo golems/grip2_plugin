@@ -1,4 +1,4 @@
-grip2_plugin
-============
+grip2_plugin - Point Cloud
+==========================
 
-Repository for Grip2 plugins
+Repository for Grip2 plugins for point clouds
