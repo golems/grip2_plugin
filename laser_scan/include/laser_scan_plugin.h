@@ -1,26 +1,24 @@
 #ifndef POINT_CLOUD_PLUGIN_H
 #define POINT_CLOUD_PLUGIN_H
 
-#include "ui_point_cloud_plugin.h"
-#include "PCDLoader.h"
+#include "ui_laser_scan_plugin.h"
 #include "qtWidgets/include/GripTab.h"
 #include "qtWidgets/include/TreeViewReturn.h"
 #include "osgNodes/include/ViewerWidget.h"
 
-class PointCloudPlugin : public GripTab
+class LaserScanPlugin : public GripTab
 {
     Q_OBJECT
     Q_INTERFACES(GripTab)
 public:
-    PointCloudPlugin(QWidget *parent = 0);
-    ~PointCloudPlugin();
+    LaserScanPlugin(QWidget *parent = 0);
+    ~LaserScanPlugin();
 
 private:
-    Ui::PointCloudPlugin *ui;
-    PCDLoader* loader;
+    Ui::LaserScanPlugin *ui;
 
 public slots:
-    void testslot();
+    void scan_slot();
 
 public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
@@ -38,4 +36,4 @@ public:
 
 };
 
-#endif // TESTGRIPPLUGIN_H
+#endif

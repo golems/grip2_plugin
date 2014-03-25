@@ -5,7 +5,8 @@ project(laser_scan_plugin)
 #                COMPILE SETTINGS
 #-----------------------------------------------
 set(CMAKE_BUILD_TYPE "Debug")
-set(BUILD_FLAGS "-std=gnu++0x -Wreturn-type -Wno-enum-compare -Wall")
+
+list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -71,7 +72,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../../grip2/qtWidgets/include/GripTab.h)
-target_link_libraries(laser_scan_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
+target_link_libraries(laser_scan_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} urg_cpp m osg osgViewer boost_system dxl)
 
 # Set project libraries variable
 set(project_libs laser_scan_plugin)

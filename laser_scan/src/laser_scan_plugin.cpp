@@ -1,13 +1,15 @@
-#include "point_cloud_plugin.h"
+#include "laser_scan_plugin.h"
 #include <iostream>
 #include <qplugin.h>
 #include <QtGui>
 
-PointCloudPlugin::PointCloudPlugin(QWidget *parent) : ui(new Ui::PointCloudPlugin){
+LaserScanPlugin::LaserScanPlugin(QWidget *parent) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
 }
-PointCloudPlugin::~PointCloudPlugin(){}
-void PointCloudPlugin::testslot()
+
+LaserScanPlugin::~LaserScanPlugin(){}
+
+void LaserScanPlugin::scan_slot()
 {
     QStringList fileNames; //stores the entire path of the file that it attempts to open
 
@@ -26,49 +28,49 @@ void PointCloudPlugin::testslot()
     if (dialog.exec())
         fileNames = dialog.selectedFiles();
 
-    if (!fileNames.isEmpty())
-    {
-        std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
-        loader = new PCDLoader(fileNames.front().toStdString());
-        viewWidget->addNodeToScene(loader->geode);
-    }
+//    if (!fileNames.isEmpty())
+//    {
+//        std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
+//        loader = new PCDLoader(fileNames.front().toStdString());
+//        viewWidget->addNodeToScene(loader->geode);
+//    }
 }
 
-void PointCloudPlugin::GRIPEventSimulationBeforeTimestep()
+void LaserScanPlugin::GRIPEventSimulationBeforeTimestep()
 {
     std::cout<<"This is a test"<<std::endl;
 }
 
-void PointCloudPlugin::GRIPEventSimulationAfterTimestep(){}
-void PointCloudPlugin::GRIPEventSimulationStart(){}
-void PointCloudPlugin::GRIPEventSimulationStop(){}
-void PointCloudPlugin::GRIPEventTreeViewSelectionChanged(){}
-void PointCloudPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
+void LaserScanPlugin::GRIPEventSimulationAfterTimestep(){}
+void LaserScanPlugin::GRIPEventSimulationStart(){}
+void LaserScanPlugin::GRIPEventSimulationStop(){}
+void LaserScanPlugin::GRIPEventTreeViewSelectionChanged(){}
+void LaserScanPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
 {
     activeNode = ret;
     viewWidget = viewer;
 }
 
-void PointCloudPlugin::GRIPEventPlaybackBeforeFrame() {}
+void LaserScanPlugin::GRIPEventPlaybackBeforeFrame() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed after every playback time step
  */
-void PointCloudPlugin::GRIPEventPlaybackAfterFrame() {}
+void LaserScanPlugin::GRIPEventPlaybackAfterFrame() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed at the start of the playback
  */
-void PointCloudPlugin::GRIPEventPlaybackStart() {}
+void LaserScanPlugin::GRIPEventPlaybackStart() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed at the end of the playback
  */
-void PointCloudPlugin::GRIPEventPlaybackStop() {}
+void LaserScanPlugin::GRIPEventPlaybackStop() {}
 
-void PointCloudPlugin::Refresh() {}
+void LaserScanPlugin::Refresh() {}
 
-Q_EXPORT_PLUGIN2(PointCloudPlugin, PointCloudPlugin)
+Q_EXPORT_PLUGIN2(LaserScanPlugin, LaserScanPlugin)

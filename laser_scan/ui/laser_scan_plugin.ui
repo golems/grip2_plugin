@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PointCloudPlugin</class>
- <widget class="QDockWidget" name="PointCloudPlugin">
+ <class>LaserScanPlugin</class>
+ <widget class="QDockWidget" name="LaserScanPlugin">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>236</width>
+    <width>239</width>
     <height>103</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Point Cloud</string>
+   <string>Laser Scan</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="PCDFile">
+     <widget class="QPushButton" name="trigger_scan">
       <property name="text">
-       <string>Load Point Cloud from file</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="PCDSensor">
-      <property name="text">
-       <string>Load Point Cloud from Sensor</string>
+       <string>Launch laser scan</string>
       </property>
      </widget>
     </item>
@@ -35,23 +28,23 @@
  <resources/>
  <connections>
   <connection>
-   <sender>PCDFile</sender>
+   <sender>trigger_scan</sender>
    <signal>clicked()</signal>
-   <receiver>PointCloudPlugin</receiver>
-   <slot>testslot()</slot>
+   <receiver>LaserScanPlugin</receiver>
+   <slot>scan_slot()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>199</x>
-     <y>162</y>
+     <x>119</x>
+     <y>63</y>
     </hint>
     <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
+     <x>119</x>
+     <y>51</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>testslot()</slot>
+  <slot>scan_slot()</slot>
  </slots>
 </ui>
