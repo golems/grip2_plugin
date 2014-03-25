@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(point_cloud_plugin)
+project(laser_scan_plugin)
 
 #-----------------------------------------------
 #                COMPILE SETTINGS
@@ -70,8 +70,8 @@ QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
-add_library(point_cloud_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../../grip2/qtWidgets/include/GripTab.h)
-target_link_libraries(point_cloud_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
+add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../../grip2/qtWidgets/include/GripTab.h)
+target_link_libraries(laser_scan_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
 
 # Set project libraries variable
-set(project_libs point_cloud_plugin)
+set(project_libs laser_scan_plugin)
