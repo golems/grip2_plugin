@@ -48,7 +48,7 @@ add_definitions(${PCL_DEFINITIONS})
 #-----------------------------------------------
 # Include top-level include directory
 include_directories(include)
-include_directories(../grip2)
+include_directories(../../grip2)
 
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR})
@@ -70,7 +70,7 @@ QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
-add_library(point_cloud_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../grip2/qtWidgets/include/GripTab.h)
+add_library(point_cloud_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../../grip2/qtWidgets/include/GripTab.h)
 target_link_libraries(point_cloud_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES})
 
 # Set project libraries variable

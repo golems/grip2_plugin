@@ -21,7 +21,7 @@ PCDLoader::PCDLoader(std::string pcd_file)
             //uint32_t rgb_val_;
             //memcpy(&rgb_val_, &(cloud.points[i].rgb), sizeof(uint32_t));
 
-            colors->push_back (osg::Vec4f (1.0f, 0.0f, 0.0f, 0.0f));
+            colors->push_back (osg::Vec4f (1.0f, 1.0f, 1.0f, 0.0f));
         }
 
         geometry->setVertexArray (vertices.get());
@@ -29,7 +29,7 @@ PCDLoader::PCDLoader(std::string pcd_file)
         geometry->setColorBinding(osg::Geometry::BIND_PER_VERTEX);
 
         geometry->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::POINTS,0,vertices->size()));
-        geometry->getOrCreateStateSet()->setAttribute(new osg::Point(3.0f), osg::StateAttribute::ON);
+        //geometry->getOrCreateStateSet()->setAttribute(new osg::Point(3.0f), osg::StateAttribute::ON);
         geode->addDrawable (geometry.get());
         osg::StateSet* state = geometry->getOrCreateStateSet();
         state->setMode( GL_LIGHTING,osg::StateAttribute::OFF);

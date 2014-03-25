@@ -24,36 +24,15 @@ public slots:
 
 public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
-    /* Fire in relation to dynamic simulation */
-    /* Suitable for controllers */
+
     void GRIPEventSimulationBeforeTimestep();
     void GRIPEventSimulationAfterTimestep();
     void GRIPEventSimulationStart();
     void GRIPEventSimulationStop();
-
     void GRIPEventPlaybackBeforeFrame();
-
-    /**
-     * \brief called from the main window whenever the simulation history slider is being played
-     * This method is executed after every playback time step
-     */
     void GRIPEventPlaybackAfterFrame();
-
-    /**
-     * \brief called from the main window whenever the simulation history slider is being played
-     * This method is executed at the start of the playback
-     */
     void GRIPEventPlaybackStart();
-
-    /**
-     * \brief called from the main window whenever the simulation history slider is being played
-     * This method is executed at the end of the playback
-     */
     void GRIPEventPlaybackStop();
-
-    /**
-     * \brief called from the main window when a new object is selected in the treeview
-     */
     void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
