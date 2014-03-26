@@ -2,8 +2,11 @@
 #include <iostream>
 #include <qplugin.h>
 #include <QtGui>
+#include "urgcppwrapper.h"
+#include "dxl.h"
+#include "scanner3d.h"
 
-LaserScanPlugin::LaserScanPlugin(QWidget *parent) : ui(new Ui::LaserScanPlugin){
+LaserScanPlugin::LaserScanPlugin(QWidget *) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
 }
 
@@ -11,29 +14,32 @@ LaserScanPlugin::~LaserScanPlugin(){}
 
 void LaserScanPlugin::scan_slot()
 {
-    QStringList fileNames; //stores the entire path of the file that it attempts to open
+    const QString ip = ui->ip_input->text();
+    const QString ip_port = ui->ip_port_input->text();
+    const QString ttyUSB_dxl = ui->ttyUSB_input->text();
 
-    QStringList filters; //setting file filters
-    filters << "Point Cloud file (*.pcd)"
-            << "Any files (*)";
+    const QString start_angle = ui->start_angle_input->text();
+    const QString end_angle = ui->end_angle_input->text();
+    const QString step_angle = ui->step_angle_input->text();
 
-    //initializing the File dialog box
-    //the static QFileDialog does not seem to be working correctly in Ubuntu 12.04 with unity.
-    //as per the documentation it may work correctly with gnome
-    //the method used below should work correctly on all desktops and is supposedly more powerful
-    QFileDialog dialog(this);
-    dialog.setNameFilters(filters);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    if (dialog.exec())
-        fileNames = dialog.selectedFiles();
+    try
+    {
+        URGCPPWrapper urg(ip.toStdString(), ip_port.toInt());
+        std::cout << urg.getAllInfo() << std::endl;
+        Dxl dxl(ttyUSB_dxl.toInt());
 
-//    if (!fileNames.isEmpty())
-//    {
-//        std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
-//        loader = new PCDLoader(fileNames.front().toStdString());
-//        viewWidget->addNodeToScene(loader->geode);
-//    }
+        Scanner3d scanner(&urg, &dxl, start_angle.toDouble(), end_angle.toDouble(), step_angle.toDouble());
+        scanner.scan();
+
+        // Display point cloud
+        osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+        scanner.getScan3dGeode(geode);
+        viewWidget->addNodeToScene(geode);
+    }
+    catch(const std::runtime_error& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 void LaserScanPlugin::GRIPEventSimulationBeforeTimestep()
