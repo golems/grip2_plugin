@@ -1,4 +1,4 @@
-grip2_plugin - Point Cloud
+grip2_plugin - Planning
 ==========================
 
-Repository for Grip2 plugins for point clouds
+Repository for Grip2 plugins for planning

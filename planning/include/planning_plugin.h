@@ -1,23 +1,21 @@
 #ifndef POINT_CLOUD_PLUGIN_H
 #define POINT_CLOUD_PLUGIN_H
 
-#include "ui_point_cloud_plugin.h"
-#include "PCDLoader.h"
+#include "ui_planning_plugin.h"
 #include "qtWidgets/include/GripTab.h"
 #include "qtWidgets/include/TreeViewReturn.h"
 #include "osgNodes/include/ViewerWidget.h"
 
-class PointCloudPlugin : public GripTab
+class PlanningPlugin : public GripTab
 {
     Q_OBJECT
     Q_INTERFACES(GripTab)
 public:
-    PointCloudPlugin(QWidget *parent = 0);
-    ~PointCloudPlugin();
+    PlanningPlugin(QWidget *parent = 0);
+    ~PlanningPlugin();
 
 private:
-    Ui::PointCloudPlugin *ui;
-    PCDLoader* loader;
+    Ui::PlanningPlugin *ui;
 
 public slots:
     void testslot();

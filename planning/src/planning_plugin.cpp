@@ -1,13 +1,13 @@
-#include "point_cloud_plugin.h"
+#include "planning_plugin.h"
 #include <iostream>
 #include <qplugin.h>
 #include <QtGui>
 
-PointCloudPlugin::PointCloudPlugin(QWidget *parent) : ui(new Ui::PointCloudPlugin){
+PlanningPlugin::PlanningPlugin(QWidget *parent) : ui(new Ui::PlanningPlugin){
     ui->setupUi(this);
 }
-PointCloudPlugin::~PointCloudPlugin(){}
-void PointCloudPlugin::testslot()
+PlanningPlugin::~PlanningPlugin(){}
+void PlanningPlugin::testslot()
 {
     QStringList fileNames; //stores the entire path of the file that it attempts to open
 
@@ -29,46 +29,46 @@ void PointCloudPlugin::testslot()
     if (!fileNames.isEmpty())
     {
         std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
-        loader = new PCDLoader(fileNames.front().toStdString());
-        viewWidget->addNodeToScene(loader->geode);
+        //loader = new PCDLoader(fileNames.front().toStdString());
+        //viewWidget->addNodeToScene(loader->geode);
     }
 }
 
-void PointCloudPlugin::GRIPEventSimulationBeforeTimestep()
+void PlanningPlugin::GRIPEventSimulationBeforeTimestep()
 {
     std::cout<<"This is a test"<<std::endl;
 }
 
-void PointCloudPlugin::GRIPEventSimulationAfterTimestep(){}
-void PointCloudPlugin::GRIPEventSimulationStart(){}
-void PointCloudPlugin::GRIPEventSimulationStop(){}
-void PointCloudPlugin::GRIPEventTreeViewSelectionChanged(){}
-void PointCloudPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
+void PlanningPlugin::GRIPEventSimulationAfterTimestep(){}
+void PlanningPlugin::GRIPEventSimulationStart(){}
+void PlanningPlugin::GRIPEventSimulationStop(){}
+void PlanningPlugin::GRIPEventTreeViewSelectionChanged(){}
+void PlanningPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
 {
     activeNode = ret;
     viewWidget = viewer;
 }
 
-void PointCloudPlugin::GRIPEventPlaybackBeforeFrame() {}
+void PlanningPlugin::GRIPEventPlaybackBeforeFrame() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed after every playback time step
  */
-void PointCloudPlugin::GRIPEventPlaybackAfterFrame() {}
+void PlanningPlugin::GRIPEventPlaybackAfterFrame() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed at the start of the playback
  */
-void PointCloudPlugin::GRIPEventPlaybackStart() {}
+void PlanningPlugin::GRIPEventPlaybackStart() {}
 
 /**
  * \brief called from the main window whenever the simulation history slider is being played
  * This method is executed at the end of the playback
  */
-void PointCloudPlugin::GRIPEventPlaybackStop() {}
+void PlanningPlugin::GRIPEventPlaybackStop() {}
 
-void PointCloudPlugin::Refresh() {}
+void PlanningPlugin::Refresh() {}
 
-Q_EXPORT_PLUGIN2(PointCloudPlugin, PointCloudPlugin)
+Q_EXPORT_PLUGIN2(PlanningPlugin, PlanningPlugin)

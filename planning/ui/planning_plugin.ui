@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PointCloudPlugin</class>
- <widget class="QDockWidget" name="PointCloudPlugin">
+ <class>PlanningPlugin</class>
+ <widget class="QDockWidget" name="PlanningPlugin">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -37,7 +37,7 @@
   <connection>
    <sender>PCDFile</sender>
    <signal>clicked()</signal>
-   <receiver>PointCloudPlugin</receiver>
+   <receiver>PlanningPlugin</receiver>
    <slot>testslot()</slot>
    <hints>
     <hint type="sourcelabel">
