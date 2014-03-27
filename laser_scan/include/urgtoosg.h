@@ -56,8 +56,8 @@ public:
     static const unsigned short EPSILON = 3;
 
     //3D
-    static void getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result);
-    static osg::Vec3 sphericalToCartesian(const long distance, const double theta, const double phi);
+    static void getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result, double scale = 1);
+    static osg::Vec3 sphericalToCartesian(const long distance, const double theta, const double phi, double scale = 1);
 
 private:
     UrgToOsg();

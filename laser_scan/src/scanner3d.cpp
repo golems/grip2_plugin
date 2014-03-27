@@ -86,10 +86,10 @@ void Scanner3d::scan()
 
 }
 
-void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
+void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode, double scale)
 {
     osg::ref_ptr<osg::Vec3Array> vertices(new osg::Vec3Array());
-    UrgToOsg::getOsg3DPointsts(urg, vertices, raw_scan3d_result);
+    UrgToOsg::getOsg3DPointsts(urg, vertices, raw_scan3d_result, scale);
 
     osg::ref_ptr<osg::Geometry> geometry(new osg::Geometry);
     geometry->setVertexArray(vertices);

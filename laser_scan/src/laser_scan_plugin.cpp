@@ -77,7 +77,7 @@ void LaserScanPlugin::scan_slot()
 
         // Display point cloud
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-        scanner.getScan3dGeode(geode);
+        scanner.getScan3dGeode(geode, 0.001);
         viewWidget->addNodeToScene(geode);
     }
     catch(const std::runtime_error& e)

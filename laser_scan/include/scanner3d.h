@@ -59,7 +59,7 @@ public:
     Scanner3d(URGCPPWrapper *urg, Dxl *dxl,
               int start_angle_degree = 220, int end_angle_degree = 110, double scan_step_degree = 1);
     void scan();
-    void getScan3dGeode(osg::ref_ptr<osg::Geode> geode);
+    void getScan3dGeode(osg::ref_ptr<osg::Geode> geode, double scale = 1);
 
     void setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree);
 
