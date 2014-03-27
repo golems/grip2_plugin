@@ -44,30 +44,6 @@
 
 #include "urgtoosg.h"
 
-void UrgToOsg::getOsg2DPoints(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices)
-{
-    const unsigned long int number_of_points = urg->getNumberOfPoints();
-    const long max_distance = urg->getMaxDistance() - EPSILON;
-    const long min_distance = urg->getMinDistance() + EPSILON;
-
-    const std::vector<long>& distance = urg->getDistance();
-
-    vertices->reserve(number_of_points);
-    vertices->clear();
-
-    for(unsigned int i=0 ; i<number_of_points ; ++i)
-    {
-        // Remove extreme points
-        if(distance[i] < max_distance && distance[i] > min_distance)
-            vertices->push_back(polarToCartesian(distance[i], urg->index2rad(i)));
-    }
-}
-
-osg::Vec3 UrgToOsg::polarToCartesian(const long distance, const double angle_rad)
-{
-    return osg::Vec3(distance * cos(angle_rad), distance * sin(angle_rad), 0);
-}
-
 void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result)
 {
     const unsigned int nb_pts = raw_scan3d_result.number_of_points;

@@ -67,7 +67,6 @@ file(GLOB RC_FILES .rc/*.qrc)
 QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 
 # Add source and header files
-#file(GLOB srcs ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/include/*.h)
 file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
