@@ -1,4 +1,4 @@
-grip2_plugin - Point Cloud
+grip2_plugin - Laser scan
 ==========================
 
-Repository for Grip2 plugins for point clouds
+Triggers a 3D laser scan and displays the point cloud in visualization window
