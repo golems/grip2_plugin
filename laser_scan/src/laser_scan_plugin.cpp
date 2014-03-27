@@ -44,7 +44,6 @@ void LaserScanPlugin::scan_slot()
 
 void LaserScanPlugin::GRIPEventSimulationBeforeTimestep()
 {
-    std::cout<<"This is a test"<<std::endl;
 }
 
 void LaserScanPlugin::GRIPEventSimulationAfterTimestep(){}
