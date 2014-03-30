@@ -97,6 +97,7 @@ void LaserScanPlugin::GRIPEventTreeViewSelectionChanged(){}
 void LaserScanPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
 {
     activeNode = ret;
+    std::cout << ret->dType << std::endl;
     viewWidget = viewer;
 }
 
