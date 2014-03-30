@@ -46,9 +46,9 @@
 #define POINT_CLOUD_PLUGIN_H
 
 #include "ui_laser_scan_plugin.h"
-#include "qtWidgets/include/GripTab.h"
-#include "qtWidgets/include/TreeViewReturn.h"
-#include "osgNodes/include/ViewerWidget.h"
+#include <grip/qtWidgets/GripTab.h>
+#include <grip/qtWidgets/TreeViewReturn.h>
+#include <grip/osgGolems/ViewerWidget.h>
 
 class LaserScanPlugin : public GripTab
 {

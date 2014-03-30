@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 2.8.3)
 project(laser_scan_plugin)
 
 #-----------------------------------------------
-#                COMPILE SETTINGS
+# COMPILE SETTINGS
 #-----------------------------------------------
 set(CMAKE_BUILD_TYPE "Debug")
-
 list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -21,7 +20,7 @@ else()
 endif()
 
 #-----------------------------------------------
-#                FIND PACKAGES
+# FIND PACKAGES
 #-----------------------------------------------
 # Find QT
 find_package(Qt4 COMPONENTS QtCore QtGui Qt3Support QtXml REQUIRED)
@@ -44,12 +43,15 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
+find_package(GRIP REQUIRED)
+include_directories(${GRIP_INCLUDE_DIRS})
+
 #-----------------------------------------------
-#      INCLUDES & SUBDIRECTORY LIBRARIRES
+# INCLUDES & SUBDIRECTORY LIBRARIRES
 #-----------------------------------------------
 # Include top-level include directory
 include_directories(include)
-include_directories(../../grip2)
+include_directories(${EXECUTABLE_OUTPUT_PATH})
 
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR})
@@ -70,8 +72,8 @@ QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
-add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES} ../../grip2/qtWidgets/include/GripTab.h)
-target_link_libraries(laser_scan_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} urg_cpp m osg osgViewer boost_system dxl)
+add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
+target_link_libraries(laser_scan_plugin ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs laser_scan_plugin)
