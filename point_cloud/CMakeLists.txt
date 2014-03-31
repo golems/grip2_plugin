@@ -49,6 +49,7 @@ include_directories(${GRIP_INCLUDE_DIRS})
 #-----------------------------------------------
 # Include top-level include directory
 include_directories(include)
+include_directories(${EXECUTABLE_OUTPUT_PATH})
 
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR})
@@ -59,6 +60,7 @@ QT4_WRAP_UI(UI ${UI_FILES})
 
 # Wrap .moc files
 FILE(GLOB MOC_FILES ./include/*.h)
+LIST(REMOVE_ITEM MOC_FILES "${CMAKE_CURRENT_LIST_DIR}/./include/PCDLoader.h")
 QT4_WRAP_CPP(MOC ${MOC_FILES})
 
 # Add .qrc files
