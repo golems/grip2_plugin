@@ -37,6 +37,13 @@ include_directories(${OpenSceneGraph_INCLUDE_DIRS})
 add_definitions(${OpenSourceGraph_DEFINITIONS})
 set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
 
+# Find DART
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_MODLUE_PATH} "${CMAKE_INSTALL_PREFIX}/share/dart")
+find_package(DART REQUIRED)
+include_directories(${DART_INCLUDE_DIRS})
+link_directories(${DART_LIBRARY_DIRS})
+
+
 # Find Point Cloud Library
 find_package(PCL 1.3 REQUIRED COMPONENTS common io)
 include_directories(${PCL_INCLUDE_DIRS})
@@ -73,7 +80,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(laser_scan_plugin ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES})
+target_link_libraries(laser_scan_plugin ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs laser_scan_plugin)

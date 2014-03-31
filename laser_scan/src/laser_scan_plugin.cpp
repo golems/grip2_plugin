@@ -78,48 +78,13 @@ void LaserScanPlugin::scan_slot()
         // Display point cloud
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
         scanner.getScan3dGeode(geode, 0.001);
-        viewWidget->addNodeToScene(geode);
+        _viewWidget->addNodeToScene(geode);
     }
     catch(const std::runtime_error& e)
     {
         std::cout << e.what() << std::endl;
     }
 }
-
-void LaserScanPlugin::GRIPEventSimulationBeforeTimestep()
-{
-}
-
-void LaserScanPlugin::GRIPEventSimulationAfterTimestep(){}
-void LaserScanPlugin::GRIPEventSimulationStart(){}
-void LaserScanPlugin::GRIPEventSimulationStop(){}
-void LaserScanPlugin::GRIPEventTreeViewSelectionChanged(){}
-void LaserScanPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
-{
-    activeNode = ret;
-    std::cout << ret->dType << std::endl;
-    viewWidget = viewer;
-}
-
-void LaserScanPlugin::GRIPEventPlaybackBeforeFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed after every playback time step
- */
-void LaserScanPlugin::GRIPEventPlaybackAfterFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the start of the playback
- */
-void LaserScanPlugin::GRIPEventPlaybackStart() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the end of the playback
- */
-void LaserScanPlugin::GRIPEventPlaybackStop() {}
 
 void LaserScanPlugin::Refresh() {}
 

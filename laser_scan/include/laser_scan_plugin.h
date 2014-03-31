@@ -66,16 +66,6 @@ public slots:
 
 public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
-
-    void GRIPEventSimulationBeforeTimestep();
-    void GRIPEventSimulationAfterTimestep();
-    void GRIPEventSimulationStart();
-    void GRIPEventSimulationStop();
-    void GRIPEventPlaybackBeforeFrame();
-    void GRIPEventPlaybackAfterFrame();
-    void GRIPEventPlaybackStart();
-    void GRIPEventPlaybackStop();
-    void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
 };
