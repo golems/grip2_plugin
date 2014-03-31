@@ -30,7 +30,7 @@ void PointCloudPlugin::testslot()
     {
         std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
         loader = new PCDLoader(fileNames.front().toStdString());
-        viewWidget->addNodeToScene(loader->geode);
+        _viewWidget->addNodeToScene(loader->geode);
     }
 }
 
@@ -45,8 +45,8 @@ void PointCloudPlugin::GRIPEventSimulationStop(){}
 void PointCloudPlugin::GRIPEventTreeViewSelectionChanged(){}
 void PointCloudPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
 {
-    activeNode = ret;
-    viewWidget = viewer;
+    _activeNode = ret;
+    _viewWidget = viewer;
 }
 
 void PointCloudPlugin::GRIPEventPlaybackBeforeFrame() {}

@@ -3,9 +3,9 @@
 
 #include "ui_point_cloud_plugin.h"
 #include "PCDLoader.h"
-#include "qtWidgets/include/GripTab.h"
-#include "qtWidgets/include/TreeViewReturn.h"
-#include "osgNodes/include/ViewerWidget.h"
+#include <grip/qtWidgets/GripTab.h>
+#include <grip/qtWidgets/TreeViewReturn.h>
+#include <grip/osgGolems/ViewerWidget.h>
 
 class PointCloudPlugin : public GripTab
 {
