@@ -82,7 +82,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(planningtab SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(planningtab  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${DART_LIBRARIES} ${GRIP_LIBRARIES})
+target_link_libraries(planningtab  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs planningtab)

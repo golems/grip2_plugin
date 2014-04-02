@@ -118,8 +118,8 @@ void PlanningTab::GRIPEventSceneLoaded()
 void PlanningTab::GRIPEventSimulationBeforeTimestep()
 {
 
-  Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
-  mRobot->setInternalForces(torques);
+//  Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
+//  mRobot->setInternalForces(torques);
   cerr << "control" << endl;
 }
 
