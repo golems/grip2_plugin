@@ -108,13 +108,16 @@ void PlanningTab::GRIPEventSceneLoaded()
 //    mArmDofs[i] = mRobot->getJoint(armNodes[i])->getGenCoord(0)->getSkeletonIndex();
     mArmDofs[i] = mRobot->getBodyNode(armNodes[i])->getParentJoint()->getGenCoord(0)->getSkeletonIndex();
 
-    }
+  }
+  mController = new Controller;
+
 
 }
 
 /// Before each simulation step we set the torques the controller applies to the joints
 void PlanningTab::GRIPEventSimulationBeforeTimestep()
 {
+
   Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
   mRobot->setInternalForces(torques);
   cerr << "control" << endl;
