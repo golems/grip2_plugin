@@ -60,6 +60,12 @@ include_directories(${GRIP_INCLUDE_DIRS})
 include_directories(include)
 include_directories(${EXECUTABLE_OUTPUT_PATH})
 
+# Add include directories for OSG functionality
+include_directories(${PROJECT_SOURCE_DIR}/osg_include)
+
+# Add include directories for AStar functionality
+include_directories(${PROJECT_SOURCE_DIR}/astar_include)
+
 # Add include directory in order to find ui_*.h files
 include_directories(${CMAKE_BINARY_DIR})
 
@@ -76,8 +82,7 @@ file(GLOB RC_FILES .rc/*.qrc)
 QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 
 # Add source and header files
-#file(GLOB srcs ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp ${CMAKE_CURRENT_LIST_DIR}/include/*.h)
-file(GLOB SRCS include/*.h src/*.cpp)
+file(GLOB SRCS include/*.h src/*.cpp astar/*.cpp astar_include/*.h osg/*.cpp osg_include/*.h)
 
 # Add Qt Widgets library
 add_library(footstep_planner_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
