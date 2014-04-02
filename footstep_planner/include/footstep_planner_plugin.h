@@ -2,6 +2,14 @@
 #define FOOTSTEP_PLANNER_PLUGIN_H
 
 #include "ui_footstep_planner_plugin.h"
+#include "FootstepPlanner.h"
+#include "FootLocation.h"
+#include "Line.h"
+#include "Foot.h"
+#include "FootConstraint.h"
+#include "FootstepPlanner.h"
+#include "FootstepPlanVisualizer.h"
+
 #include <grip/qtWidgets/GripTab.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
 #include <grip/osgGolems/ViewerWidget.h>
@@ -17,6 +25,8 @@ public:
 
 private:
     Ui::FootstepPlannerPlugin *ui;
+    std::vector<fsp::Foot> _feet;
+    std::vector<fsp::FootConstraint> _constraints;
 
     void log(std::string msg);
 
