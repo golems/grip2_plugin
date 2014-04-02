@@ -19,8 +19,8 @@ void MyPlugin::GRIPEventSimulationStop(){}
 void MyPlugin::GRIPEventTreeViewSelectionChanged(){}
 void MyPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
 {
-    activeNode = ret;
-    viewWidget = viewer;
+    _activeNode = ret;
+    _viewWidget = viewer;
 }
 
 void MyPlugin::GRIPEventPlaybackBeforeFrame() {}
