@@ -1,4 +1,2 @@
-grip2_plugin
+footstep_planner_plugin
 ============
-
-Repository for Grip2 plugins
