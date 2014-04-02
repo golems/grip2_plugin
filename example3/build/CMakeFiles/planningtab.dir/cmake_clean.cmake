@@ -1,11 +1,13 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/planningtab.dir/src/planningtab.cpp.o"
-  "CMakeFiles/planningtab.dir/src/Controller.cpp.o"
+  "CMakeFiles/planningtab.dir/src/walktab.cpp.o"
+  "CMakeFiles/planningtab.dir/src/helpers.cpp.o"
+  "CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o"
   "CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o"
-  "CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o"
-  "ui_planningtab.h"
+  "CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o"
+  "ui_walktab.h"
+  "include/moc_walktab.cxx"
   "include/moc_Controller.cxx"
-  "include/moc_planningtab.cxx"
+  "include/moc_helpers.cxx"
   "../lib/libplanningtab.pdb"
   "../lib/libplanningtab.so"
 )

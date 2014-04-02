@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example2
+CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build
+CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/planningtab.dir/depend.make
@@ -49,65 +49,88 @@ include CMakeFiles/planningtab.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/planningtab.dir/flags.make
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: CMakeFiles/planningtab.dir/flags.make
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: ../src/planningtab.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/src/planningtab.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/src/planningtab.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/planningtab.cpp
+CMakeFiles/planningtab.dir/src/walktab.cpp.o: CMakeFiles/planningtab.dir/flags.make
+CMakeFiles/planningtab.dir/src/walktab.cpp.o: ../src/walktab.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/src/walktab.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/src/walktab.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/src/planningtab.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/planningtab.cpp > CMakeFiles/planningtab.dir/src/planningtab.cpp.i
+CMakeFiles/planningtab.dir/src/walktab.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/src/walktab.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp > CMakeFiles/planningtab.dir/src/walktab.cpp.i
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/src/planningtab.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/planningtab.cpp -o CMakeFiles/planningtab.dir/src/planningtab.cpp.s
+CMakeFiles/planningtab.dir/src/walktab.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/src/walktab.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp -o CMakeFiles/planningtab.dir/src/walktab.cpp.s
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o.requires:
-.PHONY : CMakeFiles/planningtab.dir/src/planningtab.cpp.o.requires
+CMakeFiles/planningtab.dir/src/walktab.cpp.o.requires:
+.PHONY : CMakeFiles/planningtab.dir/src/walktab.cpp.o.requires
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o.provides: CMakeFiles/planningtab.dir/src/planningtab.cpp.o.requires
-	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/src/planningtab.cpp.o.provides.build
-.PHONY : CMakeFiles/planningtab.dir/src/planningtab.cpp.o.provides
+CMakeFiles/planningtab.dir/src/walktab.cpp.o.provides: CMakeFiles/planningtab.dir/src/walktab.cpp.o.requires
+	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/src/walktab.cpp.o.provides.build
+.PHONY : CMakeFiles/planningtab.dir/src/walktab.cpp.o.provides
 
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o.provides.build: CMakeFiles/planningtab.dir/src/planningtab.cpp.o
+CMakeFiles/planningtab.dir/src/walktab.cpp.o.provides.build: CMakeFiles/planningtab.dir/src/walktab.cpp.o
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.o: CMakeFiles/planningtab.dir/flags.make
-CMakeFiles/planningtab.dir/src/Controller.cpp.o: ../src/Controller.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_2)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/src/Controller.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/src/Controller.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/Controller.cpp
+CMakeFiles/planningtab.dir/src/helpers.cpp.o: CMakeFiles/planningtab.dir/flags.make
+CMakeFiles/planningtab.dir/src/helpers.cpp.o: ../src/helpers.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/src/helpers.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/src/helpers.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/src/Controller.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/Controller.cpp > CMakeFiles/planningtab.dir/src/Controller.cpp.i
+CMakeFiles/planningtab.dir/src/helpers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/src/helpers.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp > CMakeFiles/planningtab.dir/src/helpers.cpp.i
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/src/Controller.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example2/src/Controller.cpp -o CMakeFiles/planningtab.dir/src/Controller.cpp.s
+CMakeFiles/planningtab.dir/src/helpers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/src/helpers.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp -o CMakeFiles/planningtab.dir/src/helpers.cpp.s
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.o.requires:
-.PHONY : CMakeFiles/planningtab.dir/src/Controller.cpp.o.requires
+CMakeFiles/planningtab.dir/src/helpers.cpp.o.requires:
+.PHONY : CMakeFiles/planningtab.dir/src/helpers.cpp.o.requires
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.o.provides: CMakeFiles/planningtab.dir/src/Controller.cpp.o.requires
-	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/src/Controller.cpp.o.provides.build
-.PHONY : CMakeFiles/planningtab.dir/src/Controller.cpp.o.provides
+CMakeFiles/planningtab.dir/src/helpers.cpp.o.provides: CMakeFiles/planningtab.dir/src/helpers.cpp.o.requires
+	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/src/helpers.cpp.o.provides.build
+.PHONY : CMakeFiles/planningtab.dir/src/helpers.cpp.o.provides
 
-CMakeFiles/planningtab.dir/src/Controller.cpp.o.provides.build: CMakeFiles/planningtab.dir/src/Controller.cpp.o
+CMakeFiles/planningtab.dir/src/helpers.cpp.o.provides.build: CMakeFiles/planningtab.dir/src/helpers.cpp.o
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o: CMakeFiles/planningtab.dir/flags.make
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o: include/moc_walktab.cxx
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/include/moc_walktab.cxx.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx > CMakeFiles/planningtab.dir/include/moc_walktab.cxx.i
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/include/moc_walktab.cxx.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx -o CMakeFiles/planningtab.dir/include/moc_walktab.cxx.s
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.requires:
+.PHONY : CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.requires
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.provides: CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.requires
+	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.provides.build
+.PHONY : CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.provides
+
+CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.provides.build: CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o
 
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o: CMakeFiles/planningtab.dir/flags.make
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o: include/moc_Controller.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_Controller.cxx
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_Controller.cxx
 
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/include/moc_Controller.cxx.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_Controller.cxx > CMakeFiles/planningtab.dir/include/moc_Controller.cxx.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_Controller.cxx > CMakeFiles/planningtab.dir/include/moc_Controller.cxx.i
 
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/include/moc_Controller.cxx.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_Controller.cxx -o CMakeFiles/planningtab.dir/include/moc_Controller.cxx.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_Controller.cxx -o CMakeFiles/planningtab.dir/include/moc_Controller.cxx.s
 
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o.requires:
 .PHONY : CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o.requires
@@ -118,58 +141,65 @@ CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o.provides: CMakeFiles/pla
 
 CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o.provides.build: CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: CMakeFiles/planningtab.dir/flags.make
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: include/moc_planningtab.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_4)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_planningtab.cxx
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o: CMakeFiles/planningtab.dir/flags.make
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o: include/moc_helpers.cxx
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_planningtab.cxx > CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.i
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planningtab.dir/include/moc_helpers.cxx.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx > CMakeFiles/planningtab.dir/include/moc_helpers.cxx.i
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_planningtab.cxx -o CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.s
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planningtab.dir/include/moc_helpers.cxx.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx -o CMakeFiles/planningtab.dir/include/moc_helpers.cxx.s
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.requires:
-.PHONY : CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.requires
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.requires:
+.PHONY : CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.requires
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.provides: CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.requires
-	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.provides.build
-.PHONY : CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.provides
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.provides: CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.requires
+	$(MAKE) -f CMakeFiles/planningtab.dir/build.make CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.provides.build
+.PHONY : CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.provides
 
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.provides.build: CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o
+CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.provides.build: CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o
 
-ui_planningtab.h: ../ui/planningtab.ui
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_5)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ui_planningtab.h"
-	/usr/bin/uic-qt4 -o /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/ui_planningtab.h /home/cerdogan/Documents/Simulation/grip2_plugin/example2/ui/planningtab.ui
+ui_walktab.h: ../ui/walktab.ui
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ui_walktab.h"
+	/usr/bin/uic-qt4 -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/ui_walktab.h /home/cerdogan/Documents/Simulation/grip2_plugin/example3/ui/walktab.ui
+
+include/moc_walktab.cxx: ../include/walktab.h
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_walktab.cxx"
+	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/plugin/example2 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example3/include/walktab.h
 
 include/moc_Controller.cxx: ../include/Controller.h
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_8)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_Controller.cxx"
-	/usr/bin/moc-qt4 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/usr/include/eigen3 -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/plugin/example2 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_Controller.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example2/include/Controller.h
+	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/plugin/example2 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_Controller.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example3/include/Controller.h
 
-include/moc_planningtab.cxx: ../include/planningtab.h
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles $(CMAKE_PROGRESS_7)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_planningtab.cxx"
-	/usr/bin/moc-qt4 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/usr/include/eigen3 -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/plugin/example2 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/include/moc_planningtab.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example2/include/planningtab.h
+include/moc_helpers.cxx: ../include/helpers.h
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_9)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_helpers.cxx"
+	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/plugin/example2 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example3/include/helpers.h
 
 # Object files for target planningtab
 planningtab_OBJECTS = \
-"CMakeFiles/planningtab.dir/src/planningtab.cpp.o" \
-"CMakeFiles/planningtab.dir/src/Controller.cpp.o" \
+"CMakeFiles/planningtab.dir/src/walktab.cpp.o" \
+"CMakeFiles/planningtab.dir/src/helpers.cpp.o" \
+"CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o" \
 "CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o" \
-"CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o"
+"CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o"
 
 # External object files for target planningtab
 planningtab_EXTERNAL_OBJECTS =
 
-../lib/libplanningtab.so: CMakeFiles/planningtab.dir/src/planningtab.cpp.o
-../lib/libplanningtab.so: CMakeFiles/planningtab.dir/src/Controller.cpp.o
+../lib/libplanningtab.so: CMakeFiles/planningtab.dir/src/walktab.cpp.o
+../lib/libplanningtab.so: CMakeFiles/planningtab.dir/src/helpers.cpp.o
+../lib/libplanningtab.so: CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o
 ../lib/libplanningtab.so: CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o
-../lib/libplanningtab.so: CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o
+../lib/libplanningtab.so: CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o
 ../lib/libplanningtab.so: /usr/lib/x86_64-linux-gnu/libQt3Support.so
 ../lib/libplanningtab.so: /usr/lib/x86_64-linux-gnu/libQtGui.so
 ../lib/libplanningtab.so: /usr/lib/x86_64-linux-gnu/libQtXml.so
@@ -205,19 +235,21 @@ planningtab_EXTERNAL_OBJECTS =
 CMakeFiles/planningtab.dir/build: ../lib/libplanningtab.so
 .PHONY : CMakeFiles/planningtab.dir/build
 
-CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/src/planningtab.cpp.o.requires
-CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/src/Controller.cpp.o.requires
+CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/src/walktab.cpp.o.requires
+CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/src/helpers.cpp.o.requires
+CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/include/moc_walktab.cxx.o.requires
 CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/include/moc_Controller.cxx.o.requires
-CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o.requires
+CMakeFiles/planningtab.dir/requires: CMakeFiles/planningtab.dir/include/moc_helpers.cxx.o.requires
 .PHONY : CMakeFiles/planningtab.dir/requires
 
 CMakeFiles/planningtab.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles/planningtab.dir/cmake_clean.cmake
 .PHONY : CMakeFiles/planningtab.dir/clean
 
-CMakeFiles/planningtab.dir/depend: ui_planningtab.h
+CMakeFiles/planningtab.dir/depend: ui_walktab.h
+CMakeFiles/planningtab.dir/depend: include/moc_walktab.cxx
 CMakeFiles/planningtab.dir/depend: include/moc_Controller.cxx
-CMakeFiles/planningtab.dir/depend: include/moc_planningtab.cxx
-	cd /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cerdogan/Documents/Simulation/grip2_plugin/example2 /home/cerdogan/Documents/Simulation/grip2_plugin/example2 /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build /home/cerdogan/Documents/Simulation/grip2_plugin/example2/build/CMakeFiles/planningtab.dir/DependInfo.cmake --color=$(COLOR)
+CMakeFiles/planningtab.dir/depend: include/moc_helpers.cxx
+	cd /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cerdogan/Documents/Simulation/grip2_plugin/example3 /home/cerdogan/Documents/Simulation/grip2_plugin/example3 /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles/planningtab.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/planningtab.dir/depend
 
