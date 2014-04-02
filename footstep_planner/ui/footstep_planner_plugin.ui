@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FootstepPlannerPlugin</class>
+ <widget class="QDockWidget" name="FootstepPlannerPlugin">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>387</width>
+    <height>191</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Footstep Planner</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QWidget" name="verticalWidget" native="true">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QComboBox" name="PlannerType">
+         <item>
+          <property name="text">
+           <string>A* Planner</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>R* Planner</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="RunPlanner">
+         <property name="text">
+          <string>Run Planner</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="showStartPosition">
+        <property name="text">
+         <string>Show Start Position</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showGoalPosition">
+        <property name="text">
+         <string>Show Goal Position</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showObstacles">
+        <property name="text">
+         <string>Show Obstacles</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showFootsteps">
+        <property name="text">
+         <string>Show Footsteps</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showTiles">
+        <property name="text">
+         <string>Show Tiles</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/><connections>
+  <connection>
+   <sender>RunPlanner</sender>
+   <signal>clicked()</signal>
+   <receiver>FootstepPlannerPlugin</receiver>
+   <slot>runPlanner()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>runPlanner()</slot>
+ </slots>
+</ui>
