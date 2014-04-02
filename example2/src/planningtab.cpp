@@ -117,10 +117,10 @@ void PlanningTab::GRIPEventSceneLoaded()
 /// Before each simulation step we set the torques the controller applies to the joints
 void PlanningTab::GRIPEventSimulationBeforeTimestep()
 {
+  Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
+  mRobot->setInternalForces(0.5*torques);
 
-//  Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
-//  mRobot->setInternalForces(torques);
-  cerr << "control" << endl;
+  cerr << "control: "<< torques << endl;
 }
 
 
@@ -219,21 +219,23 @@ void PlanningTab::doPlanPressed() {
 //  _world->getCollisionHandle()->getCollisionChecker()->disablePair(mRobot->getBodyNode("Body_RAR"), ground->getRootBodyNode());
 
   // Define PD controller gains
+//  Eigen::VectorXd kI = 10.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+//  Eigen::VectorXd kP = 300.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+//  Eigen::VectorXd kD = 50.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+// original gains
   Eigen::VectorXd kI = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-  Eigen::VectorXd kP = 3000.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-  Eigen::VectorXd kD = 500.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-//  Eigen::VectorXd kI = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-//  Eigen::VectorXd kP = 500.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-//  Eigen::VectorXd kD = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+  Eigen::VectorXd kP = 500.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+  Eigen::VectorXd kD = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
 
   // Define gains for the ankle PD
   std::vector<int> ankleDofs(2);
   ankleDofs[0] = 27;
   ankleDofs[1] = 28;
-  const Eigen::VectorXd anklePGains = -3000.0 * Eigen::VectorXd::Ones(2);
-  const Eigen::VectorXd ankleDGains = -400.0 * Eigen::VectorXd::Ones(2);
-//  const Eigen::VectorXd anklePGains = -1000.0 * Eigen::VectorXd::Ones(2);
-//  const Eigen::VectorXd ankleDGains = -200.0 * Eigen::VectorXd::Ones(2);
+//  const Eigen::VectorXd anklePGains = -500.0 * Eigen::VectorXd::Ones(2);
+//  const Eigen::VectorXd ankleDGains = -50.0 * Eigen::VectorXd::Ones(2);
+//original gains
+  const Eigen::VectorXd anklePGains = -1000.0 * Eigen::VectorXd::Ones(2);
+  const Eigen::VectorXd ankleDGains = -100.0 * Eigen::VectorXd::Ones(2);
 
   // Set robot to start configuration
   mRobot->setConfig(mArmDofs, mStartConf);

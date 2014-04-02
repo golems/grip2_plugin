@@ -1,10 +1,15 @@
-#pragma once
+//#pragma once
+
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 #include <vector>
 #include <Eigen/Core>
+#include <dart/dynamics/Skeleton.h>
+#include <dart/planning/Trajectory.h>
 
-namespace dart { namespace dynamics { class Skeleton; } }
-namespace dart { namespace planning { class Trajectory; } }
+//namespace dart { namespace dynamics { class Skeleton; } }
+//namespace dart { namespace planning { class Trajectory; } }
 
 class Controller {
 public:
@@ -34,3 +39,5 @@ protected:
     Eigen::VectorXd mAnklePGains;
     Eigen::VectorXd mAnkleDGains;
 };
+
+#endif // CONTROLLER_H
