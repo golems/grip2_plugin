@@ -41,9 +41,10 @@ WalkTab::WalkTab(QWidget *parent) : _ui(new Ui::WalkTabWidget){
   connect(_ui->setGoal,SIGNAL(pressed()),this,SLOT(setGoalPressed()));
 }
 
-/* ********************************************************************************************* */
+/* ********************************************************************************************* *
 void WalkTab::GRIPEventSceneLoaded() {
 
+	return;
 	hubo = _world->getSkeleton("Hubo");
 	_world->getSkeleton("Obstacle")->setMobile(false);
 	numDofs = hubo->getNumGenCoords();
@@ -69,7 +70,7 @@ void WalkTab::GRIPEventSceneLoaded() {
   }
 }
 
-/* ********************************************************************************************* */
+/* ********************************************************************************************* *
 void WalkTab::setTorques(const Eigen::VectorXd& desiredDofs) {
 
 	static const double kI = 0.0;
@@ -130,7 +131,7 @@ void WalkTab::setTorques(const Eigen::VectorXd& desiredDofs) {
 	hubo->setInternalForces(mTorques);
 }
 
-/* ********************************************************************************************* */
+/* ********************************************************************************************* *
 void WalkTab::moveFoot(const Eigen::VectorXd& dx, bool left, size_t period, bool sameFrame) {
 
 	static int counter = 0;
@@ -164,7 +165,7 @@ void WalkTab::moveFoot(const Eigen::VectorXd& dx, bool left, size_t period, bool
 	}
 }
 
-/* ********************************************************************************************* */
+/* ********************************************************************************************* *
 void WalkTab::GRIPEventSimulationBeforeTimestep() { 
 	
 	static Mode lastMode = mode;
@@ -329,6 +330,10 @@ void WalkTab::GRIPEventSimulationBeforeTimestep() {
 			}
 		}
 	}
+}
+
+/* ********************************************************************************************* */
+void WalkTab::Refresh() {
 }
 
 /* ********************************************************************************************* */
