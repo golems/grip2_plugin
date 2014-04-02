@@ -109,7 +109,7 @@ void PlanningTab::GRIPEventSceneLoaded()
     mArmDofs[i] = mRobot->getBodyNode(armNodes[i])->getParentJoint()->getGenCoord(0)->getSkeletonIndex();
 
   }
-  mController = new Controller;
+  //mController = new Controller;
 
 
 }
