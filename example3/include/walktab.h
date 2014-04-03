@@ -42,8 +42,8 @@
  *   POSSIBILITY OF SUCH DAMAGE.
  */
  
-#ifndef PLANNINGTAB_H
-#define PLANNINGTAB_H
+#ifndef WALKTAB_H
+#define WALKTAB_H
 
 #include "ui_walktab.h"
 
