@@ -37,12 +37,6 @@ include_directories(${OpenSceneGraph_INCLUDE_DIRS})
 add_definitions(${OpenSourceGraph_DEFINITIONS})
 set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
 
-# Find Point Cloud Library
-find_package(PCL 1.3 REQUIRED COMPONENTS common io)
-include_directories(${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
-
 # Find DART
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_MODLUE_PATH} "${CMAKE_INSTALL_PREFIX}/share/dart")
 find_package(DART REQUIRED)
