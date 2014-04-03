@@ -1,51 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PlanningTabWidget</class>
- <widget class="QDockWidget" name="PlanningTabWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>656</width>
-    <height>193</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Planning Tab</string>
-  </property>
-  <widget class="QWidget" name="dockWidgetContents">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="KPlotWidget" name="kplotwidget">
-      <property name="backgroundColor">
-       <color>
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </property>
-      <property name="foregroundColor">
-       <color>
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
- </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPlotWidget</class>
-   <extends>QFrame</extends>
-   <header>kplotwidget.h</header>
-  </customwidget>
- </customwidgets>
- <resources/>
- <connections/>
- <slots>
-  <slot>testslot()</slot>
- </slots>
+	<class>PlanningTabWidget</class>
+	<widget class="QDockWidget" name="PlanningTabWidget">
+
+		<property name="geometry">
+		 <rect>
+			<x>0</x>
+			<y>0</y>
+			<width>656</width>
+			<height>193</height>
+		 </rect>
+		</property>
+
+		<property name="windowTitle">
+		 <string>Planning Tab</string>
+		</property>
+
+		<widget class="QWidget" name="dockWidgetContents">
+			<layout class="QVBoxLayout" name="verticalLayout">
+				<item row="0" column="0">
+					<widget class="QCustomPlot" name="customPlot" native="true"/>
+				</item>
+			</layout>
+		</widget>
+	</widget>
+
+	<layoutdefault spacing="6" margin="11"/>
+
+	<customwidgets>
+	 <customwidget>
+		<class>QCustomPlot</class>
+		<extends>QWidget</extends>
+		<header>../include/qcustomplot.h</header>
+		<container>1</container>
+	 </customwidget>
+	</customwidgets>
+	<resources/>
+	<connections/>
 </ui>

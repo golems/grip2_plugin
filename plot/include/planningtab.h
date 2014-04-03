@@ -67,9 +67,14 @@ class PlanningTab : public GripTab
     Q_INTERFACES(GripTab)
 
 public:
-     PlanningTab(QWidget *parent = 0);
+    PlanningTab(QWidget *parent = 0);
     void Refresh();
+		void GRIPEventSceneLoaded();
 
+		QVector<double> x, y;
+		QTimer timer;
+protected Q_SLOTS:
+		void update ();
 private:
     Ui::PlanningTabWidget *_ui;
 
