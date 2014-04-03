@@ -1,6 +1,6 @@
 + Set the size of the graph with respect to widget in the beginning
 + Update the size as widget size changes
-Get access to dart structures and plot one of the links motion
++ Get access to dart structures and plot one of the links motion
 Add a scrollbar to choose variable names
 Add ability to plot custom data
 Add ability to add interactions

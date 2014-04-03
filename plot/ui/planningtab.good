@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>656</width>
-    <height>193</height>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,23 +15,15 @@
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="KPlotWidget" name="kplotwidget"/>
+      </item>
+     </layout>
+    </item>
     <item row="0" column="0">
-     <widget class="KPlotWidget" name="kplotwidget">
-      <property name="backgroundColor">
-       <color>
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </property>
-      <property name="foregroundColor">
-       <color>
-        <red>0</red>
-        <green>0</green>
-        <blue>0</blue>
-       </color>
-      </property>
-     </widget>
+     <widget class="QComboBox" name="comboBox"/>
     </item>
    </layout>
   </widget>

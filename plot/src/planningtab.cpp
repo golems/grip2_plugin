@@ -70,9 +70,26 @@ QCustomPlot* plot;
 void PlanningTab::update() {
 	
 	if(!hubo) return;
-  for (int i=0; i<100; ++i) y[i] = y[i+1];
+	static int lastIdx = -1;
+	int newIdx = _ui->comboBox->currentIndex();
+	if(newIdx != lastIdx) {
+		dynamics::BodyNode* node = hubo->getBodyNode(newIdx == 0 ? "Body_LSP" : "Body_LEP");
+		double qmax = node->getParentJoint()->getGenCoord(0)->get_qMax();
+		double qmin = node->getParentJoint()->getGenCoord(0)->get_qMin();
+		plot->yAxis->setRange(qmin, qmax);
+		lastIdx = newIdx;
+		for (int i=0; i<100; ++i) y[i] = 0.0;
+	}
+	
 	Eigen::VectorXd qs = hubo->getConfig();
-	y[100] = qs(9);
+	static int counter = 0;
+	counter+=10;
+	qs(19) = sin(M_PI/180*counter);
+	qs(22) = -(cos(M_PI/180*counter) + 1) * 1.0;
+	hubo->setConfig(qs);
+	
+  for (int i=0; i<100; ++i) y[i] = y[i+1];
+	y[100] = qs(newIdx == 0 ? 19 : 22);
 	plot->graph(0)->setData(x, y);
 	plot->replot();
 }
@@ -80,10 +97,13 @@ void PlanningTab::update() {
 /* ******************************************************************************************** */
 PlanningTab::PlanningTab(QWidget *parent) : _ui(new Ui::PlanningTabWidget) {
 	_ui->setupUi(this);
-  _ui->customPlot->addGraph();
-	plot = _ui->customPlot;
+	_ui->comboBox->addItem("LSP");
+	_ui->comboBox->addItem("LEP");
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(100);
+
+  _ui->customPlot->addGraph();
+	plot = _ui->customPlot;
   x = QVector<double> (101);
   y = QVector<double> (101);
   for (int i=0; i<101; ++i) {
