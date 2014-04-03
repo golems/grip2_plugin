@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>PlanningTabWidget</class>
+ <widget class="QDockWidget" name="PlanningTabWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,15 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>QCustomPlot plot examples</string>
+   <string>Planning Tab</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QCustomPlot" name="customPlot" native="true"/>
-    </item>
-   </layout>
-  </widget>
+ <layout class="QVBoxLayout" name="verticalLayout">
+	<item>
+	 <widget class="QCustomPlot" name="customPlot" native="true"/>
+	</item>
+ </layout>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
@@ -27,7 +25,7 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>../../qcustomplot.h</header>
+   <header>../include/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

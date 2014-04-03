@@ -62,8 +62,8 @@ using namespace std;
 
 PlanningTab::PlanningTab(QWidget *parent) : _ui(new Ui::PlanningTabWidget) {
 	_ui->setupUi(this);
-  QCPGraph* temp = _ui->customPlot->addGraph();
-	cout << "hi:" << temp <<  endl;
+  // QCPGraph* temp = _ui->customPlot->addGraph();
+	// cout << "hi:" << temp <<  endl;
 }
 
 void PlanningTab::Refresh() {}

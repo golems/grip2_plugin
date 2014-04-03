@@ -10715,6 +10715,7 @@ void QCustomPlot::paintEvent(QPaintEvent *event)
 void QCustomPlot::resizeEvent(QResizeEvent *event)
 {
   // resize and repaint the buffer:
+	cout << "resize" << endl;
   mPaintBuffer = QPixmap(event->size());
   setViewport(rect());
   replot(rpQueued); // queued update is important here, to prevent painting issues in some contexts
