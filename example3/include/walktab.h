@@ -2,8 +2,6 @@
  * Copyright (c) 2014, Georgia Tech Research Corporation
  * All rights reserved.
  *
- * Author: Sungmoon Joo <sungmoon.joo@gmail.com>
- * Date: Feb 2014
  *
  * Humanoid Robotics Lab      Georgia Institute of Technology
  * Director: Mike Stilman     http://www.golems.org
