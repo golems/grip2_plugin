@@ -69,12 +69,12 @@ QCustomPlot* plot;
 /* ******************************************************************************************** */
 void PlanningTab::update() {
 	
-	static int counter = 0;
+	if(!hubo) return;
   for (int i=0; i<100; ++i) y[i] = y[i+1];
-	y[100] = ((double) rand()) / RAND_MAX;
+	Eigen::VectorXd qs = hubo->getConfig();
+	y[100] = qs(9);
 	plot->graph(0)->setData(x, y);
 	plot->replot();
-	cout << "y[100]: " << y[100] << endl;
 }
 
 /* ******************************************************************************************** */
