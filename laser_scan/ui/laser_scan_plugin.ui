@@ -98,7 +98,7 @@ QGroupBox::title {
              <item>
               <widget class="QLineEdit" name="ip_port_input">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -131,6 +131,12 @@ QGroupBox::title {
              </item>
              <item>
               <widget class="QLineEdit" name="min_detection_angle">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>-135</string>
                </property>
@@ -142,24 +148,6 @@ QGroupBox::title {
             <layout class="QHBoxLayout" name="horizontalLayout_14">
              <item>
               <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>Max angle</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="max_detection_angle">
-               <property name="text">
-                <string>135</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_13">
-             <item>
-              <widget class="QLabel" name="label_8">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -167,14 +155,20 @@ QGroupBox::title {
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Skip step</string>
+                <string>Max angle</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="skip_step">
+              <widget class="QLineEdit" name="max_detection_angle">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
-                <string>1</string>
+                <string>135</string>
                </property>
               </widget>
              </item>
@@ -227,6 +221,12 @@ QGroupBox::title {
            </item>
            <item>
             <widget class="QLineEdit" name="ttyUSB_input">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>0</string>
              </property>
@@ -290,7 +290,7 @@ QGroupBox::title {
              <item>
               <widget class="QLineEdit" name="step_angle_input">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -320,7 +320,7 @@ QGroupBox::title {
              <item>
               <widget class="QLineEdit" name="end_angle_input">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>

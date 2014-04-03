@@ -44,7 +44,7 @@
 
 #include "urgtoosg.h"
 
-void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result, double scale)
+void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array> vertices, const RawScan3dResult &raw_scan3d_result)
 {
     const unsigned int nb_pts = raw_scan3d_result.number_of_points;
     const unsigned int nb_joints = raw_scan3d_result.number_of_joints;
@@ -61,16 +61,16 @@ void UrgToOsg::getOsg3DPointsts(URGCPPWrapper* urg, osg::ref_ptr<osg::Vec3Array>
             const double phi = raw_scan3d_result.jointsValue[nb_joints * (i / raw_scan3d_result.number_of_points_per_scan + 1) - 1];
             const double theta = urg->index2rad(i % raw_scan3d_result.number_of_points_per_scan) - 3.1415926 / 2;
 
-            vertices->push_back(sphericalToCartesian(raw_scan3d_result.distances[i], theta, phi, scale));
+            vertices->push_back(sphericalToCartesian(raw_scan3d_result.distances[i], theta, phi));
         }
     }
 }
 
-osg::Vec3 UrgToOsg::sphericalToCartesian(const long distance, const double theta, const double phi, double scale)
+osg::Vec3 UrgToOsg::sphericalToCartesian(const long distance, const double theta, const double phi)
 {
-    return osg::Vec3(distance * cos(phi) * sin(theta) * scale,
-                     distance * cos(theta) * scale,
-                     distance * sin(phi) * sin(theta))* scale;
+    return osg::Vec3(distance * cos(phi) * sin(theta),
+                     distance * cos(theta),
+                     distance * sin(phi) * sin(theta));
 }
 
 

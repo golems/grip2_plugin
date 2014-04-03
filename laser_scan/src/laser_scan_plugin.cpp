@@ -49,6 +49,7 @@
 #include "urgcppwrapper.h"
 #include "dxl.h"
 #include "scanner3d.h"
+#include <osg/PositionAttitudeTransform>
 
 LaserScanPlugin::LaserScanPlugin(QWidget *) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
@@ -58,18 +59,26 @@ LaserScanPlugin::~LaserScanPlugin(){}
 
 void LaserScanPlugin::scan_slot()
 {
+    // Laser params
     const QString ip = ui->ip_input->text();
     const QString ip_port = ui->ip_port_input->text();
-    const QString ttyUSB_dxl = ui->ttyUSB_input->text();
+    const QString min_detection_angle = ui->min_detection_angle->text();
+    const QString max_detection_angle = ui->max_detection_angle->text();
 
+    // Dxl params
+    const QString ttyUSB_dxl = ui->ttyUSB_input->text();
     const QString start_angle = ui->start_angle_input->text();
     const QString end_angle = ui->end_angle_input->text();
     const QString step_angle = ui->step_angle_input->text();
 
     try
     {
+        // Laser
         URGCPPWrapper urg(ip.toStdString(), ip_port.toInt());
+        urg.setDetectionAngleDegree(min_detection_angle.toInt(), max_detection_angle.toInt());
         std::cout << urg.getAllInfo() << std::endl;
+
+        // Motors
         Dxl dxl(ttyUSB_dxl.toInt());
 
         Scanner3d scanner(&urg, &dxl, start_angle.toDouble(), end_angle.toDouble(), step_angle.toDouble());
@@ -77,8 +86,17 @@ void LaserScanPlugin::scan_slot()
 
         // Display point cloud
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-        scanner.getScan3dGeode(geode, 0.001);
-        _viewWidget->addNodeToScene(geode);
+        scanner.getScan3dGeode(geode);
+
+        // Scale
+        osg::ref_ptr<osg::PositionAttitudeTransform> scaleTransform = new osg::PositionAttitudeTransform();
+        scaleTransform->addChild(geode);
+
+        double scale = 0.001;
+        osg::Vec3 scale3d(scale, scale, scale);
+        scaleTransform->setScale(scale3d);
+
+        _viewWidget->addNodeToScene(scaleTransform);
     }
     catch(const std::runtime_error& e)
     {

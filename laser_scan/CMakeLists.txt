@@ -80,7 +80,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(laser_scan_plugin ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
+target_link_libraries(laser_scan_plugin m urg_cpp dxl ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs laser_scan_plugin)

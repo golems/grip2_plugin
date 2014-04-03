@@ -47,7 +47,8 @@
 URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
     : distance(0), intensity(0),
       ip(ip), ip_port(ip_port), serial_baudrate(0), serial_port(""),
-      started(false), use_intensity(true), use_multi_echo(false)
+      started(false), use_intensity(true), use_multi_echo(false),
+      first_step(0), last_step(0)
 
 {
     if (!urg.open(ip.c_str(), ip_port, qrk::Lidar::Ethernet))
@@ -60,13 +61,14 @@ URGCPPWrapper::URGCPPWrapper(const std::string &ip, const int ip_port)
         throw std::runtime_error(ss.str());
     }
 
-    reserveDataContainer();
+    init();
 }
 
 URGCPPWrapper::URGCPPWrapper(const int serial_baudrate, const std::string& serial_port)
     : distance(0), intensity(0),
       ip(""), ip_port(0), serial_baudrate(serial_baudrate), serial_port(serial_port),
-      started(false), use_intensity(true), use_multi_echo(false)
+      started(false), use_intensity(true), use_multi_echo(false),
+      first_step(0), last_step(0)
 
 {
     if (!urg.open(serial_port.c_str(), serial_baudrate, qrk::Lidar::Serial))
@@ -79,9 +81,15 @@ URGCPPWrapper::URGCPPWrapper(const int serial_baudrate, const std::string& seria
         throw std::runtime_error(ss.str());
     }
 
-    reserveDataContainer();
+    init();
 }
 
+void URGCPPWrapper::init()
+{
+    first_step = urg.min_step();
+    last_step = urg.max_step();
+    initDataContainer();
+}
 
 URGCPPWrapper::~URGCPPWrapper()
 {
@@ -159,6 +167,73 @@ void URGCPPWrapper::sync()
     }
 }
 
+void URGCPPWrapper::setDetectionAngle(int start, int end)
+{
+    if(start < urg.min_step() || end > urg.max_step() || start >= end)
+    {
+        std::cerr << "URGCPPWrapper::setDetectionAngle Invalid start/end parameters" << std::endl;
+    }
+    else
+    {
+        if(urg.set_scanning_parameter(start, end))
+        {
+            first_step = start;
+            last_step = end;
+            initDataContainer();
+        }
+        else
+        {
+            std::cerr << "URGCPPWrapper::setDetectionAngle Error while trying to set detection angle" << std::endl;
+        }
+    }
+}
+
+void URGCPPWrapper::setDetectionAngleRadian(double start, double end)
+{
+    setDetectionAngle(urg.rad2step(start),urg.rad2step(end));
+}
+
+void URGCPPWrapper::setDetectionAngleDegree(double start, double end)
+{
+    setDetectionAngle(urg.deg2step(start),  urg.deg2step(end));
+}
+
+double URGCPPWrapper::getAngleMinRadian() const
+{
+    return urg.step2rad(first_step);
+}
+double URGCPPWrapper::getAngleMaxRadian() const
+{
+    return urg.step2rad(last_step);
+}
+double URGCPPWrapper::getAngleMinDegree() const
+{
+    return urg.step2deg(first_step);
+}
+double URGCPPWrapper::getAngleMaxDegree() const
+{
+    return urg.step2deg(last_step);
+}
+
+double URGCPPWrapper::getAngleMinLimitRadian() const
+{
+    return urg.step2rad(urg.min_step());
+}
+
+double URGCPPWrapper::getAngleMaxLimitRadian() const
+{
+    return urg.step2rad(urg.max_step());
+}
+
+double URGCPPWrapper::getAngleMinLimitDegree() const
+{
+    return urg.step2deg(urg.min_step());
+}
+
+double URGCPPWrapper::getAngleMaxLimitDegree() const
+{
+    return urg.step2deg(urg.max_step());
+}
 
 void URGCPPWrapper::setMeasurementType(bool use_intensity, bool use_multi_echo)
 {
@@ -182,11 +257,13 @@ void URGCPPWrapper::setMeasurementType(bool use_intensity, bool use_multi_echo)
     }
 }
 
-void URGCPPWrapper::reserveDataContainer()
+void URGCPPWrapper::initDataContainer()
 {
     const int data_size = urg.max_data_size();
     const int echo_size = urg.max_echo_size();
 
+    distance.clear();
+    intensity.clear();
     distance.reserve(data_size * echo_size);
     intensity.reserve(data_size * echo_size);
 }
@@ -206,15 +283,20 @@ std::string URGCPPWrapper::getAllInfo() const
     ss << "Sensor status: " << urg.status() << std::endl;
     ss << "Sensor state: " << urg.state() << std::endl;
 
-    ss << "step: ["
+    ss << "step limits: ["
        << urg.min_step() << ", "
        << urg.max_step() << "]" << std::endl;
+
+    ss << "fixed steps: ["
+       << first_step << ", "
+       << last_step << "]" << std::endl;
+
     ss << "distance: ["
        << urg.min_distance()
        << ", " << urg.max_distance() << "]" << std::endl;
 
     ss << "scan interval: " << urg.scan_usec() << " [usec]" << std::endl;
-    ss << "sensor data size: " << urg.max_data_size() << std::endl;
+    ss << "sensor data size: " << getNumberOfPoints() << std::endl;
 
     return ss.str();
 }
@@ -251,7 +333,7 @@ bool URGCPPWrapper::useMultiEcho() const
 
 unsigned long int URGCPPWrapper::getNumberOfPoints() const
 {
-    return urg.max_data_size();
+    return last_step - first_step + 1;
 }
 
 long URGCPPWrapper::getMinDistance() const

@@ -54,11 +54,15 @@
 class URGCPPWrapper
 {
 public:  
-    URGCPPWrapper(const std::string& ip, const int ip_port);
+    URGCPPWrapper(const std::string& ip = "192.168.0.10", const int ip_port = 10940);
     URGCPPWrapper(const int serial_baudrate, const std::string& serial_port);
     ~URGCPPWrapper();
     void start(bool use_intensity = true, bool use_multi_echo = false);
     void stop();
+
+    void setDetectionAngle(int start, int end);
+    void setDetectionAngleRadian(double start, double end);
+    void setDetectionAngleDegree(double start, double end);
 
     void grabScan();
     void grabScanWithIntensity();
@@ -78,6 +82,17 @@ public:
     unsigned long int getNumberOfPoints() const;
     long getMinDistance() const;
     long getMaxDistance() const;
+
+    double getAngleMinRadian() const;
+    double getAngleMaxRadian() const;
+    double getAngleMinDegree() const;
+    double getAngleMaxDegree() const;
+
+    // Constants
+    double getAngleMinLimitRadian() const;
+    double getAngleMaxLimitRadian() const;
+    double getAngleMinLimitDegree() const;
+    double getAngleMaxLimitDegree() const;
 
     // Utility
     double index2rad(int index) const;
@@ -100,7 +115,12 @@ private:
     bool use_multi_echo;
     qrk::Lidar::measurement_type_t measurement_type;
 
-    void reserveDataContainer();
+    //
+    int first_step;
+    int last_step;
+
+    void init();
+    void initDataContainer();
     void setMeasurementType(bool use_intensity, bool use_multi_echo);
 
 };
