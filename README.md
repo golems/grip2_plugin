@@ -1,7 +1,7 @@
 example2
 ========
 
- Example2 is a planning tab example. The original planning tab example(for grip1)has been ported to grip2.
+ Example2 is a planning tab. The original planning tab example(for grip1)has been ported to grip2.
 
 
 Directory Overview
