@@ -50,6 +50,7 @@
 #include "dxl.h"
 #include "scanner3d.h"
 #include <osg/PositionAttitudeTransform>
+#include <dart/dynamics/BodyNode.h>
 
 LaserScanPlugin::LaserScanPlugin(QWidget *) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
@@ -88,20 +89,35 @@ void LaserScanPlugin::scan_slot()
         osg::ref_ptr<osg::Geode> geode = new osg::Geode;
         scanner.getScan3dGeode(geode);
 
-        // Scale
-        osg::ref_ptr<osg::PositionAttitudeTransform> scaleTransform = new osg::PositionAttitudeTransform();
-        scaleTransform->addChild(geode);
+        osg::ref_ptr<osg::PositionAttitudeTransform> transformed = pointCloudTransformation(geode);
 
-        double scale = 0.001;
-        osg::Vec3 scale3d(scale, scale, scale);
-        scaleTransform->setScale(scale3d);
-
-        _viewWidget->addNodeToScene(scaleTransform);
+        _viewWidget->addNodeToScene(transformed);
     }
     catch(const std::runtime_error& e)
     {
         std::cout << e.what() << std::endl;
     }
+}
+
+osg::ref_ptr<osg::PositionAttitudeTransform> LaserScanPlugin::pointCloudTransformation(osg::ref_ptr<osg::Geode> geode)
+{
+    // Scale
+    osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
+    transform->addChild(geode);
+
+    double scale = 0.001;
+    osg::Vec3 scale3d(scale, scale, scale);
+    transform->setScale(scale3d);
+
+    // Translate
+//    dart::dynamics::BodyNode* n = (dart::dynamics::BodyNode*) _activeNode->object;
+
+//    Eigen::Isometry3d transformWorld = n->getWorldTransform();
+
+//    transform->setPosition(osg::Vec3(t(0), t(1), t(2)));
+
+    return transform;
+
 }
 
 void LaserScanPlugin::Refresh() {}

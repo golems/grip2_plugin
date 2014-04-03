@@ -42,8 +42,8 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef POINT_CLOUD_PLUGIN_H
-#define POINT_CLOUD_PLUGIN_H
+#ifndef LASER_SCAN_PLUGIN_H
+#define LASER_SCAN_PLUGIN_H
 
 #include "ui_laser_scan_plugin.h"
 #include <grip/qtWidgets/GripTab.h>
@@ -68,6 +68,8 @@ public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
     void Refresh();
 
+private:
+    osg::ref_ptr<osg::PositionAttitudeTransform> pointCloudTransformation(osg::ref_ptr<osg::Geode> geode);
 };
 
-#endif
+#endif // LASER_SCAN_PLUGIN_H
