@@ -66,9 +66,8 @@ class WalkTab : public GripTab
 
 public:
      WalkTab(QWidget *parent = 0);
-    ~WalkTab();
-    void GRIPEventSceneLoaded() {}
-    void GRIPEventSimulationBeforeTimestep() {}
+    void GRIPEventSceneLoaded();
+    void GRIPEventSimulationBeforeTimestep();
 		void moveFoot(const Eigen::VectorXd& dx, bool left, size_t period = 50, bool sameFrame = false);
 		void setTorques(const Eigen::VectorXd& desiredDofs);
 		void Refresh();
