@@ -86,7 +86,7 @@ PlanningTab::~PlanningTab(){}
 void PlanningTab::GRIPEventSceneLoaded()
 {
   mRobot = _world->getSkeleton("GolemHubo");
-  cerr << "Robot loaded1" << endl;
+  //cerr << "Robot loaded1" << endl;
 
   // Set initial configuration for the legs
   int legDofsArray[] = {19, 20, 23, 24, 27, 28};
@@ -95,17 +95,16 @@ void PlanningTab::GRIPEventSceneLoaded()
   legValues << -10.0, -10.0, 20.0, 20.0, -10.0, -10.0;
   legValues *= M_PI / 180.0;
 
-  cerr << "Robot loaded2" << endl;
+  //cerr << "Robot loaded2" << endl;
   mRobot->setConfig(legDofs, legValues);
-  cerr << "Robot loaded3" << endl;
+  //cerr << "Robot loaded3" << endl;
   // Define right arm nodes
   const string armNodes[] = {"Body_RSP", "Body_RSR", "Body_RSY", "Body_REP", "Body_RWY", "Body_RWP"};
   mArmDofs.resize(6);
   for(int i = 0; i < mArmDofs.size(); i++) {
-    cerr<< "i : " << i <<endl;
-    cerr << mRobot->getBodyNode(armNodes[i])->getName() << endl;
+  //  cerr<< "i : " << i <<endl;
+  //  cerr << mRobot->getBodyNode(armNodes[i])->getName() << endl;
 
-//    mArmDofs[i] = mRobot->getJoint(armNodes[i])->getGenCoord(0)->getSkeletonIndex();
     mArmDofs[i] = mRobot->getBodyNode(armNodes[i])->getParentJoint()->getGenCoord(0)->getSkeletonIndex();
 
   }
@@ -118,9 +117,9 @@ void PlanningTab::GRIPEventSceneLoaded()
 void PlanningTab::GRIPEventSimulationBeforeTimestep()
 {
   Eigen::VectorXd torques = mController->getTorques(mRobot->get_q(), mRobot->get_dq(), _world->getTime());
-  mRobot->setInternalForces(0.5*torques);
+  mRobot->setInternalForces(torques);
 
-  cerr << "control: "<< torques << endl;
+  //cerr << "control: "<< torques << endl;
 }
 
 
@@ -219,13 +218,13 @@ void PlanningTab::doPlanPressed() {
 //  _world->getCollisionHandle()->getCollisionChecker()->disablePair(mRobot->getBodyNode("Body_RAR"), ground->getRootBodyNode());
 
   // Define PD controller gains
-//  Eigen::VectorXd kI = 10.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-//  Eigen::VectorXd kP = 300.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-//  Eigen::VectorXd kD = 50.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-// original gains
   Eigen::VectorXd kI = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-  Eigen::VectorXd kP = 500.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
-  Eigen::VectorXd kD = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+  Eigen::VectorXd kP = 45000.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+  Eigen::VectorXd kD = 5000.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+// original gains
+//  Eigen::VectorXd kI = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+//  Eigen::VectorXd kP = 500.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
+//  Eigen::VectorXd kD = 100.0 * Eigen::VectorXd::Ones(mRobot->getNumGenCoords());
 
   // Define gains for the ankle PD
   std::vector<int> ankleDofs(2);
@@ -241,7 +240,7 @@ void PlanningTab::doPlanPressed() {
   mRobot->setConfig(mArmDofs, mStartConf);
 
   // Create controller
-  mController = new Controller(mRobot, actuatedDofs, kP, kD, ankleDofs, anklePGains, ankleDGains);
+  mController = new Controller(mRobot, actuatedDofs, kP, kD, kI, ankleDofs, anklePGains, ankleDGains);
 
   // Call path planner
   dart::planning::PathPlanner<> pathPlanner(*_world);

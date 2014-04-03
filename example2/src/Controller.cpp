@@ -14,10 +14,11 @@ using namespace std;
 using namespace Eigen;
 
 Controller::Controller(dart::dynamics::Skeleton* _skel, const vector<int> &_actuatedDofs,
-                       const VectorXd &_kP, const VectorXd &_kD, const vector<int> &_ankleDofs, const VectorXd &_anklePGains, const VectorXd &_ankleDGains) :
+                       const VectorXd &_kP, const VectorXd &_kD, const VectorXd &_kI,const vector<int> &_ankleDofs, const VectorXd &_anklePGains, const VectorXd &_ankleDGains) :
     mSkel(_skel),
     mKp(_kP.asDiagonal()),
     mKd(_kD.asDiagonal()),
+    mKi(_kI.asDiagonal()),
     mAnkleDofs(_ankleDofs),
     mAnklePGains(_anklePGains),
     mAnkleDGains(_ankleDGains),
@@ -61,22 +62,63 @@ VectorXd Controller::getTorques(const VectorXd& _dof, const VectorXd& _dofVel, d
     VectorXd torques;
     const double mTimestep = 0.001;
 
+    // Get the external forces
+//    Eigen::VectorXd mConstrForces = _world->getConstraintHandler()->getTotalConstraintForce(1);
+//    cout << "id 1: " << mSkel->getName().c_str() << endl;
+//    if(mConstrForces.rows() == 0) {
+//        cout << "No constr forces!!!!!! " << endl;
+//        return;
+//    }
+
+    const int nDof = mSkel->getNumGenCoords();
     // SPD controller
     // J. Tan, K. Liu, G. Turk. Stable Proportional-Derivative Controllers. IEEE Computer Graphics and Applications, Vol. 31, No. 4, pp 34-44, 2011.
     MatrixXd M = mSkel->getMassMatrix() + mKd * mTimestep;
     VectorXd p = -mKp * (_dof - mDesiredDofs + _dofVel * mTimestep);
     VectorXd d = -mKd * (_dofVel - desiredDofVels);
-    VectorXd qddot = M.ldlt().solve(-mSkel->getCombinedVector() + p + d);
+    VectorXd qddot = M.ldlt().solve(-mSkel->getCombinedVector() + p + d);// + mConstrForces);
     torques = p + d - mKd * qddot * mTimestep;
+
+//    static int counter = 0;
+//    static const int errorsSize = 50;
+//    static vector <Eigen::VectorXd> errors;
+//    if(counter == 0) {
+//        for(size_t i = 0; i < errorsSize; i++) {
+//            Eigen::VectorXd zero = Eigen::VectorXd::Zero(nDof);
+//            errors.push_back(zero);
+//        }
+//    }
+//    Eigen::VectorXd error = (_dof + _dofVel * mTimestep - mDesiredDofs);
+//    errors[counter++ % errorsSize] = error;
+
+//    // Add integral term to the torques
+
+//    Eigen::VectorXd totalError = Eigen::VectorXd::Zero(nDof);
+//    for(size_t i = 0; i < errorsSize; i++) totalError += errors[i];
+//    //totalError /= errorsSize;
+//    for(size_t i = 0; i < nDof; i++) {
+//        std::cerr << "error: " << totalError[i] * mKi(i) << std::endl;
+//        torques(i) += totalError[i] * mKi(i);
+//    }
+
+    double maxTorque = 100.0;
+
+    for (int i = 0;i<nDof;i++){
+        if (fabs(torques(i)) > maxTorque) {
+            //torques(i) = maxTorque*(torques(i)/fabs(torques(i)));
+            std::cerr << "Torque limit" << std::endl;
+        }
+    }
+
 
     // ankle strategy for sagital plane
     Vector3d com = mSkel->getWorldCOM();
     double cop = 0.0;
     double offset = com[0] - cop;
 
-    for(unsigned int i = 0; i < mAnkleDofs.size(); i++) {
-        torques[mAnkleDofs[i]] = - mAnklePGains[i] * offset - mAnkleDGains[i] * (offset - mPreOffset) / mTimestep;
-    }
+//    for(unsigned int i = 0; i < mAnkleDofs.size(); i++) {
+//        torques[mAnkleDofs[i]] = - mAnklePGains[i] * offset - mAnkleDGains[i] * (offset - mPreOffset) / mTimestep;
+//    }
 
     mPreOffset = offset;
 

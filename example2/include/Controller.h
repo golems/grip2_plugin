@@ -14,7 +14,7 @@
 class Controller {
 public:
     Controller(dart::dynamics::Skeleton* _skel, const std::vector<int> &_actuatedDofs,
-               const Eigen::VectorXd &_kP, const Eigen::VectorXd &_kD, const std::vector<int> &_ankleDofs, const Eigen::VectorXd &_anklePGains, const Eigen::VectorXd &_ankleDGains);
+               const Eigen::VectorXd &_kP, const Eigen::VectorXd &_kD, const Eigen::VectorXd &_kI, const std::vector<int> &_ankleDofs, const Eigen::VectorXd &_anklePGains, const Eigen::VectorXd &_ankleDGains);
     virtual ~Controller() {};
 
     void setTrajectory(const dart::planning::Trajectory* _trajectory, double _startTime, const std::vector<int> &_dofs);
@@ -31,6 +31,8 @@ protected:
     Eigen::VectorXd mDesiredDofs;
     Eigen::MatrixXd mKp;
     Eigen::MatrixXd mKd;
+    Eigen::MatrixXd mKi;
+
     Eigen::MatrixXd mSelectionMatrix;
     const dart::planning::Trajectory* mTrajectory;
     double mStartTime;
