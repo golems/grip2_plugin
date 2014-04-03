@@ -7,9 +7,16 @@ using namespace std;
 using namespace fsp;
 using namespace Eigen;
 
-FootstepPlannerPlugin::FootstepPlannerPlugin(QWidget *parent) : ui(new Ui::FootstepPlannerPlugin)
+FootstepPlannerPlugin::FootstepPlannerPlugin(QWidget *parent) : _ui(new Ui::FootstepPlannerPlugin)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
+
+    // Signals from my widgets to my slots
+    connect(_ui->showStartPosition, SIGNAL(toggled(bool)), this, SLOT(showStartPosition(bool)));
+    connect(_ui->showGoalPosition, SIGNAL(toggled(bool)), this, SLOT(showGoalPosition(bool)));
+    connect(_ui->showObstacles, SIGNAL(toggled(bool)), this, SLOT(showObstacles(bool)));
+    connect(_ui->showFootsteps, SIGNAL(toggled(bool)), this, SLOT(showFootsteps(bool)));
+    connect(_ui->showTiles, SIGNAL(toggled(bool)), this, SLOT(showTiles(bool)));
     // Initialize random seed
     srand(time(NULL));
 
@@ -21,12 +28,17 @@ FootstepPlannerPlugin::FootstepPlannerPlugin(QWidget *parent) : ui(new Ui::Foots
     _constraints.push_back(FootConstraint(0, 1, -4.0d, 4.0d, 3.0d, 5.0d, -30.0d, 30.0d));
     _constraints.push_back(FootConstraint(1, 0, -4.0d, 4.0d, -3.0d, -5.0d, -30.0d, 30.0d));
 }
-FootstepPlannerPlugin::~FootstepPlannerPlugin()
-{
-}
+FootstepPlannerPlugin::~FootstepPlannerPlugin(){}
 
+/**
+ * @brief FootstepPlannerPlugin::runPlanner
+ */
 void FootstepPlannerPlugin::runPlanner()
 {
+    string selectedPlanner = _ui->PlannerType->currentText().toStdString();
+    log("Running Planner:");
+    log(selectedPlanner);
+
     log("Initializing Current Location");
     // Initialize the current location
     vector<FootLocation> currentLoc;
@@ -80,27 +92,71 @@ void FootstepPlannerPlugin::runPlanner()
 
     log("Done running Planner");
 }
-void FootstepPlannerPlugin::showStartPosition()
+
+/**
+ * @brief FootstepPlannerPlugin::showStartPosition
+ * @param checked
+ */
+void FootstepPlannerPlugin::showStartPosition(bool checked)
 {
-    log("Show start position");
-}
-void FootstepPlannerPlugin::showGoalPosition()
-{
-    log("Show goal position");
-}
-void FootstepPlannerPlugin::showObstacles()
-{
-    log("Show obstacles");
-}
-void FootstepPlannerPlugin::showFootsteps()
-{
-    log("Show footsteps");
-}
-void FootstepPlannerPlugin::showTiles()
-{
-    log("Show tiles");
+    if (checked)
+        log("Show start position");
+    else
+        log("Hide start position");
 }
 
+/**
+ * @brief FootstepPlannerPlugin::showGoalPosition
+ * @param checked
+ */
+void FootstepPlannerPlugin::showGoalPosition(bool checked)
+{
+    if (checked)
+        log("Show goal position");
+    else
+        log("Hide goal position");
+}
+
+/**
+ * @brief FootstepPlannerPlugin::showObstacles
+ * @param checked
+ */
+void FootstepPlannerPlugin::showObstacles(bool checked)
+{
+    if (checked)
+        log("Show obstacles");
+    else
+        log("Hide obstacles");
+}
+
+/**
+ * @brief FootstepPlannerPlugin::showFootsteps
+ * @param checked
+ */
+void FootstepPlannerPlugin::showFootsteps(bool checked)
+{
+    if (checked)
+        log("Show footsteps");
+    else
+        log("Hide footsteps");
+}
+
+/**
+ * @brief FootstepPlannerPlugin::showTiles
+ * @param checked
+ */
+void FootstepPlannerPlugin::showTiles(bool checked)
+{
+    if (checked)
+        log("Show tiles");
+    else
+        log("Hide tiles");
+}
+
+/**
+ * @brief FootstepPlannerPlugin::log
+ * @param msg
+ */
 void FootstepPlannerPlugin::log(std::string msg)
 {
     std::cout << "[FootstepPlanner]: " << msg << std::endl;

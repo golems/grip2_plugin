@@ -24,7 +24,7 @@ public:
     ~FootstepPlannerPlugin();
 
 private:
-    Ui::FootstepPlannerPlugin *ui;
+    Ui::FootstepPlannerPlugin * _ui;
     std::vector<fsp::Foot> _feet;
     std::vector<fsp::FootConstraint> _constraints;
 
@@ -32,11 +32,11 @@ private:
 
 public slots:
     void runPlanner();
-    void showStartPosition();
-    void showGoalPosition();
-    void showObstacles();
-    void showFootsteps();
-    void showTiles();
+    void showStartPosition(bool checked);
+    void showGoalPosition(bool checked);
+    void showObstacles(bool checked);
+    void showFootsteps(bool checked);
+    void showTiles(bool checked);
 
 public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
