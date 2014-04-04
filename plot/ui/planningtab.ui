@@ -1,40 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-	<class>PlanningTabWidget</class>
-	<widget class="QDockWidget" name="PlanningTabWidget">
-
-		<property name="geometry">
-		 <rect>
-			<x>0</x>
-			<y>0</y>
-			<width>656</width>
-			<height>193</height>
-		 </rect>
-		</property>
-
-		<property name="windowTitle">
-		 <string>Planning Tab</string>
-		</property>
-
-		<widget class="QWidget" name="dockWidgetContents">
-			<layout class="QGridLayout" name="gridLayout">
-				<item row="1" column="0">
-					<layout class="QGridLayout" name="gridLayout_2">
-						<item row="0" column="0">
-							<widget class="QCustomPlot" name="customPlot" native="true"/>
-						</item>
-					</layout>
-				</item>
-				<item row="0" column="0">
-				 <widget class="QComboBox" name="comboBox"/>
-				</item>
-			</layout>
-		</widget>
-
-	</widget>
-
-	<layoutdefault spacing="6" margin="11"/>
-
+ <class>PlotTabWidget</class>
+ <widget class="QDockWidget" name="PlotTabWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>928</width>
+    <height>505</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Plot Tab</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout2">
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Robot Node</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>asdf</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>afwef</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>awef</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QLabel" name="label_2">
+              <property name="text">
+               <string>DOF</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="comboBox_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>x</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>y</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>z</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="Line" name="line_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Plugin Information</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboBox_3">
+          <item>
+           <property name="text">
+            <string>asdf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>123</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QCustomPlot" name="customPlot" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
 	<customwidgets>
 	 <customwidget>
 		<class>QCustomPlot</class>
@@ -43,6 +189,9 @@
 		<container>1</container>
 	 </customwidget>
 	</customwidgets>
-	<resources/>
-	<connections/>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>testslot()</slot>
+ </slots>
 </ui>

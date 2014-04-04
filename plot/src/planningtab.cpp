@@ -63,14 +63,15 @@ using namespace std;
 using namespace dart;
 
 dynamics::Skeleton* hubo = NULL;
-QCustomPlot* plot;
+// QCustomPlot* plot;
 
 
 /* ******************************************************************************************** */
-void PlanningTab::update() {
+void PlotTab::update() {
 	
 	if(!hubo) return;
 	static int lastIdx = -1;
+/*
 	int newIdx = _ui->comboBox->currentIndex();
 	if(newIdx != lastIdx) {
 		dynamics::BodyNode* node = hubo->getBodyNode(newIdx == 0 ? "Body_LSP" : "Body_LEP");
@@ -92,16 +93,23 @@ void PlanningTab::update() {
 	y[100] = qs(newIdx == 0 ? 19 : 22);
 	plot->graph(0)->setData(x, y);
 	plot->replot();
+*/
 }
 
 /* ******************************************************************************************** */
-PlanningTab::PlanningTab(QWidget *parent) : _ui(new Ui::PlanningTabWidget) {
+PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
+
+	// Setup the ui
 	_ui->setupUi(this);
-	_ui->comboBox->addItem("LSP");
 	_ui->comboBox->addItem("LEP");
+	_ui->comboBox->addItem("LSP");
+
+	// Create the timer to visualize the graph as events happen
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(100);
 
+/*
+	// Add the default graph
   _ui->customPlot->addGraph();
 	plot = _ui->customPlot;
   x = QVector<double> (101);
@@ -110,20 +118,22 @@ PlanningTab::PlanningTab(QWidget *parent) : _ui(new Ui::PlanningTabWidget) {
 		x[i] = i;
 		y[i] = 0.0;
   }
-  plot->xAxis->setLabel("x");
+  plot->xAxis->setLabel("time");
   plot->yAxis->setLabel("y");
+	_ui->comboBox->addItem("LSP");
   plot->xAxis->setRange(0, 100);
   plot->yAxis->setRange(0, 1);
+*/
 }
 
 /* ******************************************************************************************** */
-void PlanningTab::GRIPEventSceneLoaded() {
+void PlotTab::GRIPEventSceneLoaded() {
 	hubo = _world->getSkeleton("Hubo");
 }
 
 /* ******************************************************************************************** */
-void PlanningTab::Refresh() {
+void PlotTab::Refresh() {
 
 }
 
-Q_EXPORT_PLUGIN2(PlanningTab, PlanningTab)
+Q_EXPORT_PLUGIN2(PlotTab, PlotTab)

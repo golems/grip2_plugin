@@ -61,13 +61,13 @@
 
 class Controller;
 
-class PlanningTab : public GripTab
+class PlotTab : public GripTab
 {
     Q_OBJECT
     Q_INTERFACES(GripTab)
 
 public:
-    PlanningTab(QWidget *parent = 0);
+    PlotTab(QWidget *parent = 0);
     void Refresh();
 		void GRIPEventSceneLoaded();
 
@@ -76,7 +76,7 @@ public:
 protected Q_SLOTS:
 		void update ();
 private:
-    Ui::PlanningTabWidget *_ui;
+    Ui::PlotTabWidget *_ui;
 
 };
 
