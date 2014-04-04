@@ -38,7 +38,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="nodeBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -81,13 +81,18 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="comboBox_2">
+             <widget class="QComboBox" name="dofBox">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <item>
+               <property name="text">
+                <string>Joint</string>
+               </property>
+              </item>
               <item>
                <property name="text">
                 <string>x</string>
@@ -101,6 +106,21 @@
               <item>
                <property name="text">
                 <string>z</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>roll</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>pitch</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>yaw</string>
                </property>
               </item>
              </widget>
@@ -124,7 +144,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_3">
+         <widget class="QComboBox" name="customBox">
           <item>
            <property name="text">
             <string>asdf</string>
