@@ -12,6 +12,8 @@ Directory Overview
  2. include: planningtab.h, Controller.h
  
  3. ui: planningtab.ui
+ 
+ 4. scene: scene files 
 
 
 Tutorial
