@@ -73,6 +73,7 @@ public:
 
 		QVector<double> x, y;
 		QTimer timer;
+		void draw ();
 protected Q_SLOTS:
 		void update ();
 private:

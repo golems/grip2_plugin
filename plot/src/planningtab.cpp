@@ -59,6 +59,8 @@
 #include "planningtab.h"
 #include <QVector>
 
+#define pc(x) cout << #x << ": " << x << endl;
+
 using namespace std;
 using namespace dart;
 
@@ -69,24 +71,39 @@ QCustomPlot* plot;
 /* ******************************************************************************************** */
 void PlotTab::update() {
 
+	if(!hubo) return;
 
+	// Move hubo around for testing
+	Eigen::VectorXd qs = hubo->getConfig();
+	static int counter = 0;
+	counter+=10;
+	qs(19) = sin(M_PI/180*counter);
+	qs(22) = -(cos(M_PI/180*counter) + 1) * 1.0;
+	hubo->setConfig(qs);
+
+	// Draw something
+	draw();
 }
 
 /* ******************************************************************************************** */
-void PlotTab::update() {
+void PlotTab::draw() {
 	
-	if(!hubo) return;
-
 	// Some static variables
 	static dynamics::BodyNode* node;
 	static int lastBodyIdx = -1;
 	static int lastOptionIdx = -1;
 
+	// =================================================================================
+	// Change plot ranges
+
 	// Update the graph if the body or option is changed
-	bool updatePlot = false;
+	static bool updatePlot = false;
 	int bodyIdx = _ui->nodeBox->currentIndex();
 	int optionIdx = _ui->dofBox->currentIndex();
-	int customOptionIdx = _ui->nodeBox->currentIndex();
+	int customOptionIdx = _ui->customBox->currentIndex();
+	pc(bodyIdx);
+	pc(optionIdx);
+	pc(customOptionIdx);
 	if((customOptionIdx == 0) && ((bodyIdx != lastBodyIdx) || (optionIdx != lastOptionIdx))) {
 
 		// Get the node
@@ -120,6 +137,20 @@ void PlotTab::update() {
 			for (int i=0; i<100; ++i) y[i] = 0.0;
 			updatePlot = true;
 
+		}
+	}
+	
+	// Update the graph with custom information
+	if(customOptionIdx != 0) {
+
+
+	}
+
+	// Update the last data point
+	if(updatePlot) {
+
+		if(customOptionIdx == 0) {
+
 			// Determine the value if joint is chosen
 			if(optionIdx == 0) y[100] = node->getParentJoint()->getGenCoord(0)->get_q();
 
@@ -133,13 +164,8 @@ void PlotTab::update() {
 			}
 		}
 	}
-	
-	// Update the graph with custom information
-	if(customOptionIdx != 0) {
 
-
-	}
-
+	cout << "updatePlot: " << updatePlot << endl;
 	// Update the rest of the data
 	if(updatePlot) {
 		for (int i=0; i<100; ++i) y[i] = y[i+1];

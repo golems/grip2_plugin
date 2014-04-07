@@ -45,21 +45,6 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <item>
-               <property name="text">
-                <string>asdf</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>afwef</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>awef</string>
-               </property>
-              </item>
              </widget>
             </item>
            </layout>
@@ -90,6 +75,11 @@
               </property>
               <item>
                <property name="text">
+                <string>Joint</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
                 <string>x</string>
                </property>
               </item>
@@ -101,6 +91,21 @@
               <item>
                <property name="text">
                 <string>z</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>roll</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>pitch</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>yaw</string>
                </property>
               </item>
              </widget>
@@ -125,16 +130,6 @@
         </item>
         <item>
          <widget class="QComboBox" name="customBox">
-          <item>
-           <property name="text">
-            <string>asdf</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>123</string>
-           </property>
-          </item>
          </widget>
         </item>
         <item>
