@@ -197,21 +197,21 @@ VectorXd Controller::setTorques(const Eigen::VectorXd& _dof, const Eigen::Vector
     }
 
     // Just to make sure no illegal torque is used
-    for (int i = 0; i < 6; i++) mTorques[i] = 0.0;
+//    for (int i = 0; i < 6; i++) mTorques[i] = 0.0;
 
-    // Set the torques
-    for(size_t i = LHY; i < LAR; i++) {
-        if(fabs(mTorques(i)) > 10000.0) {
-            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
-            cout << "Limiting joint " << i - LHY << " on left leg" << endl;
-        }
-    }
-    for(size_t i = RHY; i < RAR; i++) {
-        if(fabs(mTorques(i)) > 10000.0) {
-            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
-            cout << "Limiting joint " << i - RHY << " on right leg" << endl;
-        }
-    }
+//    // Set the torques
+//    for(size_t i = LHY; i < LAR; i++) {
+//        if(fabs(mTorques(i)) > 10000.0) {
+//            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
+//            cout << "Limiting joint " << i - LHY << " on left leg" << endl;
+//        }
+//    }
+//    for(size_t i = RHY; i < RAR; i++) {
+//        if(fabs(mTorques(i)) > 10000.0) {
+//            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
+//            cout << "Limiting joint " << i - RHY << " on right leg" << endl;
+//        }
+//    }
     //hubo->setInternalForces(mTorques);
     return mTorques;
 }
