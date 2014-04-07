@@ -293,13 +293,10 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtCor
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QAction
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QApplication
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QButtonGroup
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QComboBox
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QDockWidget
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QFrame
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QGridLayout
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QHBoxLayout
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QHeaderView
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QLabel
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QMouseEvent
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPaintEvent
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPainter
@@ -307,12 +304,9 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPlatformWindow
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPrintEngine
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPrinter
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QPushButton
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QSpacerItem
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QVBoxLayout
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QVector2D
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/QWidget
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qabstractbutton.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qabstractitemdelegate.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qabstractitemview.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qabstractscrollarea.h
@@ -325,7 +319,6 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qbrush.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qbuttongroup.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qcolor.h
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qcombobox.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qcursor.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qdesktopwidget.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qdockwidget.h
@@ -342,7 +335,6 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qimage.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qitemselectionmodel.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qkeysequence.h
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qlabel.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qlayout.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qlayoutitem.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qmacdefines_mac.h
@@ -359,7 +351,6 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qpolygon.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qprintengine.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qprinter.h
-CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qpushbutton.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qregion.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qrgb.h
 CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o: /usr/include/qt4/QtGui/qrubberband.h
@@ -909,16 +900,13 @@ CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QAction
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QApplication
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QButtonGroup
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QCleanlooksStyle
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QComboBox
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QCommonStyle
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QDockWidget
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QFileDialog
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QFont
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QFrame
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QGridLayout
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QHBoxLayout
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QHeaderView
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QLabel
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QLayout
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QMatrix4x4
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QMouseEvent
@@ -929,8 +917,6 @@ CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QPixmap
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QPlatformWindow
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QPrintEngine
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QPrinter
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QPushButton
-CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QSpacerItem
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QTransform
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QVBoxLayout
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/include/qt4/QtGui/QVector2D

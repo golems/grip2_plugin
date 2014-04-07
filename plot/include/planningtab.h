@@ -76,6 +76,16 @@ public:
 		void draw ();
 protected Q_SLOTS:
 		void update ();
+		void contextMenuRequest (QPoint pos);
+
+		void addRandomGraph ();
+		void removeAllGraphs ();
+		void removeSelectedGraph ();
+
+		void selectionChanged();
+		void moveLegend ();
+		void mouseWheel ();
+		void mousePress ();
 private:
     Ui::PlotTabWidget *_ui;
 

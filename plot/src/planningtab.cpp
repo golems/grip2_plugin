@@ -85,7 +85,7 @@ void PlotTab::update() {
 	draw();
 }
 
-/* ******************************************************************************************** */
+/* ******************************************************************************************** *
 void PlotTab::draw() {
 	
 	// Some static variables
@@ -175,16 +175,207 @@ void PlotTab::draw() {
 }
 
 /* ******************************************************************************************** */
+void PlotTab::addRandomGraph() {
+  int n = 50; // number of points in graph
+  double xScale = (rand()/(double)RAND_MAX + 0.5)*2;
+  double yScale = (rand()/(double)RAND_MAX + 0.5)*2;
+  double xOffset = (rand()/(double)RAND_MAX - 0.5)*4;
+  double yOffset = (rand()/(double)RAND_MAX - 0.5)*5;
+  double r1 = (rand()/(double)RAND_MAX - 0.5)*2;
+  double r2 = (rand()/(double)RAND_MAX - 0.5)*2;
+  double r3 = (rand()/(double)RAND_MAX - 0.5)*2;
+  double r4 = (rand()/(double)RAND_MAX - 0.5)*2;
+  QVector<double> x(n), y(n);
+  for (int i=0; i<n; i++)
+  {
+    x[i] = (i/(double)n-0.5)*10.0*xScale + xOffset;
+    y[i] = (sin(x[i]*r1*5)*sin(cos(x[i]*r2)*r4*3)+r3*cos(sin(x[i])*r4*2))*yScale + yOffset;
+  }
+  
+  _ui->customPlot->addGraph();
+  _ui->customPlot->graph()->setName(QString("New graph %1").arg(_ui->customPlot->graphCount()-1));
+  _ui->customPlot->graph()->setData(x, y);
+  _ui->customPlot->graph()->setLineStyle((QCPGraph::LineStyle)(rand()%5+1));
+  if (rand()%100 > 75)
+    _ui->customPlot->graph()->setScatterStyle(QCPScatterStyle((QCPScatterStyle::ScatterShape)(rand()%9+1)));
+  QPen graphPen;
+  graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+  graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);
+  _ui->customPlot->graph()->setPen(graphPen);
+  _ui->customPlot->replot();
+}
+
+/* ******************************************************************************************** */
+void PlotTab::contextMenuRequest(QPoint pos) {
+
+  QMenu *menu = new QMenu(this);
+  menu->setAttribute(Qt::WA_DeleteOnClose);
+  if (_ui->customPlot->legend->selectTest(pos, false) >= 0) {
+    menu->addAction("Move to top left", this, 
+			SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignLeft));
+    menu->addAction("Move to top right", this, 
+			SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignRight));
+    menu->addAction("Move to bottom right", this, 
+			SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignRight));
+    menu->addAction("Move to bottom left", this, 
+			SLOT(moveLegend()))->setData((int)(Qt::AlignBottom|Qt::AlignLeft));
+    menu->addAction("Remove legend", this, 
+			SLOT(moveLegend()))->setData(1024);
+  } 
+	else {
+    menu->addAction("Add random graph", this, SLOT(addRandomGraph()));
+    if(_ui->customPlot->selectedGraphs().size() > 0) 
+			menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
+    if(_ui->customPlot->graphCount() > 0) 
+			menu->addAction("Remove all graphs", this, SLOT(removeAllGraphs()));
+		if(_ui->customPlot->legend->visible())
+			menu->addAction("Remove legend", this, SLOT(moveLegend()))->setData(1024);
+		if((_ui->customPlot->graphCount()) > 0 && (!_ui->customPlot->legend->visible()))
+			menu->addAction("Add legend", this, SLOT(moveLegend()))->setData(1025);
+  }
+  menu->popup(_ui->customPlot->mapToGlobal(pos));
+}
+
+/* ******************************************************************************************** */
+void PlotTab::removeSelectedGraph() {
+  if (_ui->customPlot->selectedGraphs().size() > 0) {
+    _ui->customPlot->removeGraph(_ui->customPlot->selectedGraphs().first());
+    _ui->customPlot->replot();
+  }
+}
+
+/* ******************************************************************************************** */
+void PlotTab::removeAllGraphs() {
+  _ui->customPlot->clearGraphs();
+  _ui->customPlot->replot();
+}
+
+/* ******************************************************************************************** */
+void PlotTab::selectionChanged() {
+
+  // Make top and bottom axes be selected synchronously, and handle axis and tick labels as one 
+	// selectable object:
+  if (_ui->customPlot->xAxis->selectedParts().testFlag(QCPAxis::spAxis) || 
+			_ui->customPlot->xAxis->selectedParts().testFlag(QCPAxis::spTickLabels) ||
+      _ui->customPlot->xAxis2->selectedParts().testFlag(QCPAxis::spAxis) || 
+			_ui->customPlot->xAxis2->selectedParts().testFlag(QCPAxis::spTickLabels)) {
+    _ui->customPlot->xAxis2->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+    _ui->customPlot->xAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+
+  // Make left and right axes be selected synchronously, and handle axis and tick labels as one 
+	// selectable object:
+  if (_ui->customPlot->yAxis->selectedParts().testFlag(QCPAxis::spAxis) || 
+			_ui->customPlot->yAxis->selectedParts().testFlag(QCPAxis::spTickLabels) ||
+      _ui->customPlot->yAxis2->selectedParts().testFlag(QCPAxis::spAxis) || 
+			_ui->customPlot->yAxis2->selectedParts().testFlag(QCPAxis::spTickLabels)) {
+    _ui->customPlot->yAxis2->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+    _ui->customPlot->yAxis->setSelectedParts(QCPAxis::spAxis|QCPAxis::spTickLabels);
+  }
+  
+  // Synchronize selection of graphs with selection of corresponding legend items:
+  for (int i=0; i<_ui->customPlot->graphCount(); ++i) {
+    QCPGraph *graph = _ui->customPlot->graph(i);
+    QCPPlottableLegendItem *item = _ui->customPlot->legend->itemWithPlottable(graph);
+    if (item->selected() || graph->selected()) {
+      item->setSelected(true);
+      graph->setSelected(true);
+    }
+  }
+}
+
+/* ******************************************************************************************** */
+void PlotTab::mousePress() {
+
+  // If an axis is selected, only allow the direction of that axis to be dragged
+  if (_ui->customPlot->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    _ui->customPlot->axisRect()->setRangeDrag(_ui->customPlot->xAxis->orientation());
+  else if (_ui->customPlot->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    _ui->customPlot->axisRect()->setRangeDrag(_ui->customPlot->yAxis->orientation());
+
+  // If no axis is selected, both directions may be dragged
+  else
+    _ui->customPlot->axisRect()->setRangeDrag(Qt::Horizontal|Qt::Vertical);
+}
+
+/* ******************************************************************************************** */
+void PlotTab::mouseWheel() {
+
+  // If an axis is selected, only allow the direction of that axis to be zoomed
+  if (_ui->customPlot->xAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    _ui->customPlot->axisRect()->setRangeZoom(_ui->customPlot->xAxis->orientation());
+  else if (_ui->customPlot->yAxis->selectedParts().testFlag(QCPAxis::spAxis))
+    _ui->customPlot->axisRect()->setRangeZoom(_ui->customPlot->yAxis->orientation());
+
+  // If no axis is selected, both directions may be zoomed
+  else
+    _ui->customPlot->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+}
+
+/* ******************************************************************************************** */
+void PlotTab::moveLegend() {
+
+  if (QAction* contextAction = qobject_cast<QAction*>(sender())) {
+    bool ok;
+    int dataInt = contextAction->data().toInt(&ok);
+    if(ok && (dataInt < 1024)) {
+      _ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, (Qt::Alignment)dataInt);
+      _ui->customPlot->replot();
+    }
+		else if(ok && dataInt == 1024) {
+			_ui->customPlot->legend->setVisible(false);
+      _ui->customPlot->replot();
+		}
+		else if(ok && dataInt == 1025) {
+			_ui->customPlot->legend->setVisible(true);
+      _ui->customPlot->replot();
+		}
+  }
+}
+
+/* ******************************************************************************************** */
 PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 
 	// Setup the ui
 	_ui->setupUi(this);
-	_ui->nodeBox->addItem("None");
-	_ui->customBox->addItem("None");
+  _ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes |
+                                  QCP::iSelectLegend | QCP::iSelectPlottables);
+  _ui->customPlot->xAxis->setRange(-8, 8);
+  _ui->customPlot->yAxis->setRange(-5, 5);
+  _ui->customPlot->axisRect()->setupFullAxesBox();
 
-	// Create the timer to visualize the graph as events happen
-	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-	timer.start(100);
+	// Setup the legend
+  _ui->customPlot->legend->setVisible(true);
+  QFont legendFont = font();
+  legendFont.setPointSize(10);
+  _ui->customPlot->legend->setFont(legendFont);
+  _ui->customPlot->legend->setSelectedFont(legendFont);
+  _ui->customPlot->legend->setSelectableParts(QCPLegend::spItems); 
+  connect(_ui->customPlot, SIGNAL(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)), this, 
+		SLOT(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*)));
+
+	// Set slots for interaction
+  _ui->customPlot->setContextMenuPolicy(Qt::CustomContextMenu);
+  connect(_ui->customPlot, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequest(QPoint)));
+  connect(_ui->customPlot, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
+  connect(_ui->customPlot, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
+  connect(_ui->customPlot, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
+	return;
+
+
+
+
+
+
+
+
+
+//	_ui->nodeBox->addItem("None");
+//	_ui->customBox->addItem("None");
+
+//	// Create the timer to visualize the graph as events happen
+//	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+//	timer.start(100);
 
 	// Add the default graph
   _ui->customPlot->addGraph();
@@ -195,8 +386,6 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 		x[i] = i;
 		y[i] = 0.0;
   }
-  plot->xAxis->setLabel("time");
-  plot->yAxis->setLabel("y");
   plot->xAxis->setRange(0, 100);
   plot->yAxis->setRange(0, 1);
 }
@@ -206,11 +395,13 @@ void PlotTab::GRIPEventSceneLoaded() {
 
 	// Add the items to the combo box
 	hubo = _world->getSkeleton("Hubo");
+/*
 	if(hubo == NULL) return;
 	for(size_t i = 0; i < hubo->getNumBodyNodes(); i++) {
 		dynamics::BodyNode* body = hubo->getBodyNode(i);
 		_ui->nodeBox->addItem(body->getName().c_str());	
 	}
+*/
 }
 
 /* ******************************************************************************************** */
