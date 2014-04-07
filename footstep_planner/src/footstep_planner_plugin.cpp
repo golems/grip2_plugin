@@ -5,6 +5,7 @@
 
 using namespace std;
 using namespace fsp;
+using namespace osg;
 using namespace Eigen;
 
 FootstepPlannerPlugin::FootstepPlannerPlugin(QWidget *parent) : _ui(new Ui::FootstepPlannerPlugin)
@@ -80,15 +81,45 @@ void FootstepPlannerPlugin::runPlanner()
     // Initialize the planner
     FootstepPlanner planner(_feet);
     vector<Vector2i> mapPlan;
-    //vector<FootLocation> plan = planner.getStaticPlan();
-    //vector<FootLocation> plan = planner.generatePlan(PLANNER_TYPE_RRT, constraints, currentLoc, goalLoc, obs);
-    //vector<FootLocation> plan = planner.generatePlan(PLANNER_TYPE_R_STAR, constraints, currentLoc, goalLoc, obs);
-    log("Running planner!");
-    vector<FootLocation> plan = planner.runAStarPlanner(_constraints, currentLoc, goalLoc, obs, mapPlan);
+    vector<FootLocation> plan;
+    int plannerType;
+    if (selectedPlanner.compare("R* Planner") == 0)
+        plannerType = PLANNER_TYPE_R_STAR;
+    else if (selectedPlanner.compare("A* Planner") == 0)
+        plannerType = PLANNER_TYPE_A_STAR;
+    else
+        return;
 
-    // Initialize the visualizer
-    FootstepPlanVisualizer visualizer(_feet);
-    //visualizer.visualizePlan2(FootstepPlanner::MIN_POINT, FootstepPlanner::MAX_POINT, FootstepPlanner::DISCRETIZATION_RES, currentLoc, goalLoc, obs, plan, mapPlan);
+    log("Executing the planner!");
+    plan = planner.generatePlan(plannerType, _constraints, currentLoc, goalLoc, obs, mapPlan);
+
+    // Check to make sure we have a valid plan
+    if (plan.size() > 0)
+    {
+        // Initialize the visualizer
+        log("Initializing visualizer");
+        FootstepPlanVisualizer visualizer(_feet);
+
+        log("Get the footsteps");
+        _FootstepGroup = visualizer.getFootsteps(currentLoc, plan);
+        showFootsteps(_ui->showFootsteps->isChecked());
+
+        log("Get the start position");
+        _StartGroup = visualizer.getStartPosition(currentLoc);
+        showStartPosition(_ui->showStartPosition->isChecked());
+
+        log("Get the goal position");
+        _GoalGroup = visualizer.getGoalPosition(goalLoc);
+        showGoalPosition(_ui->showGoalPosition->isChecked());
+
+        log("Get the obstacles");
+        _ObstacleGroup = visualizer.getObstacles(obs);
+        showObstacles(_ui->showObstacles->isChecked());
+
+        log("Get the tiles");
+        _TileGroup = visualizer.getTiles(FootstepPlanner::MIN_POINT,FootstepPlanner::DISCRETIZATION_RES, currentLoc, goalLoc, obs, mapPlan);
+        showTiles(_ui->showTiles->isChecked());
+    }
 
     log("Done running Planner");
 }
@@ -100,9 +131,18 @@ void FootstepPlannerPlugin::runPlanner()
 void FootstepPlannerPlugin::showStartPosition(bool checked)
 {
     if (checked)
+    {
         log("Show start position");
+        log("Add the start to the view widget");
+        _viewWidget->addNodeToScene(_StartGroup);
+    }
     else
+    {
         log("Hide start position");
+        log("Remove the start from the view widget");
+        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
+        //data->removeChild(_StartGroup);
+    }
 }
 
 /**
@@ -112,9 +152,18 @@ void FootstepPlannerPlugin::showStartPosition(bool checked)
 void FootstepPlannerPlugin::showGoalPosition(bool checked)
 {
     if (checked)
+    {
         log("Show goal position");
+        log("Add the goal to the view widget");
+        _viewWidget->addNodeToScene(_GoalGroup);
+    }
     else
+    {
         log("Hide goal position");
+        log("Remove the goal from the view widget");
+        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
+        //data->removeChild(_GoalGroup);
+    }
 }
 
 /**
@@ -124,9 +173,18 @@ void FootstepPlannerPlugin::showGoalPosition(bool checked)
 void FootstepPlannerPlugin::showObstacles(bool checked)
 {
     if (checked)
+    {
         log("Show obstacles");
+        log("Add the obstacles to the view widget");
+        _viewWidget->addNodeToScene(_ObstacleGroup);
+    }
     else
+    {
         log("Hide obstacles");
+        log("Remove the obstacles from the view widget");
+        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
+        //data->removeChild(_ObstacleGroup);
+    }
 }
 
 /**
@@ -136,9 +194,18 @@ void FootstepPlannerPlugin::showObstacles(bool checked)
 void FootstepPlannerPlugin::showFootsteps(bool checked)
 {
     if (checked)
+    {
         log("Show footsteps");
+        log("Add the footsteps to the view widget");
+        _viewWidget->addNodeToScene(_FootstepGroup);
+    }
     else
+    {
         log("Hide footsteps");
+        log("Remove the footsteps from the view widget");
+        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
+        //data->removeChild(_FootstepGroup);
+    }
 }
 
 /**
@@ -148,9 +215,18 @@ void FootstepPlannerPlugin::showFootsteps(bool checked)
 void FootstepPlannerPlugin::showTiles(bool checked)
 {
     if (checked)
+    {
         log("Show tiles");
+        log("Add the tiles to the view widget");
+        _viewWidget->addNodeToScene(_TileGroup);
+    }
     else
+    {
         log("Hide tiles");
+        log("Remove the tiles from the view widget");
+        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
+        //data->removeChild(_TileGroup);
+    }
 }
 
 /**

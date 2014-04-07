@@ -93,7 +93,7 @@ class FootstepPlanner
 
         FootstepPlanner(std::vector<Foot> ft);
 
-        std::vector<FootLocation> generatePlan(int plannerType, std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles);
+        std::vector<FootLocation> generatePlan(int plannerType, std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles, std::vector<Eigen::Vector2i>& mapPlan);
         std::vector<FootLocation> getStaticPlan();
 
         std::vector<FootLocation> runRRTPlanner(std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles);

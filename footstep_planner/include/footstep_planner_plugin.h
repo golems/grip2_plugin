@@ -28,6 +28,13 @@ private:
     std::vector<fsp::Foot> _feet;
     std::vector<fsp::FootConstraint> _constraints;
 
+    osg::Group* _StartGroup;
+    osg::Group* _GoalGroup;
+    osg::Group* _FootstepGroup;
+    osg::Geode* _ObstacleGroup;
+    osg::Group* _TileGroup;
+
+
     void log(std::string msg);
 
 public slots:

@@ -77,6 +77,12 @@ class FootstepPlanVisualizer
         void visualizePlanUsingTransform(std::vector<fsp::FootLocation>, std::vector<fsp::FootLocation>, std::vector<fsp::Line>, std::vector<fsp::FootLocation>);
         void visualizePlan2(Eigen::Vector2d minPoint, Eigen::Vector2d maxPoint, float discretizationResolution, std::vector<fsp::FootLocation>, std::vector<fsp::FootLocation>, std::vector<fsp::Line>, std::vector<fsp::FootLocation>, std::vector<Eigen::Vector2i>);
 
+        osg::Group* getStartPosition(std::vector<FootLocation> currentLocation);
+        osg::Group* getGoalPosition(std::vector<FootLocation> goalLocation);
+        osg::Geode* getObstacles(std::vector<Line> obstacles);
+        osg::Group* getTiles(Eigen::Vector2d minPoint, float discretizationResolution, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles, std::vector<Eigen::Vector2i> mapPlan);
+        osg::Group* getFootsteps(std::vector<FootLocation> currentLocation, std::vector<FootLocation> plan);
+
     protected:
 
     private:

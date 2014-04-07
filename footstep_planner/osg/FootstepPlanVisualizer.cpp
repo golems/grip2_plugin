@@ -265,6 +265,133 @@ void FootstepPlanVisualizer::visualizePlanUsingTransform(vector<FootLocation> cu
     viewer.run();
 }
 
+Group* FootstepPlanVisualizer::getStartPosition(vector<FootLocation> currentLocation)
+{
+    Group* currentLocationGroup = new Group();
+    currentLocationGroup->setName("StartGroup");
+    // Add the current position(blue).
+    for(int i = 0; i < currentLocation.size();i++)
+    {
+        currentLocationGroup->addChild(_getFootTransform(currentLocation[i], Vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+    }
+    return currentLocationGroup;
+}
+
+Group* FootstepPlanVisualizer::getGoalPosition(vector<FootLocation> goalLocation)
+{
+    Group* goalLocationGroup = new Group();
+    // Add the goal position(green).
+    for(int i = 0; i < goalLocation.size();i++)
+    {
+        goalLocationGroup->addChild(_getFootTransform(goalLocation[i], Vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+    }
+    return goalLocationGroup;
+}
+
+Geode* FootstepPlanVisualizer::getObstacles(vector<Line> obstacles)
+{
+    return _getObstacle(obstacles);
+}
+
+Group* FootstepPlanVisualizer::getTiles(Vector2d minPoint, float discretizationResolution, vector<FootLocation> currentLocation, vector<FootLocation> goalLocation, vector<Line> obstacles, vector<Vector2i> mapPlan)
+{
+    Group* root = new Group();
+    // Initialize colors
+    Vec4 opaque_blue = Vec4(0.0f, 0.0f, 1.0f, 0.3f);
+    Vec4 opaque_green = Vec4(0.0f, 1.0f, 0.0f, 0.3f);
+    Vec4 opaque_red = Vec4(1.0f, 0.0f, 0.0f, 0.3f);
+    Vec4 opaque_yellow = Vec4(1.0f, 1.0f, 0.0f, 0.3f);
+    // Calculate inverse min point
+    Vector2d invMinPoint(-minPoint[0], -minPoint[1]);
+    // Add the Start tile
+    root->addChild(_getTileFromWorld(currentLocation[0].getLocation()[0],
+                                     currentLocation[0].getLocation()[1],
+                                     discretizationResolution,
+                                     invMinPoint,
+                                     opaque_blue));
+
+    // Add the Goal tile
+    root->addChild(_getTileFromWorld(goalLocation[0].getLocation()[0],
+                                     goalLocation[0].getLocation()[1],
+                                     discretizationResolution,
+                                     invMinPoint,
+                                     opaque_green));
+
+    // Go through each of the obstacles
+    for(int i = 0; i < obstacles.size(); i++)
+    {
+        // Add the start tile
+        root->addChild(_getTileFromWorld(obstacles[i].getStart()[0],
+                                         obstacles[i].getStart()[1],
+                                         discretizationResolution, invMinPoint, opaque_red));
+        // Get slope
+        float slopeRise = (obstacles[i].getEnd()[1] - obstacles[i].getStart()[1]);
+        float slopeRun = (obstacles[i].getEnd()[0] - obstacles[i].getStart()[0]);
+        // Iterate across the slope and add the obstacle points
+        for(float j = 0.00f; j <= 1.00f; j+= 0.01f)
+        {
+            root->addChild(_getTileFromWorld(obstacles[i].getStart()[0] + (slopeRun * j),
+                                             obstacles[i].getStart()[1] + (slopeRise * j),
+                                             discretizationResolution, invMinPoint, opaque_red));
+        }
+        // Add the end tile
+        root->addChild(_getTileFromWorld(obstacles[i].getEnd()[0],
+                                         obstacles[i].getEnd()[1],
+                                         discretizationResolution, invMinPoint, opaque_red));
+    }
+
+    // Go through the map Plan
+    for(int i = 0; i < mapPlan.size(); i++)
+    {
+        // Add the plan tile
+        root->addChild(_getTileFromMap(mapPlan[i][0],
+                                       mapPlan[i][1],
+                                       discretizationResolution, invMinPoint, opaque_yellow));
+    }
+    return root;
+}
+
+Group* FootstepPlanVisualizer::getFootsteps(vector<FootLocation> currentLocation, vector<FootLocation> plan)
+{
+    // Initialize the root
+    Group* root = new Group();
+    // Initialize the colors
+    Vec4 gray = Vec4(0.5f, 0.5f, 0.5f, 1.0f);
+    Vec4 white = Vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    Vec4 black = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    // Add the steps (white/black)
+    for(int i = 0; i < plan.size(); i++)
+    {
+        root->addChild(_getFootTransform(plan[i], (i % 2 ? white : gray)));
+    }
+
+    // Add the plan outline (black)
+    Geode* planOutlineGeode = new Geode();
+    Geometry* planOutlineGeometry = new Geometry();
+    Vec4Array* planOutlineColors = new Vec4Array;
+    planOutlineColors->push_back(black);
+
+    // Add the points for the lines
+    Vec3Array* planOutlineVertices = new Vec3Array;
+    planOutlineVertices->push_back(Vec3(currentLocation[0].getLocation()[0], currentLocation[0].getLocation()[1], 0));
+    for(int i = 0; i < plan.size(); i++)
+    {
+        Vector2d loc = plan[i].getLocation();
+        planOutlineVertices->push_back(Vec3(loc[0], loc[1], 0));
+        planOutlineVertices->push_back(Vec3(loc[0], loc[1], 0));
+    }
+    // Set the Vertex array
+    planOutlineGeometry->setVertexArray(planOutlineVertices);
+
+    // Set the color
+    planOutlineGeometry->setColorArray(planOutlineColors);
+    planOutlineGeometry->setColorBinding(Geometry::BIND_OVERALL);
+    // Add the primitive set
+    planOutlineGeometry->addPrimitiveSet(new DrawArrays(GL_LINES,0,planOutlineVertices->size()));
+    planOutlineGeode->addDrawable(planOutlineGeometry);
+    root->addChild(planOutlineGeode);
+    return root;
+}
 
 void FootstepPlanVisualizer::visualizePlan2(Vector2d minPoint, Vector2d maxPoint, float discretizationResolution, vector<FootLocation> currentLocation, vector<FootLocation> goalLocation, vector<Line> obstacles, vector<FootLocation> plan, vector<Vector2i> mapPlan)
 {

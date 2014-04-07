@@ -71,13 +71,12 @@ FootstepPlanner::FootstepPlanner(vector<Foot> ft)
 /// \param obstacles
 /// \return
 ///
-vector<FootLocation> FootstepPlanner::generatePlan(int plannerType, vector<FootConstraint> constraints, vector<FootLocation> currentLocation, vector<FootLocation> goalLocation, vector<Line> obstacles)
+vector<FootLocation> FootstepPlanner::generatePlan(int plannerType, vector<FootConstraint> constraints, vector<FootLocation> currentLocation, vector<FootLocation> goalLocation, vector<Line> obstacles, vector<Vector2i>& mapPlan)
 {
     // Take a starting time stamp
     clock_t tStart = clock();
     // Initialize plan
     vector<FootLocation> plan;
-    vector<Vector2i> mapPlan;
     switch(plannerType)
     {
         case PLANNER_TYPE_R_STAR:
