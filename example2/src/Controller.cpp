@@ -9,6 +9,7 @@
 #include <dart/planning/Trajectory.h>
 #include <dart/dynamics/GenCoord.h>
 #include <dart/dynamics/BodyNode.h>
+#include <grip/qtWidgets/GripTab.h>
 
 using namespace std;
 using namespace Eigen;
@@ -125,3 +126,92 @@ VectorXd Controller::getTorques(const VectorXd& _dof, const VectorXd& _dofVel, d
     return mSelectionMatrix * torques;
 }
 
+//Can Erdogan's approach
+//VectorXd Controller::getTorques(const VectorXd& _dof, const VectorXd& _dofVel, double _time)
+//VectorXd Controller::setTorques(const Eigen::VectorXd& desiredDofs, const Eigen::VectorXd& desiredDofVels, double _time)
+VectorXd Controller::setTorques(const Eigen::VectorXd& _dof, const Eigen::VectorXd& _dofVel, double _time, dart::simulation::World *mWorld)
+{
+
+    static const double kI = 0.0;
+    static int counter = 0;
+    static const int errorsSize = 10;
+    static vector <Eigen::VectorXd> errors;
+    int numDofs = mSkel->getNumGenCoords();
+
+    if(counter == 0) {
+        for(size_t i = 0; i < errorsSize; i++) {
+            Eigen::VectorXd zero = Eigen::VectorXd::Zero(numDofs);
+            errors.push_back(zero);
+        }
+    }
+
+    // Get the timestep: Modified to remove amino dependencies
+//    static double time_last = _world->getTime();
+//    double time_now = _world->getTime();
+    double time_delta = 0.001;
+    //Original version with amino
+//    static double time_last = aa_tm_timespec2sec(aa_tm_now());
+//    double time_now = aa_tm_timespec2sec(aa_tm_now());
+//    double time_delta = time_now - time_last;
+
+
+    // Get the external forces
+    Eigen::VectorXd mConstrForces = mWorld->getConstraintHandler()->getTo   ->getConstraintHandler()->getTotalConstraintForce(1);
+    //cout << "id 1: " << _world->getSkeleton(1)->getName().c_str() << endl;
+    if(mConstrForces.rows() == 0) {
+        cout << "No constr forces!!!!!! " << endl;
+        return;
+    }
+
+
+    // SPD tracking
+    Eigen::VectorXd mTorques;
+
+    Eigen::VectorXd desiredDofVels = VectorXd::Zero(mSkel->getNumGenCoords());
+
+    if(mTrajectory && _time - mStartTime >= 0.0 & _time - mStartTime <= mTrajectory->getDuration()) {
+        for(unsigned int i = 0; i < mTrajectoryDofs.size(); i++) {
+            mDesiredDofs[mTrajectoryDofs[i]] = mTrajectory->getPosition(_time - mStartTime)[i];
+            desiredDofVels[mTrajectoryDofs[i]] = mTrajectory->getVelocity(_time - mStartTime)[i];
+        }
+    }
+
+
+
+//    Eigen::VectorXd dof = hubo->getConfig();    //_dof
+//    Eigen::VectorXd dofVel = hubo->get_dq();    //_dofVel
+    Eigen::MatrixXd invM = (mSkel->getMassMatrix() + mKd * time_delta).inverse();
+    Eigen::VectorXd error = (_dof + _dofVel * time_delta - mDesiredDofs);
+    errors[counter++ % errorsSize] = error;
+    Eigen::VectorXd p = -mKp * error;
+    Eigen::VectorXd d = -mKd * (_dofVel - desiredDofVels); // assuming desiredDofVels = 0.0
+    Eigen::VectorXd qddot = invM * (-mSkel->getCombinedVector() + p + d + mConstrForces);
+    mTorques = p + d - mKd * qddot * time_delta;
+
+    // Add integral term to the torques
+    Eigen::VectorXd totalError = Eigen::VectorXd::Zero(numDofs);
+    for(size_t i = 0; i < errorsSize; i++) totalError += errors[i];
+    totalError /= errorsSize;
+    for(size_t i = 0; i < numDofs; i++) {
+        mTorques[i] += totalError[i] * kI;
+    }
+
+    // Just to make sure no illegal torque is used
+    for (int i = 0; i < 6; i++) mTorques[i] = 0.0;
+
+    // Set the torques
+    for(size_t i = LHY; i < LAR; i++) {
+        if(fabs(mTorques(i)) > 10000.0) {
+            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
+            cout << "Limiting joint " << i - LHY << " on left leg" << endl;
+        }
+    }
+    for(size_t i = RHY; i < RAR; i++) {
+        if(fabs(mTorques(i)) > 10000.0) {
+            mTorques(i) = 10000.0 * (mTorques(i) / fabs(mTorques(i)));
+            cout << "Limiting joint " << i - RHY << " on right leg" << endl;
+        }
+    }
+    //hubo->setInternalForces(mTorques);
+    return mTorques;
+}

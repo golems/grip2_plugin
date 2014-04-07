@@ -7,6 +7,7 @@
 #include <Eigen/Core>
 #include <dart/dynamics/Skeleton.h>
 #include <dart/planning/Trajectory.h>
+#include <grip/qtWidgets/GripTab.h>
 
 //namespace dart { namespace dynamics { class Skeleton; } }
 //namespace dart { namespace planning { class Trajectory; } }
@@ -21,6 +22,7 @@ public:
 
     // Returns zero torque for nonactuated DOFs
     Eigen::VectorXd getTorques(const Eigen::VectorXd& _dof, const Eigen::VectorXd& _dofVel, double _time);
+    Eigen::VectorXd setTorques(const Eigen::VectorXd& _dof, const Eigen::VectorXd& _dofVel, double _time, dart::simulation::World *mWorld);
 
 protected: 
     Eigen::Vector3d evalAngMomentum(const Eigen::VectorXd& _dofVel);
