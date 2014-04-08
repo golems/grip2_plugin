@@ -361,6 +361,8 @@ vector<FootLocation> FootstepPlanner::runAStarPlanner(vector<FootConstraint> con
     else if( SearchState == AStarSearch<MapSearchNode>::SEARCH_STATE_FAILED )
     {
         cout << "Search terminated. Did not find goal state\n";
+        astarsearch.EnsureMemoryFreed();
+        return plan;
     }
 
     // Display the number of loops the search went through

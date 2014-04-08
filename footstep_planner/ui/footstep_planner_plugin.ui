@@ -96,7 +96,8 @@
    </layout>
   </widget>
  </widget>
- <resources/><connections>
+ <resources/>
+ <connections>
   <connection>
    <sender>RunPlanner</sender>
    <signal>clicked()</signal>

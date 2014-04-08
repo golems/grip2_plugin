@@ -31,10 +31,10 @@ private:
     osg::Group* _StartGroup;
     osg::Group* _GoalGroup;
     osg::Group* _FootstepGroup;
-    osg::Geode* _ObstacleGroup;
+    osg::Group* _ObstacleGroup;
     osg::Group* _TileGroup;
 
-
+    osg::Group* scaleNode(osg::ref_ptr<osg::Node> node);
     void log(std::string msg);
 
 public slots:

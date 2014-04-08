@@ -101,23 +101,23 @@ void FootstepPlannerPlugin::runPlanner()
         FootstepPlanVisualizer visualizer(_feet);
 
         log("Get the footsteps");
-        _FootstepGroup = visualizer.getFootsteps(currentLoc, plan);
+        _FootstepGroup = scaleNode(visualizer.getFootsteps(currentLoc, plan));
         showFootsteps(_ui->showFootsteps->isChecked());
 
         log("Get the start position");
-        _StartGroup = visualizer.getStartPosition(currentLoc);
+        _StartGroup = scaleNode(visualizer.getStartPosition(currentLoc));
         showStartPosition(_ui->showStartPosition->isChecked());
 
         log("Get the goal position");
-        _GoalGroup = visualizer.getGoalPosition(goalLoc);
+        _GoalGroup = scaleNode(visualizer.getGoalPosition(goalLoc));
         showGoalPosition(_ui->showGoalPosition->isChecked());
 
         log("Get the obstacles");
-        _ObstacleGroup = visualizer.getObstacles(obs);
+        _ObstacleGroup = scaleNode(visualizer.getObstacles(obs));
         showObstacles(_ui->showObstacles->isChecked());
 
         log("Get the tiles");
-        _TileGroup = visualizer.getTiles(FootstepPlanner::MIN_POINT,FootstepPlanner::DISCRETIZATION_RES, currentLoc, goalLoc, obs, mapPlan);
+        _TileGroup = scaleNode(visualizer.getTiles(FootstepPlanner::MIN_POINT,FootstepPlanner::DISCRETIZATION_RES, currentLoc, goalLoc, obs, mapPlan));
         showTiles(_ui->showTiles->isChecked());
     }
 
@@ -227,6 +227,20 @@ void FootstepPlannerPlugin::showTiles(bool checked)
         //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
         //data->removeChild(_TileGroup);
     }
+}
+
+Group* FootstepPlannerPlugin::scaleNode(ref_ptr<Node> node)
+{
+    Group* scaled = new Group();
+    // Initialize the transform
+    ref_ptr<PositionAttitudeTransform> transform = new PositionAttitudeTransform();
+    // Add the node
+    transform->addChild(node);
+    // Scale the transform
+    transform->setScale(Vec3(0.25d, 0.25d, 0.25d));
+    scaled->addChild(transform);
+    // Return the scaled transform
+    return scaled;
 }
 
 /**
