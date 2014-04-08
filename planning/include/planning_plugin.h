@@ -2,9 +2,9 @@
 #define POINT_CLOUD_PLUGIN_H
 
 #include "ui_planning_plugin.h"
-#include "qtWidgets/include/GripTab.h"
-#include "qtWidgets/include/TreeViewReturn.h"
-#include "osgNodes/include/ViewerWidget.h"
+#include <grip/qtWidgets/GripTab.h>
+#include <grip/qtWidgets/TreeViewReturn.h>
+#include <grip/osgGolems/ViewerWidget.h>
 
 class PlanningPlugin : public GripTab
 {
@@ -16,9 +16,12 @@ public:
 
 private:
     Ui::PlanningPlugin *ui;
+    dart::dynamics::Skeleton* _skel;
+    std::vector<int> _index;
+    Eigen::VectorXd _startConf;
+    Eigen::VectorXd _goalConf;
 
-public slots:
-    void testslot();
+    bool updateIndex();
 
 public:
     void Load(TreeViewReturn* ret, ViewerWidget* viewer);
@@ -34,6 +37,10 @@ public:
     void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
+private slots:
+    void on_saveStartButton_clicked();
+    void on_saveGoalButton_clicked();
+    void on_PlanMoveButton_clicked();
 };
 
 #endif // TESTGRIPPLUGIN_H

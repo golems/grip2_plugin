@@ -6,26 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>236</width>
-    <height>103</height>
+    <width>239</width>
+    <height>160</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Point Cloud</string>
+   <string>Planning</string>
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="PCDFile">
+     <widget class="QCommandLinkButton" name="saveStartButton">
       <property name="text">
-       <string>Load Point Cloud from file</string>
+       <string>Save Start Configuration</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="PCDSensor">
+     <widget class="QCommandLinkButton" name="saveGoalButton">
       <property name="text">
-       <string>Load Point Cloud from Sensor</string>
+       <string>Save Goal Configuration</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="PlanMoveButton">
+      <property name="text">
+       <string>Plan and Move</string>
       </property>
      </widget>
     </item>
@@ -33,24 +40,7 @@
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>PCDFile</sender>
-   <signal>clicked()</signal>
-   <receiver>PlanningPlugin</receiver>
-   <slot>testslot()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>199</x>
-     <y>162</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>199</x>
-     <y>149</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>testslot()</slot>
  </slots>
