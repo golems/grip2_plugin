@@ -83,6 +83,8 @@ dart/dynamics/Skeleton.h
 -
 dart/dynamics/Joint.h
 -
+dart/dynamics/WeldJoint.h
+-
 dart/dynamics/BodyNode.h
 -
 dart/collision/CollisionDetector.h
@@ -4983,6 +4985,14 @@ math/Geometry.h
 /usr/local/include/dart/dynamics/math/Geometry.h
 dynamics/GenCoordSystem.h
 /usr/local/include/dart/dynamics/dynamics/GenCoordSystem.h
+
+/usr/local/include/dart/dynamics/WeldJoint.h
+Eigen/Dense
+-
+dynamics/GenCoord.h
+/usr/local/include/dart/dynamics/dynamics/GenCoord.h
+dynamics/Joint.h
+/usr/local/include/dart/dynamics/dynamics/Joint.h
 
 /usr/local/include/dart/integration/Integrator.h
 vector

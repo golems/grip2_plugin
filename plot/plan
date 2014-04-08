@@ -3,6 +3,10 @@
 + Get access to dart structures and plot one of the links motion
 + Add a scrollbar to choose variable names
 + Add choices to the scrollbar through the tree
-Superimpose plots
++ Superimpose plots
 Add ability to plot custom data
 Add ability to add interactions
+
+---------------------------------------------------------------------------------
+
+Draw forces on a node 

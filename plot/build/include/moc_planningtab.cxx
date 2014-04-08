@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'planningtab.h'
 **
-** Created: Mon Apr 7 22:04:34 2014
+** Created: Mon Apr 7 23:34:47 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -34,22 +34,22 @@ static const uint qt_meta_data_PlotTab[] = {
        9,    8,    8,    8, 0x09,
       22,   18,    8,    8, 0x09,
       49,    8,    8,    8, 0x09,
-      66,    8,    8,    8, 0x09,
-      84,    8,    8,    8, 0x09,
-     106,    8,    8,    8, 0x09,
-     125,    8,    8,    8, 0x09,
-     138,    8,    8,    8, 0x09,
-     157,    8,    8,    8, 0x09,
-     170,    8,    8,    8, 0x09,
-     183,    8,    8,    8, 0x09,
+      67,    8,    8,    8, 0x09,
+      89,    8,    8,    8, 0x09,
+     108,    8,    8,    8, 0x09,
+     127,    8,    8,    8, 0x09,
+     140,    8,    8,    8, 0x09,
+     159,    8,    8,    8, 0x09,
+     172,    8,    8,    8, 0x09,
+     185,    8,    8,    8, 0x09,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_PlotTab[] = {
     "PlotTab\0\0update()\0pos\0contextMenuRequest(QPoint)\0"
-    "addRandomGraph()\0removeAllGraphs()\0"
-    "removeSelectedGraph()\0selectDartStream()\0"
+    "removeAllGraphs()\0removeSelectedGraph()\0"
+    "changeStreamType()\0selectDartStream()\0"
     "drawPlugin()\0selectionChanged()\0"
     "moveLegend()\0mouseWheel()\0mousePress()\0"
 };
@@ -62,9 +62,9 @@ void PlotTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         switch (_id) {
         case 0: _t->update(); break;
         case 1: _t->contextMenuRequest((*reinterpret_cast< QPoint(*)>(_a[1]))); break;
-        case 2: _t->addRandomGraph(); break;
-        case 3: _t->removeAllGraphs(); break;
-        case 4: _t->removeSelectedGraph(); break;
+        case 2: _t->removeAllGraphs(); break;
+        case 3: _t->removeSelectedGraph(); break;
+        case 4: _t->changeStreamType(); break;
         case 5: _t->selectDartStream(); break;
         case 6: _t->drawPlugin(); break;
         case 7: _t->selectionChanged(); break;

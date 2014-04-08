@@ -48,6 +48,7 @@
 #include <QtGui>
 #include <dart/dynamics/Skeleton.h>
 #include <dart/dynamics/Joint.h>
+#include <dart/dynamics/WeldJoint.h>
 #include <dart/dynamics/BodyNode.h>
 #include <dart/collision/CollisionDetector.h>
 #include <dart/constraint/ConstraintDynamics.h>
@@ -65,12 +66,11 @@ using namespace std;
 using namespace dart;
 
 dynamics::Skeleton* hubo = NULL;
-QCustomPlot* plot;
 
 dynamics::Skeleton* selectedSkel = NULL;
 dynamics::BodyNode* selectedBody = NULL;
 
-vector <DartStream> dartStreams;
+map <QCPGraph*, DartStream*> dartStreams;
 
 
 /* ******************************************************************************************** */
@@ -83,7 +83,9 @@ void PlotTab::drawDartStream (DartStream& stream) {
 	// Get the new data if joint type value is requested
 	if(stream.type == Q) {
 		assert(stream.body != NULL && "The source cannot be NULL in joint type");
-		curr_vals[NUM_DATA - 1] = stream.body->getParentJoint()->getGenCoord(0)->get_q();
+		dynamics::Joint* joint = stream.body->getParentJoint();
+		if(dynamic_cast<dart::dynamics::WeldJoint*>(joint)) return;
+		curr_vals[NUM_DATA - 1] = joint->getGenCoord(0)->get_q();
 	}
 
 	// Get the new data if another type is requested
@@ -133,7 +135,8 @@ void PlotTab::update () {
 	hubo->setConfig(qs);
 
 	// Draw each graph
-	for(size_t i = 0; i < dartStreams.size(); i++) drawDartStream(dartStreams[i]);
+	map <QCPGraph*, DartStream*>::iterator it = dartStreams.begin(); 
+	for(; it != dartStreams.end(); it++) drawDartStream(*(it->second));
   _ui->customPlot->replot();
 
 	return;
@@ -250,42 +253,10 @@ void PlotTab::draw() {
 }
 
 /* ******************************************************************************************** */
-void PlotTab::addRandomGraph() {
-  int n = 50; // number of points in graph
-  double xScale = (rand()/(double)RAND_MAX + 0.5)*2;
-  double yScale = (rand()/(double)RAND_MAX + 0.5)*2;
-  double xOffset = (rand()/(double)RAND_MAX - 0.5)*4;
-  double yOffset = (rand()/(double)RAND_MAX - 0.5)*5;
-  double r1 = (rand()/(double)RAND_MAX - 0.5)*2;
-  double r2 = (rand()/(double)RAND_MAX - 0.5)*2;
-  double r3 = (rand()/(double)RAND_MAX - 0.5)*2;
-  double r4 = (rand()/(double)RAND_MAX - 0.5)*2;
-  QVector<double> x(n), y(n);
-  for (int i=0; i<n; i++)
-  {
-    x[i] = (i/(double)n-0.5)*10.0*xScale + xOffset;
-    y[i] = (sin(x[i]*r1*5)*sin(cos(x[i]*r2)*r4*3)+r3*cos(sin(x[i])*r4*2))*yScale + yOffset;
-  }
-  
-  _ui->customPlot->addGraph();
-  _ui->customPlot->graph()->setName(QString("New graph %1").arg(_ui->customPlot->graphCount()-1));
-  _ui->customPlot->graph()->setData(x, y);
-  _ui->customPlot->graph()->setLineStyle((QCPGraph::LineStyle)(rand()%5+1));
-  if (rand()%100 > 75)
-    _ui->customPlot->graph()->setScatterStyle(QCPScatterStyle((QCPScatterStyle::ScatterShape)(rand()%9+1)));
-  QPen graphPen;
-  graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
-  graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);
-  _ui->customPlot->graph()->setPen(graphPen);
-  _ui->customPlot->replot();
-}
-
-/* ******************************************************************************************** */
 void PlotTab::contextMenuRequest(QPoint pos) {
 
   QMenu *menu = new QMenu(this);
   menu->setAttribute(Qt::WA_DeleteOnClose);
-	menu->addAction("Add random graph", this, SLOT(addRandomGraph()));
   if (_ui->customPlot->legend->selectTest(pos, false) >= 0) {
     menu->addAction("Move to top left", this, 
 			SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignLeft));
@@ -304,21 +275,27 @@ void PlotTab::contextMenuRequest(QPoint pos) {
 			QAction* action = skelMenu->addAction("Use origin", this, SLOT(selectDartStream()));
 			action->setData(0);
 			action = skelMenu->addAction("Use COM", this, SLOT(selectDartStream()));
-			action->setData(0);
+			action->setData(1);
 		}
 		if(selectedBody != NULL) {
 			QAction* action = menu->addAction("Add body", this, SLOT(selectDartStream()));
-			action->setData(1);
+			action->setData(2);
 		}
     if(_ui->customPlot->selectedGraphs().size() > 0) {
 			menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
 			changeMenu = menu->addMenu(tr("Change data type"));
-			changeMenu->addAction("x-axis", this, SLOT(moveLegend()))->setData(1025);
-			changeMenu->addAction("y-axis", this, SLOT(moveLegend()))->setData(1025);
-			changeMenu->addAction("z-axis", this, SLOT(moveLegend()))->setData(1025);
-			changeMenu->addAction("roll", this, SLOT(moveLegend()))->setData(1025);
-			changeMenu->addAction("pitch", this, SLOT(moveLegend()))->setData(1025);
-			changeMenu->addAction("yaw", this, SLOT(moveLegend()))->setData(1025);
+			QCPGraph* currGraph = _ui->customPlot->selectedGraphs().front();
+			DartStream* stream = dartStreams[currGraph];
+			PlotDataType type = stream->type;
+			bool weldJoint = (dynamic_cast<dart::dynamics::WeldJoint*>(stream->body->getParentJoint()) == NULL);
+			if((type != Q) && (stream->skel == NULL) && weldJoint) 
+				changeMenu->addAction("joint", this, SLOT(changeStreamType()))->setData(0);
+			if(type != X) changeMenu->addAction("x-axis", this, SLOT(changeStreamType()))->setData(1);
+			if(type != Y) changeMenu->addAction("y-axis", this, SLOT(changeStreamType()))->setData(2);
+			if(type != Z) changeMenu->addAction("z-axis", this, SLOT(changeStreamType()))->setData(3);
+			if((type != R) && !(stream->com)) changeMenu->addAction("roll", this, SLOT(changeStreamType()))->setData(4);
+			if((type != P) && !(stream->com)) changeMenu->addAction("pitch", this, SLOT(changeStreamType()))->setData(5);
+			if((type != YA) && !(stream->com)) changeMenu->addAction("yaw", this, SLOT(changeStreamType()))->setData(6);
 		}
     if(_ui->customPlot->graphCount() > 0) 
 			menu->addAction("Remove all graphs", this, SLOT(removeAllGraphs()));
@@ -333,7 +310,57 @@ void PlotTab::contextMenuRequest(QPoint pos) {
 }
 
 /* ******************************************************************************************** */
-void PlotTab::selectDartStream() {
+void PlotTab::setRange (PlotDataType type, dart::dynamics::BodyNode* node) {
+
+	static bool firstTime = true;
+
+	// Determine the min and maximum limits for the range
+	double maxVal, minVal;
+	if(type == Q) {
+		assert((node != NULL) && "To set the range in joint type, the node should not be NULL");
+		dynamics::Joint* joint = node->getParentJoint();
+		if(dynamic_cast<dart::dynamics::WeldJoint*>(joint)) return;
+		maxVal = joint->getGenCoord(0)->get_qMax();
+		minVal = joint->getGenCoord(0)->get_qMin();
+	}
+	else if((type == X) || (type == Y) || (type == Z)) {
+		maxVal = 2;
+		minVal = -2;
+	}
+	else if((type == R) || (type == P) || (type == YA)) {
+		maxVal = 2*M_PI;
+		minVal = -2*M_PI;
+	}
+
+	// Get the min and mix of the range from the last time
+	if(!firstTime) {
+		double lastMaxVal = _ui->customPlot->yAxis->range().upper;
+		double lastMinVal = _ui->customPlot->yAxis->range().lower;
+		maxVal = max(maxVal, lastMaxVal);
+		minVal = min(minVal, lastMinVal);
+	}
+
+	// Set the range
+	_ui->customPlot->yAxis->setRange(minVal, maxVal);
+	firstTime = false;
+}
+
+/* ******************************************************************************************** */
+const char* PlotTab::getTypeName (PlotDataType type) {
+	switch(type) {
+		case Q: return "Q";
+		case X: return "X";
+		case Y: return "Y";
+		case Z: return "Z";
+		case R: return "R";
+		case P: return "P";
+		case YA: return "YA";
+		default: assert(false && "not possible");
+	};
+}
+
+/* ******************************************************************************************** */
+void PlotTab::changeStreamType () {
 
 	// Get the data type
 	QAction* contextAction = qobject_cast<QAction*>(sender());
@@ -342,28 +369,82 @@ void PlotTab::selectDartStream() {
 	int dataInt = contextAction->data().toInt(&ok);
 	if(!ok) return;
 
-	// Create the stream and add it to the list
+	// Set the type
+	QCPGraph* currGraph = _ui->customPlot->selectedGraphs().front();
+	DartStream* stream = dartStreams[currGraph];
+	stream->type = (PlotDataType) dataInt;
+
+	// Set the range
+	setRange(stream->type, stream->body);
+
+	// Update the name
+	char buf [16];
+	if(stream->skel != NULL) 
+		sprintf(buf, "%s_%s%s", stream->skel->getName().c_str(), stream->com ? "COM_" : "", 
+			getTypeName(stream->type));
+	else if(stream->body != NULL)
+		sprintf(buf, "%s_%s", stream->body->getName().c_str(), getTypeName(stream->type));
+	currGraph->setName(QString::fromStdString(string(buf)));
+}
+
+/* ******************************************************************************************** */
+void PlotTab::selectDartStream () {
+
+	// Get the data type
+	QAction* contextAction = qobject_cast<QAction*>(sender());
+	if(!contextAction) return;
+	bool ok;
+	int dataInt = contextAction->data().toInt(&ok);
+	if(!ok) return;
+
+	// Determine the data type for the selection
+	PlotDataType type;
+	if(dynamic_cast<dart::dynamics::WeldJoint*>(selectedBody->getParentJoint())) type = Z;
+	else if(dataInt == 2) type = Q;
+	else type = Z;
+
+	// Create a new graph, set its range, set default values
 	QCPGraph* graph = _ui->customPlot->addGraph();
-	DartStream stream (graph, selectedSkel, selectedBody, Z, false);
+	QVector <double> vals (NUM_DATA);
+  for (int i=0; i < NUM_DATA; ++i) vals[i] = 0.0;
+	if(dataInt == 2) setRange(type, selectedBody);
+	else setRange(type);
 
-  QVector<double> x (NUM_DATA); 
-	stream.vals = QVector <double> (NUM_DATA);
-  for (int i=0; i<101; ++i) {
-		x[i] = i;
-		stream.vals[i] = 0.0;
-  }
-  _ui->customPlot->xAxis->setRange(0, 100);
-  _ui->customPlot->yAxis->setRange(0, 1);
-	graph->setData(x,stream.vals);
-  _ui->customPlot->replot();
-	dartStreams.push_back(stream);
+	// Set properties to the new graph
+  QPen graphPen;
+  graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+  graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);
+	graph->setPen(graphPen);
 
-	// Set the range for the stream
+	// Create the stream and add it to the list
+	DartStream* stream = new DartStream (graph, selectedSkel, selectedBody, type, false);
+	stream->vals = vals;
+	dartStreams[graph] = stream;
+
+	// Set com option
+	if(dataInt == 1) stream->com = true;
+
+	// Set the name
+	char buf [16];
+	if(stream->skel != NULL) 
+		sprintf(buf, "%s_%s%s", stream->skel->getName().c_str(), stream->com ? "COM_" : "", 
+			getTypeName(stream->type));
+	else if(stream->body != NULL)
+		sprintf(buf, "%s_%s", stream->body->getName().c_str(), getTypeName(stream->type));
+	graph->setName(QString::fromStdString(string(buf)));
 }
 
 /* ******************************************************************************************** */
 void PlotTab::removeSelectedGraph() {
   if (_ui->customPlot->selectedGraphs().size() > 0) {
+	
+		// Remove the stream
+		QCPGraph* currGraph = _ui->customPlot->selectedGraphs().front();
+		map <QCPGraph*, DartStream*>::iterator it = dartStreams.find(currGraph);
+		assert((it != dartStreams.end()) && "A graph without a stream shouldn't be possible");
+		dartStreams.erase(it);
+
+		// Remove graph
     _ui->customPlot->removeGraph(_ui->customPlot->selectedGraphs().first());
     _ui->customPlot->replot();
   }
@@ -466,8 +547,8 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 	_ui->setupUi(this);
   _ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes |
                                   QCP::iSelectLegend | QCP::iSelectPlottables);
-  _ui->customPlot->xAxis->setRange(-8, 8);
-  _ui->customPlot->yAxis->setRange(-5, 5);
+  _ui->customPlot->xAxis->setRange(0, 100);
+  _ui->customPlot->yAxis->setRange(0, 1);
   _ui->customPlot->axisRect()->setupFullAxesBox();
 
 	// Setup the legend
@@ -479,6 +560,7 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
   _ui->customPlot->legend->setSelectableParts(QCPLegend::spItems); 
   connect(_ui->customPlot, SIGNAL(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)), this, 
 		SLOT(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*)));
+	_ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, (Qt::Alignment)(Qt::AlignTop|Qt::AlignLeft));
 
 	// Set slots for interaction
   _ui->customPlot->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -494,31 +576,6 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 
 
 	return;
-
-
-
-
-
-
-
-//	_ui->nodeBox->addItem("None");
-//	_ui->customBox->addItem("None");
-
-	// Create the timer to visualize the graph as events happen
-	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-	timer.start(100);
-
-	// Add the default graph
-  _ui->customPlot->addGraph();
-	plot = _ui->customPlot;
-  x = QVector<double> (101);
-  y = QVector<double> (101);
-  for (int i=0; i<101; ++i) {
-		x[i] = i;
-		y[i] = 0.0;
-  }
-  plot->xAxis->setRange(0, 100);
-  plot->yAxis->setRange(0, 1);
 }
 
 /* ******************************************************************************************** */

@@ -1169,6 +1169,7 @@ CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/dynami
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/dynamics/Joint.h
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/dynamics/Shape.h
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/dynamics/Skeleton.h
+CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/dynamics/WeldJoint.h
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/integration/Integrator.h
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/math/Geometry.h
 CMakeFiles/planningtab.dir/src/planningtab.cpp.o: /usr/local/include/dart/math/MathTypes.h

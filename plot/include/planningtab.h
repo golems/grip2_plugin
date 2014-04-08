@@ -95,17 +95,19 @@ public:
 		void GRIPEventTreeViewSelectionChanged();
 		QVector<double> x, y;
 		QTimer timer;
+		void setRange (PlotDataType type, dart::dynamics::BodyNode* node = NULL);
 		void draw ();
 		void drawDartStream(DartStream& stream);
+		const char* getTypeName (PlotDataType type);
 
 protected Q_SLOTS:
 		void update ();
 		void contextMenuRequest (QPoint pos);
 
-		void addRandomGraph ();
 		void removeAllGraphs ();
 		void removeSelectedGraph ();
 
+		void changeStreamType();
 		void selectDartStream();
 		void drawPlugin();
 
