@@ -5175,7 +5175,13 @@ QtPlugin
 -
 
 /usr/local/include/grip/qtWidgets/Plotting.h
+map
+-
 vector
+-
+string
+-
+pthread.h
 -
 
 /usr/local/include/grip/qtWidgets/TreeViewReturn.h

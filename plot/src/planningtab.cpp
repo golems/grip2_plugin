@@ -72,7 +72,6 @@ dynamics::BodyNode* selectedBody = NULL;
 
 map <QCPGraph*, DartStream*> dartStreams;
 
-
 /* ******************************************************************************************** */
 void PlotTab::drawDartStream (DartStream& stream) {
 
@@ -125,6 +124,24 @@ void PlotTab::drawDartStream (DartStream& stream) {
 }
 
 /* ******************************************************************************************** */
+void PlotTab::drawPluginStream (QCPGraph* graph, PluginStream& stream) {
+	cout << "plugin latest: " << stream.vals[(stream.index - 1) % NUM_PLOTTING_POINTS] << endl;
+
+	// Copy the data, shifting it an index
+	QVector <double> curr_vals (NUM_PLOTTING_POINTS);
+	for(int i = 0; i < NUM_PLOTTING_POINTS; i++) 
+		curr_vals[i] = stream.vals[(stream.index+i+1)%NUM_PLOTTING_POINTS];
+
+	// Set the domain 
+  QVector<double> domain (NUM_PLOTTING_POINTS);
+  for (int i=0; i< NUM_PLOTTING_POINTS; ++i) domain[i] = i;
+
+	// Set the new data
+	graph->setData(domain, curr_vals);
+	stream.vals[stream.index] = curr_vals[NUM_PLOTTING_POINTS - 1];
+}
+
+/* ******************************************************************************************** */
 void PlotTab::update () {
 
 	if(!hubo) return;
@@ -137,15 +154,47 @@ void PlotTab::update () {
 	qs(22) = -(cos(M_PI/180*counter) + 1) * 1.0;
 	hubo->setConfig(qs);
 
-	// Draw each graph
+	// Draw each dart graph
 	map <QCPGraph*, DartStream*>::iterator it = dartStreams.begin(); 
 	for(; it != dartStreams.end(); it++) drawDartStream(*(it->second));
+
+	// Draw each plugin graph
+	pthread_mutex_lock(&plottingMutex);
+	map <void*, PluginStream*>::iterator it2 = pluginStreams.begin(); 
+	for(; it2 != pluginStreams.end(); ) {
+
+		// Create a new graph and change the map
+		if(it2->first == NULL) {
+
+			// Create the new graph
+			PluginStream* stream = it2->second;
+			QCPGraph* graph = _ui->customPlot->addGraph();
+			_ui->customPlot->yAxis->setRange(stream->minVal, stream->maxVal);
+
+			// Set plotting options
+			QPen graphPen;
+			graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+			graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);
+			graph->setPen(graphPen);
+			graph->setName(QString::fromStdString(stream->label));
+
+			// Update the drawing information and draw
+			pluginStreams.erase(it2++);
+			pluginStreams[graph] = stream; 	
+			drawPluginStream(graph, *stream);
+		}
+
+		else {
+
+			drawPluginStream((QCPGraph*) it2->first, *(it2->second));
+			++it2;
+		}
+
+	}
+	pthread_mutex_unlock(&plottingMutex);
+
+	// Update the entire plot
   _ui->customPlot->replot();
-
-	return;
-
-	// Draw something
-	draw();
 }
 
 /* ******************************************************************************************** */
@@ -163,95 +212,6 @@ void PlotTab::GRIPEventTreeViewSelectionChanged () {
 	else {
 		selectedSkel = NULL;
 		selectedBody = NULL;
-	}
-}
-
-/* ******************************************************************************************** *
-void PlotTab::draw() {
-	
-	// Some static variables
-	static dynamics::BodyNode* node;
-	static int lastBodyIdx = -1;
-	static int lastOptionIdx = -1;
-
-	// =================================================================================
-	// Change plot ranges
-
-	// Update the graph if the body or option is changed
-	static bool updatePlot = false;
-	int bodyIdx = _ui->nodeBox->currentIndex();
-	int optionIdx = _ui->dofBox->currentIndex();
-	int customOptionIdx = _ui->customBox->currentIndex();
-	pc(bodyIdx);
-	pc(optionIdx);
-	pc(customOptionIdx);
-	if((customOptionIdx == 0) && ((bodyIdx != lastBodyIdx) || (optionIdx != lastOptionIdx))) {
-
-		// Get the node
-		string currName = _ui->nodeBox->itemText(bodyIdx).toStdString();
-		node = hubo->getBodyNode(currName);
-
-		// Set the limits based on the option
-		if(node != NULL) {
-
-			// Determine the limits
-			double maxVal, minVal;
-			if(optionIdx == 0) {
-				maxVal = node->getParentJoint()->getGenCoord(0)->get_qMax();
-				minVal = node->getParentJoint()->getGenCoord(0)->get_qMin();
-			}
-			else if(optionIdx < 4) {
-				maxVal = 2;
-				minVal = -2;
-			}
-			else {
-				maxVal = 2*M_PI;
-				minVal = -2*M_PI;
-			}
-
-			// Set the limits
-			plot->yAxis->setRange(minVal, maxVal);
-			lastBodyIdx = bodyIdx;
-			lastOptionIdx = optionIdx;
-
-			// Reset the value
-			for (int i=0; i<100; ++i) y[i] = 0.0;
-			updatePlot = true;
-
-		}
-	}
-	
-	// Update the graph with custom information
-	if(customOptionIdx != 0) {
-
-
-	}
-
-	// Update the last data point
-	if(updatePlot) {
-
-		if(customOptionIdx == 0) {
-
-			// Determine the value if joint is chosen
-			if(optionIdx == 0) y[100] = node->getParentJoint()->getGenCoord(0)->get_q();
-
-			// Determine the value if (x,y,z) or (r,p,y) is chosen
-			else {
-				Eigen::Matrix<double, 6, 1> pose = Eigen::Matrix<double, 6, 1>::Zero();
-				const Eigen::Isometry3d& tf = node->getWorldTransform();
-				pose.head<3>() = tf.translation();
-				pose.tail<3>() = dart::math::matrixToEulerXYZ(tf.linear());
-				y[100] = pose(optionIdx-1);
-			}
-		}
-	}
-
-	cout << "updatePlot: " << updatePlot << endl;
-	// Update the rest of the data
-	if(updatePlot) {
-		for (int i=0; i<100; ++i) y[i] = y[i+1];
-		plot->graph(0)->setData(x, y);
-		plot->replot();
 	}
 }
 
@@ -336,12 +296,14 @@ void PlotTab::setRange (PlotDataType type, dart::dynamics::BodyNode* node) {
 	}
 
 	// Get the min and mix of the range from the last time
-	if(!firstTime) {
+	pthread_mutex_lock(&plottingMutex);
+	if((!firstTime) || !pluginStreams.empty()) {
 		double lastMaxVal = _ui->customPlot->yAxis->range().upper;
 		double lastMinVal = _ui->customPlot->yAxis->range().lower;
 		maxVal = max(maxVal, lastMaxVal);
 		minVal = min(minVal, lastMinVal);
 	}
+	pthread_mutex_unlock(&plottingMutex);
 
 	// Set the range
 	_ui->customPlot->yAxis->setRange(minVal, maxVal);
@@ -561,8 +523,6 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
   _ui->customPlot->legend->setFont(legendFont);
   _ui->customPlot->legend->setSelectedFont(legendFont);
   _ui->customPlot->legend->setSelectableParts(QCPLegend::spItems); 
-  connect(_ui->customPlot, SIGNAL(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*,QMouseEvent*)), this, 
-		SLOT(legendDoubleClick(QCPLegend*,QCPAbstractLegendItem*)));
 	_ui->customPlot->axisRect()->insetLayout()->setInsetAlignment(0, (Qt::Alignment)(Qt::AlignTop|Qt::AlignLeft));
 
 	// Set slots for interaction

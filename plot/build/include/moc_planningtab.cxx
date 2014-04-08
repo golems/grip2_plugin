@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'planningtab.h'
 **
-** Created: Tue Apr 8 09:43:45 2014
+** Created: Tue Apr 8 11:33:54 2014
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_PlotTab[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -38,10 +38,9 @@ static const uint qt_meta_data_PlotTab[] = {
       89,    8,    8,    8, 0x09,
      108,    8,    8,    8, 0x09,
      127,    8,    8,    8, 0x09,
-     140,    8,    8,    8, 0x09,
+     146,    8,    8,    8, 0x09,
      159,    8,    8,    8, 0x09,
      172,    8,    8,    8, 0x09,
-     185,    8,    8,    8, 0x09,
 
        0        // eod
 };
@@ -50,8 +49,8 @@ static const char qt_meta_stringdata_PlotTab[] = {
     "PlotTab\0\0update()\0pos\0contextMenuRequest(QPoint)\0"
     "removeAllGraphs()\0removeSelectedGraph()\0"
     "changeStreamType()\0selectDartStream()\0"
-    "drawPlugin()\0selectionChanged()\0"
-    "moveLegend()\0mouseWheel()\0mousePress()\0"
+    "selectionChanged()\0moveLegend()\0"
+    "mouseWheel()\0mousePress()\0"
 };
 
 void PlotTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -66,11 +65,10 @@ void PlotTab::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 3: _t->removeSelectedGraph(); break;
         case 4: _t->changeStreamType(); break;
         case 5: _t->selectDartStream(); break;
-        case 6: _t->drawPlugin(); break;
-        case 7: _t->selectionChanged(); break;
-        case 8: _t->moveLegend(); break;
-        case 9: _t->mouseWheel(); break;
-        case 10: _t->mousePress(); break;
+        case 6: _t->selectionChanged(); break;
+        case 7: _t->moveLegend(); break;
+        case 8: _t->mouseWheel(); break;
+        case 9: _t->mousePress(); break;
         default: ;
         }
     }
@@ -110,9 +108,9 @@ int PlotTab::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 10;
     }
     return _id;
 }

@@ -88,8 +88,8 @@ public:
 		QVector<double> x, y;
 		QTimer timer;
 		void setRange (PlotDataType type, dart::dynamics::BodyNode* node = NULL);
-		void draw ();
 		void drawDartStream(DartStream& stream);
+		void drawPluginStream(QCPGraph* graph, PluginStream& stream);
 		const char* getTypeName (PlotDataType type);
 
 protected Q_SLOTS:
@@ -101,7 +101,6 @@ protected Q_SLOTS:
 
 		void changeStreamType();
 		void selectDartStream();
-		void drawPlugin();
 
 		void selectionChanged();
 		void moveLegend ();
