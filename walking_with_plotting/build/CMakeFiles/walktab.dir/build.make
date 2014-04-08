@@ -35,10 +35,10 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3
+CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build
+CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/walktab.dir/depend.make
@@ -51,17 +51,17 @@ include CMakeFiles/walktab.dir/flags.make
 
 CMakeFiles/walktab.dir/src/walktab.cpp.o: CMakeFiles/walktab.dir/flags.make
 CMakeFiles/walktab.dir/src/walktab.cpp.o: ../src/walktab.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_1)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/walktab.dir/src/walktab.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/src/walktab.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/src/walktab.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/walktab.cpp
 
 CMakeFiles/walktab.dir/src/walktab.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walktab.dir/src/walktab.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp > CMakeFiles/walktab.dir/src/walktab.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/walktab.cpp > CMakeFiles/walktab.dir/src/walktab.cpp.i
 
 CMakeFiles/walktab.dir/src/walktab.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walktab.dir/src/walktab.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp -o CMakeFiles/walktab.dir/src/walktab.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/walktab.cpp -o CMakeFiles/walktab.dir/src/walktab.cpp.s
 
 CMakeFiles/walktab.dir/src/walktab.cpp.o.requires:
 .PHONY : CMakeFiles/walktab.dir/src/walktab.cpp.o.requires
@@ -74,17 +74,17 @@ CMakeFiles/walktab.dir/src/walktab.cpp.o.provides.build: CMakeFiles/walktab.dir/
 
 CMakeFiles/walktab.dir/src/helpers.cpp.o: CMakeFiles/walktab.dir/flags.make
 CMakeFiles/walktab.dir/src/helpers.cpp.o: ../src/helpers.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/walktab.dir/src/helpers.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/src/helpers.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/src/helpers.cpp.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/helpers.cpp
 
 CMakeFiles/walktab.dir/src/helpers.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walktab.dir/src/helpers.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp > CMakeFiles/walktab.dir/src/helpers.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/helpers.cpp > CMakeFiles/walktab.dir/src/helpers.cpp.i
 
 CMakeFiles/walktab.dir/src/helpers.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walktab.dir/src/helpers.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.cpp -o CMakeFiles/walktab.dir/src/helpers.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/helpers.cpp -o CMakeFiles/walktab.dir/src/helpers.cpp.s
 
 CMakeFiles/walktab.dir/src/helpers.cpp.o.requires:
 .PHONY : CMakeFiles/walktab.dir/src/helpers.cpp.o.requires
@@ -97,17 +97,17 @@ CMakeFiles/walktab.dir/src/helpers.cpp.o.provides.build: CMakeFiles/walktab.dir/
 
 CMakeFiles/walktab.dir/include/moc_helpers.cxx.o: CMakeFiles/walktab.dir/flags.make
 CMakeFiles/walktab.dir/include/moc_helpers.cxx.o: include/moc_helpers.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/walktab.dir/include/moc_helpers.cxx.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/include/moc_helpers.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/include/moc_helpers.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_helpers.cxx
 
 CMakeFiles/walktab.dir/include/moc_helpers.cxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walktab.dir/include/moc_helpers.cxx.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx > CMakeFiles/walktab.dir/include/moc_helpers.cxx.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_helpers.cxx > CMakeFiles/walktab.dir/include/moc_helpers.cxx.i
 
 CMakeFiles/walktab.dir/include/moc_helpers.cxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walktab.dir/include/moc_helpers.cxx.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx -o CMakeFiles/walktab.dir/include/moc_helpers.cxx.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_helpers.cxx -o CMakeFiles/walktab.dir/include/moc_helpers.cxx.s
 
 CMakeFiles/walktab.dir/include/moc_helpers.cxx.o.requires:
 .PHONY : CMakeFiles/walktab.dir/include/moc_helpers.cxx.o.requires
@@ -120,17 +120,17 @@ CMakeFiles/walktab.dir/include/moc_helpers.cxx.o.provides.build: CMakeFiles/walk
 
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.o: CMakeFiles/walktab.dir/flags.make
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.o: include/moc_walktab.cxx
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/walktab.dir/include/moc_walktab.cxx.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/include/moc_walktab.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/walktab.dir/include/moc_walktab.cxx.o -c /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_walktab.cxx
 
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/walktab.dir/include/moc_walktab.cxx.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx > CMakeFiles/walktab.dir/include/moc_walktab.cxx.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_walktab.cxx > CMakeFiles/walktab.dir/include/moc_walktab.cxx.i
 
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/walktab.dir/include/moc_walktab.cxx.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx -o CMakeFiles/walktab.dir/include/moc_walktab.cxx.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_walktab.cxx -o CMakeFiles/walktab.dir/include/moc_walktab.cxx.s
 
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.o.requires:
 .PHONY : CMakeFiles/walktab.dir/include/moc_walktab.cxx.o.requires
@@ -142,19 +142,19 @@ CMakeFiles/walktab.dir/include/moc_walktab.cxx.o.provides: CMakeFiles/walktab.di
 CMakeFiles/walktab.dir/include/moc_walktab.cxx.o.provides.build: CMakeFiles/walktab.dir/include/moc_walktab.cxx.o
 
 ui_walktab.h: ../ui/walktab.ui
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating ui_walktab.h"
-	/usr/bin/uic-qt4 -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/ui_walktab.h /home/cerdogan/Documents/Simulation/grip2_plugin/example3/ui/walktab.ui
+	/usr/bin/uic-qt4 -o /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/ui_walktab.h /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/ui/walktab.ui
 
 include/moc_helpers.cxx: ../include/helpers.h
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_helpers.cxx"
-	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/plugin/example3 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_helpers.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example3/include/helpers.h
+	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/plugin/example3 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_helpers.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/include/helpers.h
 
 include/moc_walktab.cxx: ../include/walktab.h
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating include/moc_walktab.cxx"
-	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/plugin/example3 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/include/moc_walktab.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/example3/include/walktab.h
+	/usr/bin/moc-qt4 -I/usr/include/eigen3 -I/usr/include/qt4 -I/usr/include/qt4/Qt3Support -I/usr/include/qt4/QtGui -I/usr/include/qt4/QtXml -I/usr/include/qt4/QtCore -I/usr/local/include -I/usr/local/include/dart -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/include -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build -I/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/plugin/example3 -DDEBUG_BUILD -DQT_PLUGIN -DQT_NO_DEBUG -DQT_SHARED -DQT3_SUPPORT -DQT_3SUPPORT_LIB -DQT_GUI_LIB -DQT_XML_LIB -DQT_CORE_LIB -o /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/include/moc_walktab.cxx /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/include/walktab.h
 
 # Object files for target walktab
 walktab_OBJECTS = \
@@ -218,6 +218,6 @@ CMakeFiles/walktab.dir/clean:
 CMakeFiles/walktab.dir/depend: ui_walktab.h
 CMakeFiles/walktab.dir/depend: include/moc_helpers.cxx
 CMakeFiles/walktab.dir/depend: include/moc_walktab.cxx
-	cd /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cerdogan/Documents/Simulation/grip2_plugin/example3 /home/cerdogan/Documents/Simulation/grip2_plugin/example3 /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles/walktab.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles/walktab.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/walktab.dir/depend
 

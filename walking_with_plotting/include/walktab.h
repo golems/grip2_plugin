@@ -71,9 +71,11 @@ public:
 		void moveFoot(const Eigen::VectorXd& dx, bool left, size_t period = 50, bool sameFrame = false);
 		void setTorques(const Eigen::VectorXd& desiredDofs);
 		void Refresh();
+		QTimer timer;
 private slots:
     void setStartPressed();
     void setGoalPressed();
+		void update();
     
 private:
     Ui::WalkTabWidget *_ui;

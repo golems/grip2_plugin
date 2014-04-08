@@ -40,14 +40,16 @@ vector
 dart/dynamics/Skeleton.h
 -
 
-/home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.cpp
+/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/walktab.cpp
 helpers.h
-/home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/helpers.h
+/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/helpers.h
 walktab.h
-/home/cerdogan/Documents/Simulation/grip2_plugin/example3/src/walktab.h
+/home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/src/walktab.h
 qplugin.h
 -
 QtGui
+-
+grip/qtWidgets/Plotting.h
 -
 
 /usr/include/eigen3/Eigen/Cholesky
@@ -4998,6 +5000,16 @@ dart/simulation/World.h
 QDockWidget
 -
 QtPlugin
+-
+
+/usr/local/include/grip/qtWidgets/Plotting.h
+map
+-
+vector
+-
+string
+-
+pthread.h
 -
 
 /usr/local/include/grip/qtWidgets/TreeViewReturn.h

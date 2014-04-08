@@ -47,10 +47,10 @@ RM = /usr/bin/cmake -E remove -f
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3
+CMAKE_SOURCE_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build
+CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build
 
 #=============================================================================
 # Target rules for target CMakeFiles/walktab.dir
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/cerdogan/Documents/Simulation/grip2_plugin/example3/bui
 CMakeFiles/walktab.dir/all:
 	$(MAKE) -f CMakeFiles/walktab.dir/build.make CMakeFiles/walktab.dir/depend
 	$(MAKE) -f CMakeFiles/walktab.dir/build.make CMakeFiles/walktab.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles  1 2 3 4 5 6 7
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles  1 2 3 4 5 6 7
 	@echo "Built target walktab"
 .PHONY : CMakeFiles/walktab.dir/all
 
@@ -69,9 +69,9 @@ all: CMakeFiles/walktab.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/walktab.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/walktab.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cerdogan/Documents/Simulation/grip2_plugin/example3/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cerdogan/Documents/Simulation/grip2_plugin/walking_with_plotting/build/CMakeFiles 0
 .PHONY : CMakeFiles/walktab.dir/rule
 
 # Convenience name for target.

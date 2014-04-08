@@ -45,6 +45,7 @@
 #include "walktab.h"
 #include <qplugin.h>
 #include <QtGui>
+#include <grip/qtWidgets/Plotting.h>
 
 /* ********************************************************************************************* */
 Eigen::MatrixXd mKp, mKd;
@@ -69,12 +70,33 @@ Category cat = Prepare;
 vector <Eigen::Vector2d> wayPoints;
 double currentHeight = 0.0;
 double lastHeight = 0.0;
+PluginStream* stream;
+
+/* ********************************************************************************************* */
+void WalkTab::update() {
+	// Plot stuff
+	if(hubo == NULL) return;
+	Eigen::Isometry3d tf = hubo->getBodyNode("Body_LEP")->getWorldTransform();
+	Eigen::Vector3d val = tf.translation();
+	pthread_mutex_lock(&plottingMutex);
+	// stream->vals[stream->index] = ((double) rand()) / RAND_MAX;
+	stream->vals[stream->index] = val(2);
+	cout << "last value: " << stream->vals[stream->index] << endl;
+	stream->index = ((stream->index + 1) % NUM_PLOTTING_POINTS);
+	pthread_mutex_unlock(&plottingMutex);
+}
 
 /* ********************************************************************************************* */
 WalkTab::WalkTab(QWidget *parent) : _ui(new Ui::WalkTabWidget){
-    _ui->setupUi(this);
+  _ui->setupUi(this);
   connect(_ui->setStart,SIGNAL(pressed()),this,SLOT(setStartPressed()));
   connect(_ui->setGoal,SIGNAL(pressed()),this,SLOT(setGoalPressed()));
+	stream = new PluginStream("temp", -2.0, 2.0);
+	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));    
+	timer.start(100);                                            
+	pthread_mutex_lock(&plottingMutex);
+	pluginStreams[NULL] = stream;
+	pthread_mutex_unlock(&plottingMutex);
 }
 
 /* ********************************************************************************************* */

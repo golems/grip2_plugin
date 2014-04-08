@@ -1200,6 +1200,7 @@ CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/osgGolems/osgU
 CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/qtWidgets/../include/GripTimeslice.h
 CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/qtWidgets/../osgGolems/ViewerWidget.h
 CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/qtWidgets/GripTab.h
+CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/qtWidgets/Plotting.h
 CMakeFiles/walktab.dir/src/walktab.cpp.o: /usr/local/include/grip/qtWidgets/TreeViewReturn.h
 CMakeFiles/walktab.dir/src/walktab.cpp.o: ui_walktab.h
 
