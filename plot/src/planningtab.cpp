@@ -77,15 +77,17 @@ map <QCPGraph*, DartStream*> dartStreams;
 void PlotTab::drawDartStream (DartStream& stream) {
 
 	// Copy the data, shifting it an index
-	QVector <double> curr_vals (NUM_DATA);
-	for(size_t i = 0; i < NUM_DATA - 1; i++) curr_vals[i] = stream.vals[i+1];
+	QVector <double> curr_vals (NUM_PLOTTING_POINTS);
+	for(int i = 0; i < NUM_PLOTTING_POINTS - 1; i++) {
+		curr_vals[i] = stream.vals[(stream.index+1+i)%NUM_PLOTTING_POINTS];
+	}
 
 	// Get the new data if joint type value is requested
 	if(stream.type == Q) {
 		assert(stream.body != NULL && "The source cannot be NULL in joint type");
 		dynamics::Joint* joint = stream.body->getParentJoint();
 		if(dynamic_cast<dart::dynamics::WeldJoint*>(joint)) return;
-		curr_vals[NUM_DATA - 1] = joint->getGenCoord(0)->get_q();
+		curr_vals[NUM_PLOTTING_POINTS - 1] = joint->getGenCoord(0)->get_q();
 	}
 
 	// Get the new data if another type is requested
@@ -109,16 +111,17 @@ void PlotTab::drawDartStream (DartStream& stream) {
 		}
 
 		// Set the value
-		curr_vals[NUM_DATA - 1] = pose(((int) stream.type) - 1);
+		curr_vals[NUM_PLOTTING_POINTS - 1] = pose(((int) stream.type) - 1);
 	}
 
 	// Set the domain 
-  QVector<double> domain (NUM_DATA);
-  for (int i=0; i< NUM_DATA; ++i) domain[i] = i;
+  QVector<double> domain (NUM_PLOTTING_POINTS);
+  for (int i=0; i< NUM_PLOTTING_POINTS; ++i) domain[i] = i;
 
 	// Set the new data
 	stream.graph->setData(domain, curr_vals);
-	stream.vals = curr_vals;
+	stream.vals[stream.index] = curr_vals[NUM_PLOTTING_POINTS - 1];
+	stream.index = (stream.index + 1) % NUM_PLOTTING_POINTS;
 }
 
 /* ******************************************************************************************** */
@@ -405,8 +408,8 @@ void PlotTab::selectDartStream () {
 
 	// Create a new graph, set its range, set default values
 	QCPGraph* graph = _ui->customPlot->addGraph();
-	QVector <double> vals (NUM_DATA);
-  for (int i=0; i < NUM_DATA; ++i) vals[i] = 0.0;
+	QVector <double> vals (NUM_PLOTTING_POINTS);
+  for (int i=0; i < NUM_PLOTTING_POINTS; ++i) vals[i] = 0.0;
 	if(dataInt == 2) setRange(type, selectedBody);
 	else setRange(type);
 
@@ -418,7 +421,7 @@ void PlotTab::selectDartStream () {
 
 	// Create the stream and add it to the list
 	DartStream* stream = new DartStream (graph, selectedSkel, selectedBody, type, false);
-	stream->vals = vals;
+  for (int i=0; i < NUM_PLOTTING_POINTS; ++i) stream->vals.push_back(0.0);
 	dartStreams[graph] = stream;
 
 	// Set com option

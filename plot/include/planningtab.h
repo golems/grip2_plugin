@@ -47,24 +47,15 @@
 
 #include "ui_planningtab.h"
 
-// Grip includes
 #include <grip/qtWidgets/GripTab.h>
 #include <grip/osgGolems/ViewerWidget.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
-
-// DART includes
-#include <vector>
+#include <grip/qtWidgets/Plotting.h>
 #include <dart/dynamics/Skeleton.h>
-//namespace dart {
-//  namespace dynamics { class Skeleton; }
-//}
-
-class Controller;
+#include <vector>
 
 /* ******************************************************************************************** */
 // Data to update
-
-#define NUM_DATA 101
 
 enum PlotDataType { Q = 0, X, Y, Z, R, P, YA }; 
 
@@ -75,9 +66,10 @@ struct DartStream {
 	PlotDataType type;	
 	bool com;
 	QCPGraph* graph;
-	QVector <double> vals;
+	std::vector <double> vals;
+	size_t index;
 	DartStream(QCPGraph* g, dart::dynamics::Skeleton* s, dart::dynamics::BodyNode* b, PlotDataType t, 
-		bool c) : skel(s), body(b), type(t), com(c), graph(g) {}
+		bool c) : skel(s), body(b), type(t), com(c), graph(g), index(0) {}
 };
 
 /* ******************************************************************************************** */

@@ -383,6 +383,7 @@ CMakeFiles/planningtab.dir/include/moc_planningtab.cxx.o
  /usr/local/include/grip/qtWidgets/../include/GripTimeslice.h
  /usr/local/include/grip/qtWidgets/../osgGolems/ViewerWidget.h
  /usr/local/include/grip/qtWidgets/GripTab.h
+ /usr/local/include/grip/qtWidgets/Plotting.h
  /usr/local/include/grip/qtWidgets/TreeViewReturn.h
  ui_planningtab.h
 CMakeFiles/planningtab.dir/include/moc_qcustomplot.cxx.o
@@ -1186,6 +1187,7 @@ CMakeFiles/planningtab.dir/src/planningtab.cpp.o
  /usr/local/include/grip/qtWidgets/../include/GripTimeslice.h
  /usr/local/include/grip/qtWidgets/../osgGolems/ViewerWidget.h
  /usr/local/include/grip/qtWidgets/GripTab.h
+ /usr/local/include/grip/qtWidgets/Plotting.h
  /usr/local/include/grip/qtWidgets/TreeViewReturn.h
  ui_planningtab.h
 CMakeFiles/planningtab.dir/src/qcustomplot.cpp.o

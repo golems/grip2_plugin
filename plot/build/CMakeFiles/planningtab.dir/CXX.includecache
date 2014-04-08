@@ -65,9 +65,11 @@ grip/osgGolems/ViewerWidget.h
 -
 grip/qtWidgets/TreeViewReturn.h
 -
-vector
+grip/qtWidgets/Plotting.h
 -
 dart/dynamics/Skeleton.h
+-
+vector
 -
 
 /home/cerdogan/Documents/Simulation/grip2_plugin/plot/src/planningtab.cpp
@@ -5170,6 +5172,10 @@ dart/simulation/World.h
 QDockWidget
 -
 QtPlugin
+-
+
+/usr/local/include/grip/qtWidgets/Plotting.h
+vector
 -
 
 /usr/local/include/grip/qtWidgets/TreeViewReturn.h

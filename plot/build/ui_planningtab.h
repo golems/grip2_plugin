@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'planningtab.ui'
 **
-** Created: Mon Apr 7 16:49:52 2014
+** Created: Tue Apr 8 09:43:45 2014
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
