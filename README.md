@@ -1,7 +1,7 @@
-example2
-========
+plot
+====
 
- Example2 is a planning tab example. The original planning tab example has been ported to grip2.
+ Plot is a branch which demonstates the plotting plugin and the change of the walking plugin to use the plotting.
 
 
 Directory Overview
