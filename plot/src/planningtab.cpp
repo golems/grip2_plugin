@@ -67,9 +67,60 @@ using namespace dart;
 dynamics::Skeleton* hubo = NULL;
 QCustomPlot* plot;
 
+dynamics::Skeleton* selectedSkel = NULL;
+dynamics::BodyNode* selectedBody = NULL;
+
+vector <DartStream> dartStreams;
+
 
 /* ******************************************************************************************** */
-void PlotTab::update() {
+void PlotTab::drawDartStream (DartStream& stream) {
+
+	// Copy the data, shifting it an index
+	QVector <double> curr_vals (NUM_DATA);
+	for(size_t i = 0; i < NUM_DATA - 1; i++) curr_vals[i] = stream.vals[i+1];
+
+	// Get the new data if joint type value is requested
+	if(stream.type == Q) {
+		assert(stream.body != NULL && "The source cannot be NULL in joint type");
+		curr_vals[NUM_DATA - 1] = stream.body->getParentJoint()->getGenCoord(0)->get_q();
+	}
+
+	// Get the new data if another type is requested
+	else {
+
+		// Get the pose of the object (either skeleton or body)
+		Eigen::Isometry3d tf;
+		Eigen::Matrix<double, 6, 1> pose = Eigen::Matrix<double, 6, 1>::Zero();
+		if(stream.skel != NULL) {
+			if(stream.com) pose.head<3>() = stream.skel->getWorldCOM();
+			else {
+				tf = stream.skel->getRootBodyNode()->getWorldTransform();
+				pose.head<3>() = tf.translation();
+				pose.tail<3>() = dart::math::matrixToEulerXYZ(tf.linear());
+			}
+		}
+		else {
+			tf = stream.body->getWorldTransform();
+			pose.head<3>() = tf.translation();
+			pose.tail<3>() = dart::math::matrixToEulerXYZ(tf.linear());
+		}
+
+		// Set the value
+		curr_vals[NUM_DATA - 1] = pose(((int) stream.type) - 1);
+	}
+
+	// Set the domain 
+  QVector<double> domain (NUM_DATA);
+  for (int i=0; i< NUM_DATA; ++i) domain[i] = i;
+
+	// Set the new data
+	stream.graph->setData(domain, curr_vals);
+	stream.vals = curr_vals;
+}
+
+/* ******************************************************************************************** */
+void PlotTab::update () {
 
 	if(!hubo) return;
 
@@ -81,8 +132,32 @@ void PlotTab::update() {
 	qs(22) = -(cos(M_PI/180*counter) + 1) * 1.0;
 	hubo->setConfig(qs);
 
+	// Draw each graph
+	for(size_t i = 0; i < dartStreams.size(); i++) drawDartStream(dartStreams[i]);
+  _ui->customPlot->replot();
+
+	return;
+
 	// Draw something
 	draw();
+}
+
+/* ******************************************************************************************** */
+void PlotTab::GRIPEventTreeViewSelectionChanged () {
+
+	// Update the selected skeleton or body information
+	if(_activeNode->dType == Return_Type_Robot) {
+		selectedSkel = ((dart::dynamics::Skeleton*)(_activeNode->object));
+		selectedBody = NULL;
+	}
+	else if(_activeNode->dType == Return_Type_Node) {
+		selectedBody = ((dart::dynamics::BodyNode*)(_activeNode->object));
+		selectedSkel = NULL;
+	}
+	else {
+		selectedSkel = NULL;
+		selectedBody = NULL;
+	}
 }
 
 /* ******************************************************************************************** *
@@ -210,6 +285,7 @@ void PlotTab::contextMenuRequest(QPoint pos) {
 
   QMenu *menu = new QMenu(this);
   menu->setAttribute(Qt::WA_DeleteOnClose);
+	menu->addAction("Add random graph", this, SLOT(addRandomGraph()));
   if (_ui->customPlot->legend->selectTest(pos, false) >= 0) {
     menu->addAction("Move to top left", this, 
 			SLOT(moveLegend()))->setData((int)(Qt::AlignTop|Qt::AlignLeft));
@@ -223,17 +299,66 @@ void PlotTab::contextMenuRequest(QPoint pos) {
 			SLOT(moveLegend()))->setData(1024);
   } 
 	else {
-    menu->addAction("Add random graph", this, SLOT(addRandomGraph()));
-    if(_ui->customPlot->selectedGraphs().size() > 0) 
+		if(selectedSkel != NULL) {
+			skelMenu = menu->addMenu(tr("Add skeleton"));
+			QAction* action = skelMenu->addAction("Use origin", this, SLOT(selectDartStream()));
+			action->setData(0);
+			action = skelMenu->addAction("Use COM", this, SLOT(selectDartStream()));
+			action->setData(0);
+		}
+		if(selectedBody != NULL) {
+			QAction* action = menu->addAction("Add body", this, SLOT(selectDartStream()));
+			action->setData(1);
+		}
+    if(_ui->customPlot->selectedGraphs().size() > 0) {
 			menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
+			changeMenu = menu->addMenu(tr("Change data type"));
+			changeMenu->addAction("x-axis", this, SLOT(moveLegend()))->setData(1025);
+			changeMenu->addAction("y-axis", this, SLOT(moveLegend()))->setData(1025);
+			changeMenu->addAction("z-axis", this, SLOT(moveLegend()))->setData(1025);
+			changeMenu->addAction("roll", this, SLOT(moveLegend()))->setData(1025);
+			changeMenu->addAction("pitch", this, SLOT(moveLegend()))->setData(1025);
+			changeMenu->addAction("yaw", this, SLOT(moveLegend()))->setData(1025);
+		}
     if(_ui->customPlot->graphCount() > 0) 
 			menu->addAction("Remove all graphs", this, SLOT(removeAllGraphs()));
-		if(_ui->customPlot->legend->visible())
-			menu->addAction("Remove legend", this, SLOT(moveLegend()))->setData(1024);
 		if((_ui->customPlot->graphCount()) > 0 && (!_ui->customPlot->legend->visible()))
 			menu->addAction("Add legend", this, SLOT(moveLegend()))->setData(1025);
   }
+
+	QAction* action = menu->addAction("Plugin information", this, SLOT(moveLegend()));
+	action->setEnabled(false);
+
   menu->popup(_ui->customPlot->mapToGlobal(pos));
+}
+
+/* ******************************************************************************************** */
+void PlotTab::selectDartStream() {
+
+	// Get the data type
+	QAction* contextAction = qobject_cast<QAction*>(sender());
+	if(!contextAction) return;
+	bool ok;
+	int dataInt = contextAction->data().toInt(&ok);
+	if(!ok) return;
+
+	// Create the stream and add it to the list
+	QCPGraph* graph = _ui->customPlot->addGraph();
+	DartStream stream (graph, selectedSkel, selectedBody, Z, false);
+
+  QVector<double> x (NUM_DATA); 
+	stream.vals = QVector <double> (NUM_DATA);
+  for (int i=0; i<101; ++i) {
+		x[i] = i;
+		stream.vals[i] = 0.0;
+  }
+  _ui->customPlot->xAxis->setRange(0, 100);
+  _ui->customPlot->yAxis->setRange(0, 1);
+	graph->setData(x,stream.vals);
+  _ui->customPlot->replot();
+	dartStreams.push_back(stream);
+
+	// Set the range for the stream
 }
 
 /* ******************************************************************************************** */
@@ -248,6 +373,7 @@ void PlotTab::removeSelectedGraph() {
 void PlotTab::removeAllGraphs() {
   _ui->customPlot->clearGraphs();
   _ui->customPlot->replot();
+	dartStreams.clear();
 }
 
 /* ******************************************************************************************** */
@@ -360,9 +486,14 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
   connect(_ui->customPlot, SIGNAL(selectionChangedByUser()), this, SLOT(selectionChanged()));
   connect(_ui->customPlot, SIGNAL(mousePress(QMouseEvent*)), this, SLOT(mousePress()));
   connect(_ui->customPlot, SIGNAL(mouseWheel(QWheelEvent*)), this, SLOT(mouseWheel()));
+
+	// Create the timer to visualize the graph as events happen
+	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+	timer.start(100);
+
+
+
 	return;
-
-
 
 
 
@@ -373,9 +504,9 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 //	_ui->nodeBox->addItem("None");
 //	_ui->customBox->addItem("None");
 
-//	// Create the timer to visualize the graph as events happen
-//	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
-//	timer.start(100);
+	// Create the timer to visualize the graph as events happen
+	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+	timer.start(100);
 
 	// Add the default graph
   _ui->customPlot->addGraph();

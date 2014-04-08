@@ -61,19 +61,43 @@
 
 class Controller;
 
+/* ******************************************************************************************** */
+// Data to update
+
+#define NUM_DATA 101
+
+enum PlotDataType { Q = 0, X, Y, Z, R, P, YA }; 
+
+/// The definition of source to follow at the update function
+struct DartStream {
+	dart::dynamics::Skeleton* skel;
+	dart::dynamics::BodyNode* body;
+	PlotDataType type;	
+	bool com;
+	QCPGraph* graph;
+	QVector <double> vals;
+	DartStream(QCPGraph* g, dart::dynamics::Skeleton* s, dart::dynamics::BodyNode* b, PlotDataType t, 
+		bool c) : skel(s), body(b), type(t), com(c), graph(g) {}
+};
+
+/* ******************************************************************************************** */
 class PlotTab : public GripTab
 {
     Q_OBJECT
     Q_INTERFACES(GripTab)
 
 public:
+		QMenu* skelMenu;
+		QMenu* changeMenu;
     PlotTab(QWidget *parent = 0);
     void Refresh();
 		void GRIPEventSceneLoaded();
-
+		void GRIPEventTreeViewSelectionChanged();
 		QVector<double> x, y;
 		QTimer timer;
 		void draw ();
+		void drawDartStream(DartStream& stream);
+
 protected Q_SLOTS:
 		void update ();
 		void contextMenuRequest (QPoint pos);
@@ -81,6 +105,9 @@ protected Q_SLOTS:
 		void addRandomGraph ();
 		void removeAllGraphs ();
 		void removeSelectedGraph ();
+
+		void selectDartStream();
+		void drawPlugin();
 
 		void selectionChanged();
 		void moveLegend ();

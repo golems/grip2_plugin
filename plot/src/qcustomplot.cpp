@@ -9754,7 +9754,6 @@ QCPGraph *QCustomPlot::graph() const
 */
 QCPGraph *QCustomPlot::addGraph(QCPAxis *keyAxis, QCPAxis *valueAxis)
 {
-	cout << "hi 2 " << endl;
   if (!keyAxis) keyAxis = xAxis;
   if (!valueAxis) valueAxis = yAxis;
   if (!keyAxis || !valueAxis)
@@ -9771,7 +9770,6 @@ QCPGraph *QCustomPlot::addGraph(QCPAxis *keyAxis, QCPAxis *valueAxis)
   QCPGraph *newGraph = new QCPGraph(keyAxis, valueAxis);
   if (addPlottable(newGraph))
   {
-		cout << "hi 3 " << endl;
     newGraph->setName("Graph "+QString::number(mGraphs.size()));
     return newGraph;
   } else
