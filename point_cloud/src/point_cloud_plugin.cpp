@@ -30,44 +30,10 @@ void PointCloudPlugin::testslot()
     {
         std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
         loader = new PCDLoader(fileNames.front().toStdString());
-        viewWidget->addNodeToScene(loader->geode);
+        _viewWidget->addNodeToScene(loader->geode);
     }
 }
 
-void PointCloudPlugin::GRIPEventSimulationBeforeTimestep()
-{
-    std::cout<<"This is a test"<<std::endl;
-}
-
-void PointCloudPlugin::GRIPEventSimulationAfterTimestep(){}
-void PointCloudPlugin::GRIPEventSimulationStart(){}
-void PointCloudPlugin::GRIPEventSimulationStop(){}
-void PointCloudPlugin::GRIPEventTreeViewSelectionChanged(){}
-void PointCloudPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
-{
-    activeNode = ret;
-    viewWidget = viewer;
-}
-
-void PointCloudPlugin::GRIPEventPlaybackBeforeFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed after every playback time step
- */
-void PointCloudPlugin::GRIPEventPlaybackAfterFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the start of the playback
- */
-void PointCloudPlugin::GRIPEventPlaybackStart() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the end of the playback
- */
-void PointCloudPlugin::GRIPEventPlaybackStop() {}
 
 void PointCloudPlugin::Refresh() {}
 

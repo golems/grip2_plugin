@@ -6,6 +6,7 @@
 #include <grip/qtWidgets/GripTab.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
 #include <grip/osgGolems/ViewerWidget.h>
+#include <dart/simulation/World.h>
 
 class PointCloudPlugin : public GripTab
 {
@@ -23,17 +24,6 @@ public slots:
     void testslot();
 
 public:
-    void Load(TreeViewReturn* ret, ViewerWidget* viewer);
-
-    void GRIPEventSimulationBeforeTimestep();
-    void GRIPEventSimulationAfterTimestep();
-    void GRIPEventSimulationStart();
-    void GRIPEventSimulationStop();
-    void GRIPEventPlaybackBeforeFrame();
-    void GRIPEventPlaybackAfterFrame();
-    void GRIPEventPlaybackStart();
-    void GRIPEventPlaybackStop();
-    void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
 };
