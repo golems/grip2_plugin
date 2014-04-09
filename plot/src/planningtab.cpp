@@ -65,12 +65,9 @@
 using namespace std;
 using namespace dart;
 
-dynamics::Skeleton* hubo = NULL;
-
 dynamics::Skeleton* selectedSkel = NULL;
 dynamics::BodyNode* selectedBody = NULL;
 
-map <QCPGraph*, DartStream*> dartStreams;
 
 /* ******************************************************************************************** */
 void PlotTab::drawDartStream (DartStream& stream) {
@@ -138,59 +135,72 @@ void PlotTab::drawPluginStream (QCPGraph* graph, PluginStream& stream) {
 
 	// Set the new data
 	graph->setData(domain, curr_vals);
-	stream.vals[stream.index] = curr_vals[NUM_PLOTTING_POINTS - 1];
 }
 
 /* ******************************************************************************************** */
 void PlotTab::update () {
 
-	if(!hubo) return;
-
-	// Move hubo around for testing
-	Eigen::VectorXd qs = hubo->getConfig();
-	static int counter = 0;
-	counter+=10;
-	qs(19) = sin(M_PI/180*counter);
-	qs(22) = -(cos(M_PI/180*counter) + 1) * 1.0;
-	hubo->setConfig(qs);
-
 	// Draw each dart graph
 	map <QCPGraph*, DartStream*>::iterator it = dartStreams.begin(); 
 	for(; it != dartStreams.end(); it++) drawDartStream(*(it->second));
 
-	// Draw each plugin graph
+	// Create a new graph for a plugin
 	pthread_mutex_lock(&plottingMutex);
-	map <void*, PluginStream*>::iterator it2 = pluginStreams.begin(); 
-	for(; it2 != pluginStreams.end(); ) {
+	for(size_t i = 0 ; i < streams.size(); i++) {
 
-		// Create a new graph and change the map
-		if(it2->first == NULL) {
+		// Check if a graph is already existed for a given stream
+		bool found = false;
+		map <QCPGraph*, PluginStream*>::iterator it2 = pluginStreams.begin(); 
+		for(; it2 != pluginStreams.end(); it2++) {
+			if(streams[i] == it2->second) {
+				found = true;
+				break;
+			}
+		}
 
+		// Create the graph
+		if(!found) {
+
+			cout << "adding new graph" << endl;
 			// Create the new graph
-			PluginStream* stream = it2->second;
+			PluginStream* stream = streams[i];
 			QCPGraph* graph = _ui->customPlot->addGraph();
 			_ui->customPlot->yAxis->setRange(stream->minVal, stream->maxVal);
 
 			// Set plotting options
 			QPen graphPen;
-			graphPen.setColor(QColor(rand()%245+10, rand()%245+10, rand()%245+10));
+			QColor color;
+			if(stream->color) 
+				color = QColor((*(stream->color))(0), (*(stream->color))(1), (*(stream->color))(2));
+			else color = QColor(rand()%245+10, rand()%245+10, rand()%245+10);
+			graphPen.setColor(color);
 			graphPen.setWidthF(rand()/(double)RAND_MAX*2+1);
 			graph->setPen(graphPen);
 			graph->setName(QString::fromStdString(stream->label));
 
-			// Update the drawing information and draw
-			pluginStreams.erase(it2++);
+			// Set marker options
+			if(stream->marker) {
+				QCPScatterStyle::ScatterShape markerVal;
+				switch(*stream->marker) {
+					case marker_point: markerVal = QCPScatterStyle::ssDot; break;
+					case marker_circle: markerVal = QCPScatterStyle::ssCircle; break;
+					case marker_xmark: markerVal = QCPScatterStyle::ssCross; break;
+					case marker_plus: markerVal = QCPScatterStyle::ssPlus; break;
+					case marker_star: markerVal = QCPScatterStyle::ssStar; break;
+					default: break;
+				}
+				graph->setScatterStyle(QCPScatterStyle(markerVal, color, 8)); 
+			}
+
+			// Update the drawing map 
 			pluginStreams[graph] = stream; 	
-			drawPluginStream(graph, *stream);
 		}
-
-		else {
-
-			drawPluginStream((QCPGraph*) it2->first, *(it2->second));
-			++it2;
-		}
-
 	}
+
+	// Draw each plugin graph
+	map <QCPGraph*, PluginStream*>::iterator it2 = pluginStreams.begin(); 
+	for(; it2 != pluginStreams.end(); it2++) 
+		drawPluginStream((QCPGraph*) it2->first, *(it2->second));
 	pthread_mutex_unlock(&plottingMutex);
 
 	// Update the entire plot
@@ -245,20 +255,26 @@ void PlotTab::contextMenuRequest(QPoint pos) {
 			action->setData(2);
 		}
     if(_ui->customPlot->selectedGraphs().size() > 0) {
+
 			menu->addAction("Remove selected graph", this, SLOT(removeSelectedGraph()));
-			changeMenu = menu->addMenu(tr("Change data type"));
+
+			// Add a submenu to change data type if graph is for dart
 			QCPGraph* currGraph = _ui->customPlot->selectedGraphs().front();
-			DartStream* stream = dartStreams[currGraph];
-			PlotDataType type = stream->type;
-			bool weldJoint = (dynamic_cast<dart::dynamics::WeldJoint*>(stream->body->getParentJoint()) == NULL);
-			if((type != Q) && (stream->skel == NULL) && weldJoint) 
-				changeMenu->addAction("joint", this, SLOT(changeStreamType()))->setData(0);
-			if(type != X) changeMenu->addAction("x-axis", this, SLOT(changeStreamType()))->setData(1);
-			if(type != Y) changeMenu->addAction("y-axis", this, SLOT(changeStreamType()))->setData(2);
-			if(type != Z) changeMenu->addAction("z-axis", this, SLOT(changeStreamType()))->setData(3);
-			if((type != R) && !(stream->com)) changeMenu->addAction("roll", this, SLOT(changeStreamType()))->setData(4);
-			if((type != P) && !(stream->com)) changeMenu->addAction("pitch", this, SLOT(changeStreamType()))->setData(5);
-			if((type != YA) && !(stream->com)) changeMenu->addAction("yaw", this, SLOT(changeStreamType()))->setData(6);
+			map <QCPGraph*, DartStream*>::iterator it = dartStreams.find(currGraph);
+			if(it != dartStreams.end()) {
+				subMenu = menu->addMenu(tr("Change data type"));
+				DartStream* stream = it->second;
+				PlotDataType type = stream->type;
+				bool weldJoint = (dynamic_cast<dart::dynamics::WeldJoint*>(stream->body->getParentJoint()) == NULL);
+				if((type != Q) && (stream->skel == NULL) && weldJoint) 
+					subMenu->addAction("joint", this, SLOT(changeStreamType()))->setData(0);
+				if(type != X) subMenu->addAction("x-axis", this, SLOT(changeStreamType()))->setData(1);
+				if(type != Y) subMenu->addAction("y-axis", this, SLOT(changeStreamType()))->setData(2);
+				if(type != Z) subMenu->addAction("z-axis", this, SLOT(changeStreamType()))->setData(3);
+				if((type != R) && !(stream->com)) subMenu->addAction("roll", this, SLOT(changeStreamType()))->setData(4);
+				if((type != P) && !(stream->com)) subMenu->addAction("pitch", this, SLOT(changeStreamType()))->setData(5);
+				if((type != YA) && !(stream->com)) subMenu->addAction("yaw", this, SLOT(changeStreamType()))->setData(6);
+			}
 		}
     if(_ui->customPlot->graphCount() > 0) 
 			menu->addAction("Remove all graphs", this, SLOT(removeAllGraphs()));
@@ -364,7 +380,8 @@ void PlotTab::selectDartStream () {
 
 	// Determine the data type for the selection
 	PlotDataType type;
-	if(dynamic_cast<dart::dynamics::WeldJoint*>(selectedBody->getParentJoint())) type = Z;
+	if(selectedBody && dynamic_cast<dart::dynamics::WeldJoint*>(selectedBody->getParentJoint())) 
+			type = Z;
 	else if(dataInt == 2) type = Q;
 	else type = Z;
 
@@ -406,8 +423,20 @@ void PlotTab::removeSelectedGraph() {
 		// Remove the stream
 		QCPGraph* currGraph = _ui->customPlot->selectedGraphs().front();
 		map <QCPGraph*, DartStream*>::iterator it = dartStreams.find(currGraph);
-		assert((it != dartStreams.end()) && "A graph without a stream shouldn't be possible");
-		dartStreams.erase(it);
+		if(it != dartStreams.end()) dartStreams.erase(it);
+		else {
+			map <QCPGraph*, PluginStream*>::iterator it2 = pluginStreams.find(currGraph);
+			if(it2 != pluginStreams.end()) {
+				for(size_t i = 0; i < streams.size(); i++) {
+					if(streams[i] == it2->second) {
+						streams.erase(streams.begin() + i);
+						break;
+					}
+				}
+				pluginStreams.erase(it2);
+			}
+			else assert(false && "The chosen graph does not belong to dart or plugin streams");
+		}
 
 		// Remove graph
     _ui->customPlot->removeGraph(_ui->customPlot->selectedGraphs().first());
@@ -420,6 +449,8 @@ void PlotTab::removeAllGraphs() {
   _ui->customPlot->clearGraphs();
   _ui->customPlot->replot();
 	dartStreams.clear();
+	pluginStreams.clear();
+	streams.clear();
 }
 
 /* ******************************************************************************************** */
@@ -506,7 +537,7 @@ void PlotTab::moveLegend() {
 }
 
 /* ******************************************************************************************** */
-PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
+PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget), Plotter () {
 
 	// Setup the ui
 	_ui->setupUi(this);
@@ -536,23 +567,13 @@ PlotTab::PlotTab(QWidget *parent) : _ui(new Ui::PlotTabWidget) {
 	connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
 	timer.start(100);
 
-
-
-	return;
+	// Add the plotter
+	plotters.push_back(this);
+	pthread_mutex_init(&plottingMutex, NULL);
 }
 
 /* ******************************************************************************************** */
 void PlotTab::GRIPEventSceneLoaded() {
-
-	// Add the items to the combo box
-	hubo = _world->getSkeleton("Hubo");
-/*
-	if(hubo == NULL) return;
-	for(size_t i = 0; i < hubo->getNumBodyNodes(); i++) {
-		dynamics::BodyNode* body = hubo->getBodyNode(i);
-		_ui->nodeBox->addItem(body->getName().c_str());	
-	}
-*/
 }
 
 /* ******************************************************************************************** */

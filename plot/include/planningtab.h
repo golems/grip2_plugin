@@ -73,14 +73,14 @@ struct DartStream {
 };
 
 /* ******************************************************************************************** */
-class PlotTab : public GripTab
+class PlotTab : public GripTab, public Plotter
 {
     Q_OBJECT
     Q_INTERFACES(GripTab)
 
 public:
 		QMenu* skelMenu;
-		QMenu* changeMenu;
+		QMenu* subMenu;										///< to change dart type
     PlotTab(QWidget *parent = 0);
     void Refresh();
 		void GRIPEventSceneLoaded();
@@ -91,6 +91,8 @@ public:
 		void drawDartStream(DartStream& stream);
 		void drawPluginStream(QCPGraph* graph, PluginStream& stream);
 		const char* getTypeName (PlotDataType type);
+		std::map <QCPGraph*, DartStream*> dartStreams;
+		std::map <QCPGraph*, PluginStream*> pluginStreams;
 
 protected Q_SLOTS:
 		void update ();
