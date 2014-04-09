@@ -28,13 +28,13 @@ private:
     std::vector<fsp::Foot> _feet;
     std::vector<fsp::FootConstraint> _constraints;
 
-    osg::Group* _StartGroup;
-    osg::Group* _GoalGroup;
-    osg::Group* _FootstepGroup;
-    osg::Group* _ObstacleGroup;
-    osg::Group* _TileGroup;
+    osg::ref_ptr<osg::Group> _StartGroup;
+    osg::ref_ptr<osg::Group> _GoalGroup;
+    osg::ref_ptr<osg::Group> _FootstepGroup;
+    osg::ref_ptr<osg::Group> _ObstacleGroup;
+    osg::ref_ptr<osg::Group> _TileGroup;
 
-    osg::Group* scaleNode(osg::ref_ptr<osg::Node> node);
+    osg::ref_ptr<osg::Group> scaleNode(osg::ref_ptr<osg::Node> node);
     void log(std::string msg);
 
 public slots:

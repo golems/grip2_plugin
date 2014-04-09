@@ -297,10 +297,10 @@ Group* FootstepPlanVisualizer::getTiles(Vector2d minPoint, float discretizationR
 {
     Group* root = new Group();
     // Initialize colors
-    Vec4 opaque_blue = Vec4(0.0f, 0.0f, 1.0f, 0.3f);
-    Vec4 opaque_green = Vec4(0.0f, 1.0f, 0.0f, 0.3f);
-    Vec4 opaque_red = Vec4(1.0f, 0.0f, 0.0f, 0.3f);
-    Vec4 opaque_yellow = Vec4(1.0f, 1.0f, 0.0f, 0.3f);
+    Vec4 opaque_blue = Vec4(0.0f, 0.0f, 1.0f, 1.0f);
+    Vec4 opaque_green = Vec4(0.0f, 1.0f, 0.0f, 1.0f);
+    Vec4 opaque_red = Vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    Vec4 opaque_yellow = Vec4(1.0f, 1.0f, 0.0f, 1.0f);
     // Calculate inverse min point
     Vector2d invMinPoint(-minPoint[0], -minPoint[1]);
     // Add the Start tile

@@ -101,23 +101,38 @@ void FootstepPlannerPlugin::runPlanner()
         FootstepPlanVisualizer visualizer(_feet);
 
         log("Get the footsteps");
+        if (_FootstepGroup)
+            _viewWidget->removeNodeFromScene(_FootstepGroup);
         _FootstepGroup = scaleNode(visualizer.getFootsteps(currentLoc, plan));
+        _viewWidget->addNodeToScene(_FootstepGroup);
         showFootsteps(_ui->showFootsteps->isChecked());
 
         log("Get the start position");
+        if (_StartGroup)
+            _viewWidget->removeNodeFromScene(_StartGroup);
         _StartGroup = scaleNode(visualizer.getStartPosition(currentLoc));
+        _viewWidget->addNodeToScene(_StartGroup);
         showStartPosition(_ui->showStartPosition->isChecked());
 
         log("Get the goal position");
+        if (_GoalGroup)
+            _viewWidget->removeNodeFromScene(_GoalGroup);
         _GoalGroup = scaleNode(visualizer.getGoalPosition(goalLoc));
+        _viewWidget->addNodeToScene(_GoalGroup);
         showGoalPosition(_ui->showGoalPosition->isChecked());
 
         log("Get the obstacles");
+        if (_ObstacleGroup)
+            _viewWidget->removeNodeFromScene(_ObstacleGroup);
         _ObstacleGroup = scaleNode(visualizer.getObstacles(obs));
+        _viewWidget->addNodeToScene(_ObstacleGroup);
         showObstacles(_ui->showObstacles->isChecked());
 
         log("Get the tiles");
+        if (_TileGroup)
+            _viewWidget->removeNodeFromScene(_TileGroup);
         _TileGroup = scaleNode(visualizer.getTiles(FootstepPlanner::MIN_POINT,FootstepPlanner::DISCRETIZATION_RES, currentLoc, goalLoc, obs, mapPlan));
+        _viewWidget->addNodeToScene(_TileGroup);
         showTiles(_ui->showTiles->isChecked());
     }
 
@@ -130,18 +145,18 @@ void FootstepPlannerPlugin::runPlanner()
  */
 void FootstepPlannerPlugin::showStartPosition(bool checked)
 {
-    if (checked)
+    if (_StartGroup)
     {
-        log("Show start position");
-        log("Add the start to the view widget");
-        _viewWidget->addNodeToScene(_StartGroup);
-    }
-    else
-    {
-        log("Hide start position");
-        log("Remove the start from the view widget");
-        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
-        //data->removeChild(_StartGroup);
+        if (checked)
+        {
+            log("Show start position");
+            _StartGroup->setNodeMask(0xffffffff);
+        }
+        else
+        {
+            log("Hide start position");
+            _StartGroup->setNodeMask(0x0);
+        }
     }
 }
 
@@ -151,18 +166,18 @@ void FootstepPlannerPlugin::showStartPosition(bool checked)
  */
 void FootstepPlannerPlugin::showGoalPosition(bool checked)
 {
-    if (checked)
+    if (_GoalGroup)
     {
-        log("Show goal position");
-        log("Add the goal to the view widget");
-        _viewWidget->addNodeToScene(_GoalGroup);
-    }
-    else
-    {
-        log("Hide goal position");
-        log("Remove the goal from the view widget");
-        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
-        //data->removeChild(_GoalGroup);
+        if (checked)
+        {
+            log("Show goal position");
+            _GoalGroup->setNodeMask(0xffffffff);
+        }
+        else
+        {
+            log("Hide goal position");
+            _GoalGroup->setNodeMask(0x0);
+        }
     }
 }
 
@@ -172,18 +187,18 @@ void FootstepPlannerPlugin::showGoalPosition(bool checked)
  */
 void FootstepPlannerPlugin::showObstacles(bool checked)
 {
-    if (checked)
+    if (_ObstacleGroup)
     {
-        log("Show obstacles");
-        log("Add the obstacles to the view widget");
-        _viewWidget->addNodeToScene(_ObstacleGroup);
-    }
-    else
-    {
-        log("Hide obstacles");
-        log("Remove the obstacles from the view widget");
-        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
-        //data->removeChild(_ObstacleGroup);
+        if (checked)
+        {
+            log("Show obstacles");
+            _ObstacleGroup->setNodeMask(0xffffffff);
+        }
+        else
+        {
+            log("Hide obstacles");
+            _ObstacleGroup->setNodeMask(0x0);
+        }
     }
 }
 
@@ -193,18 +208,18 @@ void FootstepPlannerPlugin::showObstacles(bool checked)
  */
 void FootstepPlannerPlugin::showFootsteps(bool checked)
 {
-    if (checked)
+    if (_FootstepGroup)
     {
-        log("Show footsteps");
-        log("Add the footsteps to the view widget");
-        _viewWidget->addNodeToScene(_FootstepGroup);
-    }
-    else
-    {
-        log("Hide footsteps");
-        log("Remove the footsteps from the view widget");
-        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
-        //data->removeChild(_FootstepGroup);
+        if (checked)
+        {
+            log("Show footsteps");
+            _FootstepGroup->setNodeMask(0xffffffff);
+        }
+        else
+        {
+            log("Hide footsteps");
+            _FootstepGroup->setNodeMask(0x0);
+        }
     }
 }
 
@@ -214,24 +229,24 @@ void FootstepPlannerPlugin::showFootsteps(bool checked)
  */
 void FootstepPlannerPlugin::showTiles(bool checked)
 {
-    if (checked)
+    if (_TileGroup)
     {
-        log("Show tiles");
-        log("Add the tiles to the view widget");
-        _viewWidget->addNodeToScene(_TileGroup);
-    }
-    else
-    {
-        log("Hide tiles");
-        log("Remove the tiles from the view widget");
-        //Group* data = _viewWidget->getView(0)->getSceneData()->asGroup();
-        //data->removeChild(_TileGroup);
+        if (checked)
+        {
+            log("Show tiles");
+            _TileGroup->setNodeMask(0xffffffff);
+        }
+        else
+        {
+            log("Hide tiles");
+            _TileGroup->setNodeMask(0x0);
+        }
     }
 }
 
-Group* FootstepPlannerPlugin::scaleNode(ref_ptr<Node> node)
+ref_ptr<Group> FootstepPlannerPlugin::scaleNode(ref_ptr<Node> node)
 {
-    Group* scaled = new Group();
+    ref_ptr<Group> scaled = new Group();
     // Initialize the transform
     ref_ptr<PositionAttitudeTransform> transform = new PositionAttitudeTransform();
     // Add the node
