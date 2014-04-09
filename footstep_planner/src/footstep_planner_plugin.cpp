@@ -272,10 +272,12 @@ void FootstepPlannerPlugin::GRIPEventSimulationAfterTimestep(){}
 void FootstepPlannerPlugin::GRIPEventSimulationStart(){}
 void FootstepPlannerPlugin::GRIPEventSimulationStop(){}
 void FootstepPlannerPlugin::GRIPEventTreeViewSelectionChanged(){}
-void FootstepPlannerPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer)
+void FootstepPlannerPlugin::Load(TreeViewReturn *ret, ViewerWidget *viewer, dart::simulation::World *world, std::vector<GripTimeslice> *timeline)
 {
     _activeNode = ret;
     _viewWidget = viewer;
+    _world = world;
+    _timeline = timeline;
 }
 
 void FootstepPlannerPlugin::GRIPEventPlaybackBeforeFrame(){}

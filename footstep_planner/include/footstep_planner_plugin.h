@@ -46,7 +46,7 @@ public slots:
     void showTiles(bool checked);
 
 public:
-    void Load(TreeViewReturn* ret, ViewerWidget* viewer);
+    void Load(TreeViewReturn *ret, ViewerWidget *viewer, dart::simulation::World *world, std::vector<GripTimeslice> *timeline);
 
     void GRIPEventSimulationBeforeTimestep();
     void GRIPEventSimulationAfterTimestep();
