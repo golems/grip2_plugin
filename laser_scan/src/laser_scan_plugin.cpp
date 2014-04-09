@@ -109,12 +109,22 @@ osg::ref_ptr<osg::PositionAttitudeTransform> LaserScanPlugin::pointCloudTransfor
     osg::Vec3 scale3d(scale, scale, scale);
     transform->setScale(scale3d);
 
-    // Translate
-//    dart::dynamics::BodyNode* n = (dart::dynamics::BodyNode*) _activeNode->object;
 
-//    Eigen::Isometry3d transformWorld = n->getWorldTransform();
+    // Body_NK2
+    dart::dynamics::BodyNode* n = (dart::dynamics::BodyNode*) _activeNode->object;
 
-//    transform->setPosition(osg::Vec3(t(0), t(1), t(2)));
+    Eigen::Isometry3d transformWorld = n->getWorldTransform();
+
+    // Rotation
+    Eigen::Matrix3d rotation = transformWorld.linear();
+    Eigen::Quaterniond q(rotation);
+    osg::Quat quat(q.x(), q.y(), q.z(), q.w());
+    transform->setAttitude(quat);
+
+    // Translation
+    Eigen::Vector3d translation = transformWorld.translation();
+    osg::Vec3d t(translation(0), translation(1), translation(2));
+    transform->setPosition(t);
 
     return transform;
 
