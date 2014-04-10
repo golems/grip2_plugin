@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>239</width>
-    <height>160</height>
+    <width>312</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,6 +15,13 @@
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QCommandLinkButton" name="commandLinkButton">
+      <property name="text">
+       <string>Load PCD file</string>
+      </property>
+     </widget>
+    </item>
     <item>
      <widget class="QCommandLinkButton" name="saveStartButton">
       <property name="text">

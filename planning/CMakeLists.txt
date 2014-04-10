@@ -38,7 +38,7 @@ add_definitions(${OpenSourceGraph_DEFINITIONS})
 set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
 
 # Find Point Cloud Library
-find_package(PCL 1.3 REQUIRED COMPONENTS common io)
+find_package(PCL 1.3 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -81,7 +81,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(planning_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(planning_plugin  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${DART_LIBRARIES} ${GRIP_LIBRARIES})
+target_link_libraries(planning_plugin  ${QT_LIBRARIES} ${PCL_LIBRARIES} ${DART_LIBRARIES} ${GRIP_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs planning_plugin)
