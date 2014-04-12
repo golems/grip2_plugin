@@ -49,8 +49,11 @@
 #include "urgcppwrapper.h"
 #include "dxl.h"
 #include "scanner3d.h"
-#include <osg/PositionAttitudeTransform>
+
 #include <dart/dynamics/BodyNode.h>
+#include <dart/dynamics/FreeJoint.h>
+#include <dart/dynamics/MeshShape.h>
+#include <dart/dynamics/Skeleton.h>
 
 LaserScanPlugin::LaserScanPlugin(QWidget *) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
@@ -85,13 +88,17 @@ void LaserScanPlugin::scan_slot()
         Scanner3d scanner(&urg, &dxl, start_angle.toDouble(), end_angle.toDouble(), step_angle.toDouble());
         scanner.scan();
 
-        // Display point cloud
-        osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-        scanner.getScan3dGeode(geode);
+        // Get pcl point cloud
+        scanner;
 
-        osg::ref_ptr<osg::PositionAttitudeTransform> transformed = pointCloudTransformation(geode);
+        // Create a mesh and save as obj file
 
-        _viewWidget->addNodeToScene(transformed);
+        // Create skeleton from mesh (loaded from obj file)
+        dart::dynamics::Skeleton* point_cloud_skel = createSkeletonFromMesh("/home/paul/Bureau/my_poly.obj");
+        // Transform to good frame
+        changePointCloudFrame(point_cloud_skel);
+        // Add to scene
+        _world->addSkeleton(point_cloud_skel);
     }
     catch(const std::runtime_error& e)
     {
@@ -99,35 +106,41 @@ void LaserScanPlugin::scan_slot()
     }
 }
 
-osg::ref_ptr<osg::PositionAttitudeTransform> LaserScanPlugin::pointCloudTransformation(osg::ref_ptr<osg::Geode> geode)
+void LaserScanPlugin::changePointCloudFrame(dart::dynamics::Skeleton* skeleton)
 {
-    // Scale
-    osg::ref_ptr<osg::PositionAttitudeTransform> transform = new osg::PositionAttitudeTransform();
-    transform->addChild(geode);
-
-    double scale = 0.001;
-    osg::Vec3 scale3d(scale, scale, scale);
-    transform->setScale(scale3d);
-
-
-    // Body_NK2
-    dart::dynamics::BodyNode* n = (dart::dynamics::BodyNode*) _activeNode->object;
-
+    dart::dynamics::BodyNode* n = _world->getSkeleton("huboplus")->getBodyNode("Body_HNP");
     Eigen::Isometry3d transformWorld = n->getWorldTransform();
+    dart::dynamics::Joint* joint = skeleton->getRootBodyNode()->getParentJoint();
 
-    // Rotation
-    Eigen::Matrix3d rotation = transformWorld.linear();
-    Eigen::Quaterniond q(rotation);
-    osg::Quat quat(q.x(), q.y(), q.z(), q.w());
-    transform->setAttitude(quat);
+    Eigen::Matrix<double, 6, 1> q = dart::math::logMap(transformWorld);
+    joint->set_q(q);
+}
 
-    // Translation
-    Eigen::Vector3d translation = transformWorld.translation();
-    osg::Vec3d t(translation(0), translation(1), translation(2));
-    transform->setPosition(t);
+dart::dynamics::Skeleton* LaserScanPlugin::createSkeletonFromMesh(const std::string& filename)
+{
+    dart::dynamics::Skeleton* point_cloud = new dart::dynamics::Skeleton("point_cloud");
+    const aiScene* model = dart::dynamics::MeshShape::loadMesh(filename);
 
-    return transform;
+    if(model)
+    {
+        dart::dynamics::Shape* shape = new dart::dynamics::MeshShape(Eigen::Vector3d(1, 1, 1), model);
 
+        dart::dynamics::BodyNode* rootNode = new dart::dynamics::BodyNode("rootNode");
+        dart::dynamics::FreeJoint* rootJoint = new dart::dynamics::FreeJoint("rootJoint");
+        rootNode->setParentJoint(rootJoint);
+
+        rootNode->addCollisionShape(shape);
+        rootNode->addVisualizationShape(shape);
+
+        point_cloud->addBodyNode(rootNode);
+        point_cloud->setMobile(false);
+    }
+    else
+    {
+        std::cerr << "Error loading .obj mesh" << std::endl;
+    }
+
+    return point_cloud;
 }
 
 void LaserScanPlugin::Refresh() {}

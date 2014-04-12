@@ -60,16 +60,16 @@ public:
 
 private:
     Ui::LaserScanPlugin *ui;
+    dart::dynamics::Skeleton* createSkeletonFromMesh(const std::string& filename);
+    void changePointCloudFrame(dart::dynamics::Skeleton* skeleton);
 
 public slots:
     void scan_slot();
 
 public:
-    void Load(TreeViewReturn* ret, ViewerWidget* viewer);
     void Refresh();
 
-private:
-    osg::ref_ptr<osg::PositionAttitudeTransform> pointCloudTransformation(osg::ref_ptr<osg::Geode> geode);
+
 };
 
 #endif // LASER_SCAN_PLUGIN_H
