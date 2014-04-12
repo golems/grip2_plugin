@@ -52,7 +52,6 @@ Dxl::Dxl(unsigned int device_index, unsigned int baudrate)
         // Error
         std::stringstream ss;
         ss << "dxl_initialize() failed."<<  std::endl;
-        throw std::runtime_error(ss.str());
     }
     else
     {
@@ -157,10 +156,8 @@ bool Dxl::commRXIsOk() const
     {
         return true;
     }
-    else
-    {
-        throw std::runtime_error(get_comm_status(status));
-    }
+
+    return false;
 }
 
 const char* Dxl::get_comm_status(int status) const
