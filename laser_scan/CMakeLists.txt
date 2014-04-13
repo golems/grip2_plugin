@@ -4,8 +4,8 @@ project(laser_scan_plugin)
 #-----------------------------------------------
 # COMPILE SETTINGS
 #-----------------------------------------------
-set(CMAKE_BUILD_TYPE "Debug")
-list(APPEND CMAKE_CXX_FLAGS "-std=c++0x -Wall -Wextra")
+
+list(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -32,7 +32,7 @@ include(${QT_USE_FILE})
 
 # Find OpenSceneGraph
 find_package(OpenSceneGraph 2.8 REQUIRED
-    COMPONENTS osg osgViewer osgManipulator osgGA osgDB)
+             COMPONENTS osg osgViewer osgManipulator osgGA osgDB)
 include_directories(${OpenSceneGraph_INCLUDE_DIRS})
 add_definitions(${OpenSourceGraph_DEFINITIONS})
 set(OPENSCENEGRAPH_LIBRARIES ${OPENSCENEGRAPH_LIBRARIES} osgQt)
@@ -43,9 +43,8 @@ find_package(DART REQUIRED)
 include_directories(${DART_INCLUDE_DIRS})
 link_directories(${DART_LIBRARY_DIRS})
 
-
 # Find Point Cloud Library
-find_package(PCL 1.3 REQUIRED COMPONENTS common io)
+find_package(PCL 1.3 REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -80,7 +79,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(laser_scan_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(laser_scan_plugin m urg_cpp dxl ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
+target_link_libraries(laser_scan_plugin m urg_cpp dxl ${QT_LIBRARIES} ${PCL_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
 
 # Set project libraries variable
 set(project_libs laser_scan_plugin)

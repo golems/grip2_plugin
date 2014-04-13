@@ -65,9 +65,9 @@ public:
     static const unsigned char MOVING = 46;
 
     // Constants
-    constexpr static double DEFAULT_ID = 1;
-    constexpr static double POSITION_TO_DEGREE = 0.088;
-    constexpr static double POSITION_TO_RADIAN = 0.001535889742;
+    const static double DEFAULT_ID = 1;
+    const static double POSITION_TO_DEGREE = 0.088;
+    const static double POSITION_TO_RADIAN = 0.001535889742;
 
     Dxl(unsigned int device_index = 0, unsigned int baudrate = 1);
     ~Dxl();
