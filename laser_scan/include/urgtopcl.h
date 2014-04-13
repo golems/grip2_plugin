@@ -42,43 +42,27 @@
 * POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef SCANNER3D_H
-#define SCANNER3D_H
+#ifndef URGTOPCL_H
+#define URGTOPCL_H
 
-#include "dxl.h"
-#include "urgcppwrapper.h"
-#include <osg/Geode>
-#include <vector>
-#include "scanresultstruct.h"
-#include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+#include "urgcppwrapper.h"
+#include "scanresultstruct.h"
+#include <pcl/point_types.h>
+#include <pcl/point_cloud.h>
 
-class Scanner3d
+class UrgToPcl
 {
 public:
-    Scanner3d(URGCPPWrapper *urg, Dxl *dxl,
-              int start_angle_degree = 220, int end_angle_degree = 110, double scan_step_degree = 1);
-    void scan();
-    void getScan3dGeode(osg::ref_ptr<osg::Geode> geode);
+    static const unsigned short EPSILON = 3;
 
-    void getPointCloud(pcl::PointCloud<pcl::PointXYZ> &cloud, bool organized = false);
-    void savePointCloudToPCD(const std::string& filename, bool organized = false, bool binary = true);
-
-    void setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree);
+    static void getPCLCloud(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static void getPCLCloudUnorganized(URGCPPWrapper* urg, pcl::PointCloud<pcl::PointXYZ>& cloud, const RawScan3dResult &raw_scan3d_result);
+    static pcl::PointXYZ sphericalToCartesian(const long distance, const double theta, const double phi);
 
 private:
-    URGCPPWrapper* urg;
-    Dxl* dxl;
+    UrgToPcl();
 
-    RawScan3dResult raw_scan3d_result;
-
-    // Params
-    int start_angle_degree;
-    int end_angle_degree;
-    double scan_step_degree;
-
-    void updateScanParam();
-    void moveHeadToInitialPosition();
 };
 
-#endif // SCANNER3D_H
+#endif // URGTOPCL_H

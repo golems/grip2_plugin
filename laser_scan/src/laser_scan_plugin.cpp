@@ -89,9 +89,11 @@ void LaserScanPlugin::scan_slot()
         scanner.scan();
 
         // Get pcl point cloud
-        scanner;
+        pcl::PointCloud<pcl::PointXYZ> pcl_point_cloud;
+        scanner.getPointCloud(pcl_point_cloud);
 
         // Create a mesh and save as obj file
+        //pcl_point_cloud
 
         // Create skeleton from mesh (loaded from obj file)
         dart::dynamics::Skeleton* point_cloud_skel = createSkeletonFromMesh("/home/paul/Bureau/my_poly.obj");

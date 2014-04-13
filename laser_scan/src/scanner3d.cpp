@@ -47,6 +47,7 @@
 #include <osg/Point>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
+#include "urgtopcl.h"
 
 Scanner3d::Scanner3d(URGCPPWrapper* urg, Dxl* dxl,
                      int start_angle_degree, int end_angle_degree, double scan_step_degree)
@@ -105,6 +106,30 @@ void Scanner3d::getScan3dGeode(osg::ref_ptr<osg::Geode> geode)
     geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
     geode->addDrawable(geometry);
+}
+
+void Scanner3d::savePointCloudToPCD(const std::string& filename, bool organized, bool binary)
+{
+    pcl::PointCloud<pcl::PointXYZ> cloud;
+
+    if(organized)
+        UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
+    else
+        UrgToPcl::getPCLCloudUnorganized(urg, cloud, raw_scan3d_result);
+
+    // Save file
+    if(binary)
+        pcl::io::savePCDFileBinaryCompressed(filename, cloud);
+    else
+        pcl::io::savePCDFileASCII(filename, cloud);
+}
+
+void Scanner3d::getPointCloud(pcl::PointCloud<pcl::PointXYZ> &cloud, bool organized)
+{
+    if(organized)
+        UrgToPcl::getPCLCloud(urg, cloud, raw_scan3d_result);
+    else
+        UrgToPcl::getPCLCloudUnorganized(urg, cloud, raw_scan3d_result);
 }
 
 void Scanner3d::setScanParameters(int start_angle_degree, int end_angle_degree, double scan_step_degree)
