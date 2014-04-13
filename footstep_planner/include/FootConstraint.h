@@ -47,7 +47,6 @@
 
 #include "Foot.h"
 #include <eigen3/Eigen/Core>
-#include "fcl/collision.h"
 
 namespace fsp {
 

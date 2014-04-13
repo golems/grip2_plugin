@@ -252,7 +252,7 @@ ref_ptr<Group> FootstepPlannerPlugin::scaleNode(ref_ptr<Node> node)
     // Add the node
     transform->addChild(node);
     // Scale the transform
-    transform->setScale(Vec3(0.25d, 0.25d, 0.25d));
+    transform->setScale(Vec3(0.06d, 0.06d, 0.06d));
     scaled->addChild(transform);
     // Return the scaled transform
     return scaled;
