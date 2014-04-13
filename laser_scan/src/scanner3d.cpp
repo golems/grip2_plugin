@@ -69,7 +69,6 @@ void Scanner3d::scan()
 
     for(unsigned int i=0 ; i<raw_scan3d_result.number_of_scans ; ++i)
     {
-
         dxl->moveToDegree(start_angle_degree - i * scan_step_degree, 3);
 
         raw_scan3d_result.jointsValue[3 * i] = dxl->getCurrentAngleRadian(1);
