@@ -10,7 +10,7 @@ MeshBuilder::MeshBuilder()
 {
 }
 
-void MeshBuilder::build(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const std::string& filename)
+void MeshBuilder::buildAndSave(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, double search_radius, const std::string& filename)
 {
     // Normal estimation*
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> n;
@@ -37,7 +37,7 @@ void MeshBuilder::build(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const std::st
     pcl::PolygonMesh triangles;
 
     // Set the maximum distance between connected points(maximum edge length)
-    gp3.setSearchRadius(200);
+    gp3.setSearchRadius(search_radius);
 
     // Set typical values for the parameters
     gp3.setMu(2.5);

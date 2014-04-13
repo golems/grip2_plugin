@@ -49,6 +49,7 @@
 #include "urgcppwrapper.h"
 #include "dxl.h"
 #include "scanner3d.h"
+#include "meshbuilder.h"
 
 #include <dart/dynamics/BodyNode.h>
 #include <dart/dynamics/FreeJoint.h>
@@ -93,10 +94,11 @@ void LaserScanPlugin::scan_slot()
         scanner.getPointCloud(pcl_point_cloud);
 
         // Create a mesh and save as obj file
-        //pcl_point_cloud
+        pcl::PointCloud<pcl::PointXYZ>::Ptr pc_ptr = pcl_point_cloud.makeShared();
+        MeshBuilder::buildAndSave(pc_ptr, 0.2, tmp_filename);
 
         // Create skeleton from mesh (loaded from obj file)
-        dart::dynamics::Skeleton* point_cloud_skel = createSkeletonFromMesh("/home/paul/Bureau/my_poly.obj");
+        dart::dynamics::Skeleton* point_cloud_skel = createSkeletonFromMesh(tmp_filename);
         // Transform to good frame
         changePointCloudFrame(point_cloud_skel);
         // Add to scene
@@ -106,16 +108,6 @@ void LaserScanPlugin::scan_slot()
     {
         std::cout << e.what() << std::endl;
     }
-}
-
-void LaserScanPlugin::changePointCloudFrame(dart::dynamics::Skeleton* skeleton)
-{
-    dart::dynamics::BodyNode* n = _world->getSkeleton("huboplus")->getBodyNode("Body_HNP");
-    Eigen::Isometry3d transformWorld = n->getWorldTransform();
-    dart::dynamics::Joint* joint = skeleton->getRootBodyNode()->getParentJoint();
-
-    Eigen::Matrix<double, 6, 1> q = dart::math::logMap(transformWorld);
-    joint->set_q(q);
 }
 
 dart::dynamics::Skeleton* LaserScanPlugin::createSkeletonFromMesh(const std::string& filename)
@@ -143,6 +135,16 @@ dart::dynamics::Skeleton* LaserScanPlugin::createSkeletonFromMesh(const std::str
     }
 
     return point_cloud;
+}
+
+void LaserScanPlugin::changePointCloudFrame(dart::dynamics::Skeleton* skeleton)
+{
+    dart::dynamics::BodyNode* n = _world->getSkeleton("huboplus")->getBodyNode("Body_HNP");
+    Eigen::Isometry3d transformWorld = n->getWorldTransform();
+    dart::dynamics::Joint* joint = skeleton->getRootBodyNode()->getParentJoint();
+
+    Eigen::Matrix<double, 6, 1> q = dart::math::logMap(transformWorld);
+    joint->set_q(q);
 }
 
 void LaserScanPlugin::Refresh() {}

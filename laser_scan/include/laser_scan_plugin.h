@@ -59,6 +59,7 @@ public:
     ~LaserScanPlugin();
 
 private:
+    const std::string tmp_filename = "tmp_point_cloud.obj";
     Ui::LaserScanPlugin *ui;
     dart::dynamics::Skeleton* createSkeletonFromMesh(const std::string& filename);
     void changePointCloudFrame(dart::dynamics::Skeleton* skeleton);

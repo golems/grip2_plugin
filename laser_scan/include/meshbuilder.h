@@ -8,7 +8,7 @@ class MeshBuilder
 {
 public:
     MeshBuilder();
-    static void build(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, const std::string& filename);
+    static void buildAndSave(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, double search_radius, const std::string& filename);
 };
 
 #endif // MESHBUILDER_H
