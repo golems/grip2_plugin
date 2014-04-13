@@ -53,6 +53,7 @@
 #include <dart/dynamics/FreeJoint.h>
 #include <dart/dynamics/MeshShape.h>
 #include <dart/dynamics/Skeleton.h>
+#include <dart/constraint/ConstraintDynamics.h>
 
 LaserScanPlugin::LaserScanPlugin(QWidget *) : ui(new Ui::LaserScanPlugin){
     ui->setupUi(this);
@@ -103,6 +104,9 @@ void LaserScanPlugin::scan_slot()
         changePointCloudFrame(point_cloud_skel);
         // Add to scene
         _world->addSkeleton(point_cloud_skel);
+
+        // Remove collision between the mesh and the ground
+         _world->getConstraintHandler()->getCollisionDetector()->disablePair(_world->getSkeleton("ground")->getBodyNode("ground"), _world->getSkeleton("point_cloud")->getBodyNode("rootNode"));
     }
     catch(const std::runtime_error& e)
     {
