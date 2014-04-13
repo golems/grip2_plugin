@@ -44,8 +44,6 @@
 
 #include "laser_scan_plugin.h"
 #include <iostream>
-#include <qplugin.h>
-#include <QtGui>
 #include "urgcppwrapper.h"
 #include "dxl.h"
 #include "scanner3d.h"
@@ -92,6 +90,8 @@ void LaserScanPlugin::scan_slot()
         // Get pcl point cloud
         pcl::PointCloud<pcl::PointXYZ> pcl_point_cloud;
         scanner.getPointCloud(pcl_point_cloud);
+        // Scale point cloud
+        scalePointCloudToWorld(pcl_point_cloud);
 
         // Create a mesh and save as obj file
         pcl::PointCloud<pcl::PointXYZ>::Ptr pc_ptr = pcl_point_cloud.makeShared();
@@ -107,6 +107,20 @@ void LaserScanPlugin::scan_slot()
     catch(const std::runtime_error& e)
     {
         std::cout << e.what() << std::endl;
+    }
+}
+
+
+void LaserScanPlugin::scalePointCloudToWorld(pcl::PointCloud<pcl::PointXYZ>& pcl_point_cloud)
+{
+    const size_t size = pcl_point_cloud.points.size();
+
+    for(unsigned int i=0 ; i<size ; ++i)
+    {
+        // Convert mm to m
+        pcl_point_cloud.points[i].x /= 1000;
+        pcl_point_cloud.points[i].y /= 1000;
+        pcl_point_cloud.points[i].z /= 1000;
     }
 }
 

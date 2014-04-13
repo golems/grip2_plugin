@@ -47,8 +47,8 @@
 
 #include "ui_laser_scan_plugin.h"
 #include <grip/qtWidgets/GripTab.h>
-#include <grip/qtWidgets/TreeViewReturn.h>
-#include <grip/osgGolems/ViewerWidget.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 
 class LaserScanPlugin : public GripTab
 {
@@ -61,6 +61,7 @@ public:
 private:
     const std::string tmp_filename = "tmp_point_cloud.obj";
     Ui::LaserScanPlugin *ui;
+    void scalePointCloudToWorld(pcl::PointCloud<pcl::PointXYZ>& pcl_point_cloud);
     dart::dynamics::Skeleton* createSkeletonFromMesh(const std::string& filename);
     void changePointCloudFrame(dart::dynamics::Skeleton* skeleton);
 
