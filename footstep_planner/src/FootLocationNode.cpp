@@ -51,18 +51,21 @@ using namespace Eigen;
 FootLocationNode::FootLocationNode()
 {
     _shouldAvoid = false;
+    _cost = 0;
 }
 
 FootLocationNode::FootLocationNode(FootLocation& location, vector<Foot>* feet)
 {
     _Location = FootLocation(location.getLocation(), location.getWorldTheta(), location.getTheta(), location.getFootIndex(), feet);
     _shouldAvoid = false;
+    _cost = 0;
 }
 
 FootLocationNode::FootLocationNode(Vector2d location, float worldTheta, float theta, int footIndex, vector<Foot>* feet)
 {
     _Location = FootLocation(location, worldTheta, theta, footIndex, feet);
     _shouldAvoid = false;
+    _cost = 0;
 }
 
 FootLocationNode::~FootLocationNode()
@@ -74,11 +77,16 @@ FootLocationNode::~FootLocationNode()
 FootLocation FootLocationNode::getFootLocation() const { return _Location; }
 Vector2d FootLocationNode::getLocation() const { return _Location.getLocation(); }
 float FootLocationNode::getTheta() const { return _Location.getWorldTheta(); }
+float FootLocationNode::getCurrentTheta() const { return _Location.getTheta(); }
 int FootLocationNode::getFootIndex() const { return _Location.getFootIndex(); }
 vector<Line> FootLocationNode::getBounds() const { return _Location.getBounds(); }
 vector<FootLocationNode*> FootLocationNode::getChildren() const { return _Children; }
 bool FootLocationNode::shouldAvoid() const {return _shouldAvoid;}
 bool FootLocationNode::doesPathExist() const {return _doesPathExist;}
+double FootLocationNode::getCost() const {return _cost;}
+void FootLocationNode::setCost(double newCost) {
+        _cost  = newCost;
+}
 
 FootLocationNode* FootLocationNode::getChild(int index) const
 {
@@ -119,4 +127,8 @@ void FootLocationNode::setShouldAvoid(bool shouldAvoid) {
 
 void FootLocationNode::setDoesPathExist(bool doesPathExist) {
 		_doesPathExist = doesPathExist;
+}
+
+void FootLocationNode::setTheta(float theta) {
+    _Location.setTheta(theta);
 }

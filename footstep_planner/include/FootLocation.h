@@ -69,6 +69,7 @@ class FootLocation
 
         Eigen::Vector2d getLocation() const;
         float getTheta() const;
+        void setTheta(float theta);
         float getWorldTheta() const;
         int getFootIndex() const;
         std::vector<fsp::Line> getBounds() const;

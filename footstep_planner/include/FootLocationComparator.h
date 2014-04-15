@@ -62,24 +62,35 @@ namespace fsp {
 class FootLocationComparator
 {
     public:
-		FootLocationComparator(Eigen::Vector2d value) {
-				goal = value;
-		} 
+        FootLocationComparator(Eigen::Vector2d value, int weight) {
+                _goal = value;
+                _weight  = weight;
+        }
 
-		bool operator() (const FootLocationNode* lhs, const FootLocationNode* rhs) const {
-				bool result = false;
-				//Find the lhs distance to the goal. 
-				double lhs_distance = sqrt(pow((goal[0] - (lhs->getLocation())[0]), 2.0) + pow((goal[1] - (lhs->getLocation())[1]), 2.0));	
-				double rhs_distance = sqrt(pow((goal[0] - (rhs->getLocation())[0]), 2.0) + pow((goal[1] - (rhs->getLocation())[1]), 2.0));	
-				if (lhs_distance <=rhs_distance) {
-						result = true;
-				}
-				return result;
-		}
+        bool operator() (const FootLocationNode* lhs, const FootLocationNode* rhs) const {
+                bool result = false;
+                //Find the lhs distance to the goal.
+                double lhs_distance = sqrt(pow((_goal[0] - (lhs->getLocation())[0]), 2.0) + pow((_goal[1] - (lhs->getLocation())[1]), 2.0));
+                double rhs_distance = sqrt(pow((_goal[0] - (rhs->getLocation())[0]), 2.0) + pow((_goal[1] - (rhs->getLocation())[1]), 2.0));
+                double lhs_cost = 0;
+                double rhs_cost = 0;
+                if (_weight == 1) {
+                    lhs_cost = lhs_distance;
+                    rhs_cost = rhs_distance;
+                } else {
+                    lhs_cost = lhs->getCost() + _weight*lhs_distance;
+                    rhs_cost = rhs->getCost() + _weight*rhs_distance;
+                }
 
-		private:
-		Eigen::Vector2d goal;
+                if (lhs_cost >rhs_cost) {
+                        result = true;
+                }
+                return result;
+        }
+
+        private:
+        Eigen::Vector2d _goal;
+        int _weight;
     };
 } // namespace fsp
-
 #endif

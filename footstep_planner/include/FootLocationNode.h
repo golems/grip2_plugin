@@ -69,6 +69,7 @@ class FootLocationNode
         FootLocation getFootLocation() const;
         Eigen::Vector2d getLocation() const;
         float getTheta() const;
+        float getCurrentTheta() const;
         int getFootIndex() const;
         std::vector<Line> getBounds() const;
         std::vector<FootLocationNode*> getChildren() const;
@@ -76,11 +77,14 @@ class FootLocationNode
         FootLocationNode* getParent() const;
         void setParent(FootLocationNode* parent);
         void addChild(FootLocationNode* child);
+        void setTheta(float theta);
         void addChild(FootLocation& child, std::vector<Foot>* feet);
 				bool shouldAvoid() const;
 				void setShouldAvoid(bool shouldAvoid);
 				bool doesPathExist() const;
 				void setDoesPathExist(bool doesPathExist); 
+                double getCost() const;
+                void setCost(double newCost);
     protected:
 
     private:
@@ -89,6 +93,7 @@ class FootLocationNode
         std::vector<FootLocationNode*> _Children;
 				bool _shouldAvoid;
 				bool _doesPathExist;
+                double _cost;
     };
 } // namespace fsp
 

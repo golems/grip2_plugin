@@ -55,6 +55,7 @@ FootLocation::FootLocation()
 {
     _Location = Vector2d(0.0d, 0.0d);
     _WorldTheta = 0.0f;
+    _Theta = 0.0f;
     _FootIndex = -1;
 }
 
@@ -142,3 +143,11 @@ int FootLocation::getFootIndex() const { return _FootIndex; }
 /// \return
 ///
 vector<Line> FootLocation::getBounds() const { return _Bounds; }
+
+///
+/// \brief FootLocation::setTheta
+/// \return
+///
+void FootLocation::setTheta(float theta) {
+    _Theta = theta;
+}

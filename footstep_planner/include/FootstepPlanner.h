@@ -99,6 +99,7 @@ class FootstepPlanner
         std::vector<FootLocation> runRRTPlanner(std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles);
         std::vector<FootLocation> runAStarPlanner(std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles, std::vector<Eigen::Vector2i>& mapPlan);
         std::vector<FootLocation> runRStarPlanner(std::vector<FootConstraint> constraints, std::vector<FootLocation> currentLocation, std::vector<FootLocation> goalLocation, std::vector<Line> obstacles);
+        float getTheta(Eigen::Vector2d start, Eigen::Vector2d end);
     protected:
 
     private:
@@ -125,6 +126,7 @@ class FootstepPlanner
         void _updateRandomMinMaxValues(double xValue, double yValue);
         FootLocation _generateRandomFootConfig(int previousFootIndex, int nextFootIndex, const std::vector<FootConstraint>& constraints, fsp::FootLocation flStanceFoot, Eigen::Vector2d randomPoint);
 				double get_euclid_distance(FootLocationNode* node, FootLocation footLocation);
+                double get_euclid_distance(FootLocationNode* node, Eigen::Vector2d footLocation);
 				void find_path_using_weighted_a_star(FootLocationNode* parent, FootLocationNode* goal, int desired_weight, vector<Line> obstacles);
 				FootLocationNode* get_random_goal(FootLocationNode* currentLocation, int radius, vector<Line> obstacles); 
 				vector<FootLocationNode*> get_possible_configurations(FootLocationNode* currentLocation, int radius, vector<Line> obstacles, int num_config);
