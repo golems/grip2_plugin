@@ -59,7 +59,7 @@ public:
     ~LaserScanPlugin();
 
 private:
-    static const std::string tmp_filename = "tmp_point_cloud.obj";
+    const std::string tmp_filename = "tmp_point_cloud.obj";
     Ui::LaserScanPlugin *ui;
     void scalePointCloudToWorld(pcl::PointCloud<pcl::PointXYZ>& pcl_point_cloud);
     dart::dynamics::Skeleton* createSkeletonFromMesh(const std::string& filename);

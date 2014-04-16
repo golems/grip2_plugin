@@ -5,7 +5,7 @@ project(laser_scan_plugin)
 # COMPILE SETTINGS
 #-----------------------------------------------
 
-list(APPEND CMAKE_CXX_FLAGS "-Wall -Wextra")
+list(APPEND CMAKE_CXX_FLAGS "-std=c++11 -Wall -Wextra")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -67,7 +67,7 @@ FILE(GLOB UI_FILES ./ui/*.ui)
 QT4_WRAP_UI(UI ${UI_FILES})
 
 # Wrap .moc files
-FILE(GLOB MOC_FILES ./include/*.h)
+FILE(GLOB MOC_FILES ./include/laser_scan_plugin.h)
 QT4_WRAP_CPP(MOC ${MOC_FILES})
 
 # Add .qrc files

@@ -157,6 +157,7 @@ dart::dynamics::Skeleton* LaserScanPlugin::createSkeletonFromMesh(const std::str
 
 void LaserScanPlugin::changePointCloudFrame(dart::dynamics::Skeleton* skeleton)
 {
+    // Head body node
     dart::dynamics::BodyNode* n = _world->getSkeleton("huboplus")->getBodyNode("Body_HNP");
     Eigen::Isometry3d transformWorld = n->getWorldTransform();
     dart::dynamics::Joint* joint = skeleton->getRootBodyNode()->getParentJoint();
