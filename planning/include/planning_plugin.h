@@ -15,8 +15,6 @@ public:
     PlanningPlugin(QWidget *parent = 0);
     ~PlanningPlugin();
 
-//    const int joint_order[];
-
 private:
     Ui::PlanningPlugin *ui;
     dart::dynamics::Skeleton* _skel;
@@ -26,6 +24,7 @@ private:
     PCDLoader* loader;
 
     bool updateIndex();
+    void interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation);
 
 public:
 //    void Load(TreeViewReturn* ret, ViewerWidget* viewer);

@@ -1,5 +1,6 @@
 #include "planning_plugin.h"
 #include <iostream>
+#include <fstream>
 #include <qplugin.h>
 #include <QtGui>
 
@@ -20,21 +21,6 @@
 
 PlanningPlugin::PlanningPlugin(QWidget *parent) : ui(new Ui::PlanningPlugin){
     ui->setupUi(this);
-//    joint_order = {
-//              "RHY", "RHR", "RHP", RKN, RAP, RAR,
-
-//              LHY, LHR, LHP, LKN, LAP, LAR,
-
-//              RSP, RSR, RSY, REB, RWY, RWR, RWP,
-
-//              LSP, LSR, LSY, LEB, LWY, LWR, LWP,
-
-//              NKY, NK1, NK2, WST,
-
-//              RF1, RF2, RF3, RF4, RF5,
-
-//              LF1, LF2, LF3, LF4, LF5
-//        };
 }
 
 PlanningPlugin::~PlanningPlugin(){}
@@ -43,13 +29,7 @@ PlanningPlugin::~PlanningPlugin(){}
 //void PlanningPlugin::GRIPEventSimulationAfterTimestep(){}
 //void PlanningPlugin::GRIPEventSimulationStart(){}
 //void PlanningPlugin::GRIPEventSimulationStop(){}
-void PlanningPlugin::GRIPEventTreeViewSelectionChanged() {/*
-    if (!updateIndex()) {
-        std::cerr << "No skeleton named GolemHubo" << std::endl;
-        _index.empty();
-        std::cout << "index empty size: " << _index.size() << std::endl;
-    }*/
-}
+void PlanningPlugin::GRIPEventTreeViewSelectionChanged() {}
 
 //void PlanningPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer) {}
 
@@ -79,26 +59,8 @@ Q_EXPORT_PLUGIN2(PlanningPlugin, PlanningPlugin)
 
 void PlanningPlugin::on_saveStartButton_clicked()
 {
+    updateIndex();
     if (_skel) {
-        updateIndex();
-        std::cout << "num contacts " << _world->getConstraintHandler()->getNumContacts() << std::endl;
-        std::cout << "Start conf " << _world->checkCollision(false) << std::endl;
-        if (!_world->checkCollision(true)) {
-            std::cout << "Validation? OK :-)" << std::endl;
-        } else {
-            std::cout << "Validation? NO" << std::endl;
-
-            for (int i=1;i<2;i++) {
-                for (int j=0;j<_world->getSkeleton(i)->getNumBodyNodes();j++) {
-                    dart::dynamics::BodyNode* node1 = _world->getSkeleton(i)->getBodyNode(j);
-                    for (int k=0;k<=j;k++) {
-                        dart::dynamics::BodyNode* node2 = _world->getSkeleton(i)->getBodyNode(k);
-                        std::cout << "1: " << node1->getName() << " - 2: " << node2->getName() << " " << _world->getConstraintHandler()->getCollisionDetector()->detectCollision(node1,node2) << std::endl;
-                    }
-                }
-            }
-
-        }
         _startConf = _skel->getConfig(_index);
         std::cout << "Start configuration saved" << std::endl;
     } else {
@@ -108,10 +70,10 @@ void PlanningPlugin::on_saveStartButton_clicked()
 
 void PlanningPlugin::on_saveGoalButton_clicked()
 {
+    updateIndex();
     if (_skel) {
-        updateIndex();
         _goalConf = _skel->getConfig(_index);
-        std::cout << "Goal configuration saved. " << _goalConf.rows() << " rows & " << _goalConf.cols() << " cols." << std::endl;
+        std::cout << "Goal configuration saved" << std::endl;
     } else {
         std::cerr << "No skeleton loaded" << std::endl;
     }
@@ -122,8 +84,10 @@ void PlanningPlugin::on_PlanMoveButton_clicked()
     if ((_startConf.cols() != 0)&&(_goalConf.cols() != 0)) {
 
         std::list<Eigen::VectorXd> path;
+        std::list<Eigen::VectorXd> interpolation;
         dart::planning::PathPlanner<> planner(*_world,true,true,0.1,1e6,0.3);
         int i=0;
+        const int length = 29;
         std::list<Eigen::VectorXd>::iterator it;
 
         bool rep = planner.planPath(_skel, _index, _startConf, _goalConf, path);
@@ -131,38 +95,58 @@ void PlanningPlugin::on_PlanMoveButton_clicked()
         dart::planning::PathShortener short_path(_world, _skel, _index, 0.1);
         short_path.shortenPath(path);
 
+        interpolate(path, interpolation);
+        //interpolation = path;
 
         if (rep) {
             std::cout << "Path found. Size: " << path.size() << std::endl;
-            while (i < path.size())
-            {
-                it = path.begin();
-                std::advance(it, i);
-                Eigen::VectorXd vec = (Eigen::VectorXd)(*it);
-                // 'it' points to the element at index 'i'
-                std::cout << "State " << i << ": " << std::ends;
-                for (int j=0;j<vec.rows();j++) {
-                    std::cout << vec[j] << " - " << std::ends;
-                }
-                std::cout << std::endl;
-                i++;
-            }
+            std::cout << "Interpolation. Size: " << interpolation.size() << std::endl;
         } else {
             std::cout << "Path not found" << std::endl;
+            return;
         }
 
-        i=0;
-        while (i < path.size())
-        {
-            it = path.begin();
-            std::advance(it, i);
-            // Move by following the path
-            _skel->setConfig(_index, (Eigen::VectorXd)(*it));
+        std::string traj_joints[length] = {"RHY", "RHR", "RHP", "RKP", "RAP", "RAR",
+                                      "LHY", "LHR", "LHP", "LKP", "LAP", "LAR",
+                                      "RSP", "RSR", "RSY", "REP", "RWY", "RWR", "RWP",
+                                      "LSP", "LSR", "LSY", "LEP", "LWY", "LWR", "LWP",
+                                      "NKY", "NK1", "NK2", /*"WST",
+                                      "RF1", "RF2", "RF3", "RF4", "RF5",
+                                      "LF1", "LF2", "LF3", "LF4", "LF5"*/};
+        std::vector<int> index;
+        for (int k=0;k<length;k++) {
+            index.push_back(_skel->getJoint(traj_joints[k])->getGenCoord(0)->getSkeletonIndex());
+        }
+        Eigen::VectorXd config = _skel->getConfig(index);
 
-            // Save world to timeline
-            _timeline->push_back(GripTimeslice(*_world));
+        std::ofstream file("test.txt", std::ios::out | std::ios::trunc);
+        if(file) {
+            i=0;
+            while (i < interpolation.size())
+            {
+                it = interpolation.begin();
+                std::advance(it, i);
+                // Move by following the path
+                _skel->setConfig(_index, (Eigen::VectorXd)(*it));
 
-            i++;
+                // Save world to timeline
+                _timeline->push_back(GripTimeslice(*_world));
+
+                // Write the trajectory in output file
+                config = _skel->getConfig(index);
+                for (int k=0;k<config.rows();k++) {
+                    file << config[k] << " ";
+                }
+                for (int k=config.rows();k<40;k++) {
+                    file << 0 << " ";
+                }
+                file << std::endl;
+
+                i++;
+            }
+            file.close();
+        } else {
+            std::cerr << "Error opening the output file" << std::endl;
         }
     } else {
         std::cout << "Start and/or goal configuration have not been saved." << std::endl;
@@ -171,17 +155,19 @@ void PlanningPlugin::on_PlanMoveButton_clicked()
 
 bool PlanningPlugin::updateIndex()
 {
-    _skel = _world->getSkeleton("GolemHubo");
-    std::cout << "GolemHubo found" << std::endl;
+    _skel = _world->getSkeleton("drchubo_v2");//huboplus");
+    std::cout << "huboplus found" << std::endl;
 
     if (_skel) {
-        // Get index of the right arm
         _skel->setSelfCollidable(false);
 
-        std::string nodes[6] = {"Body_RSP","Body_RSR","Body_RSY","Body_REP","Body_RWY","Body_RWP"};
+        std::string arm_nodes[6] = {"Body_RSP","Body_RSR","Body_RSY","Body_REP","Body_RWY","Body_RWP"};
+        std::string body_nodes[6] = {"Body_Torso","Body_HNR","Body_HNP","Body_Hip","Body_LHY","Body_RHY"};
 
         for (int i=0;i<6;i++) {
-            _world->getConstraintHandler()->getCollisionDetector()->enablePair(_world->getSkeleton(1)->getBodyNode(nodes[i]),_world->getSkeleton(1)->getBodyNode("Body_Torso"));
+            for (int j=0;j<6;j++) {
+                _world->getConstraintHandler()->getCollisionDetector()->enablePair(_world->getSkeleton(1)->getBodyNode(arm_nodes[i]),_world->getSkeleton(1)->getBodyNode(body_nodes[j]));
+            }
         }
 
         _index.clear();
@@ -199,29 +185,35 @@ bool PlanningPlugin::updateIndex()
     }
 }
 
-void PlanningPlugin::on_commandLinkButton_clicked()
-{
-    QStringList fileNames; //stores the entire path of the file that it attempts to open
-
-    QStringList filters; //setting file filters
-    filters << "Point Cloud file (*.pcd)"
-            << "Any files (*)";
-
-    //initializing the File dialog box
-    //the static QFileDialog does not seem to be working correctly in Ubuntu 12.04 with unity.
-    //as per the documentation it may work correctly with gnome
-    //the method used below should work correctly on all desktops and is supposedly more powerful
-    QFileDialog dialog(this);
-    dialog.setNameFilters(filters);
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    if (dialog.exec())
-        fileNames = dialog.selectedFiles();
-
-    if (!fileNames.isEmpty())
-    {
-        std::cerr<<"Attempting to open the following world file: "<<fileNames.front().toStdString() <<std::endl;
-        loader = new PCDLoader(fileNames.front().toStdString());
-        _viewWidget->addNodeToScene(loader->geode);
+void PlanningPlugin::interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation) {
+    double max_dx, dx, time, dt, t;
+    size_t count = 0;
+    std::list<Eigen::VectorXd>::iterator it_start = path.begin();
+    std::list<Eigen::VectorXd>::iterator it_last = path.begin();
+    for (++it_last;it_last!=path.end();++it_start,++it_last) {
+        Eigen::VectorXd& start = *it_start;
+        Eigen::VectorXd& last = *it_last;
+        max_dx = last[0] - start[0];
+        for (int j=1;j<start.size();++j) {
+            dx = last[j] - start[j];
+            if (dx>max_dx) {
+                max_dx = dx;
+            }
+        }
+        time = max_dx/1; // 1rad/sec
+        dt = time/200; // 200 Hz
+        t=0;
+        interpolation.push_back(start);
+        while (t<time) {
+            t+=dt;
+            interpolation.push_back((last-start)*t/time + start);
+        }
+        count++;
+        if (count > path.size()) {
+            std::cout << "SOS" << std::endl;
+            return;
+        }
     }
+    interpolation.push_back(path.back());
 }
+
