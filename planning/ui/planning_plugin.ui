@@ -16,13 +16,6 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QCommandLinkButton" name="commandLinkButton">
-      <property name="text">
-       <string>Load PCD file</string>
-      </property>
-     </widget>
-    </item>
-    <item>
      <widget class="QCommandLinkButton" name="saveStartButton">
       <property name="text">
        <string>Save Start Configuration</string>
@@ -33,6 +26,13 @@
      <widget class="QCommandLinkButton" name="saveGoalButton">
       <property name="text">
        <string>Save Goal Configuration</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="planAndMoveButton">
+      <property name="text">
+       <string>Plan and Move</string>
       </property>
      </widget>
     </item>

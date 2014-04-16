@@ -79,7 +79,71 @@ void PlanningPlugin::on_saveGoalButton_clicked()
     }
 }
 
-void PlanningPlugin::on_PlanMoveButton_clicked()
+bool PlanningPlugin::updateIndex()
+{
+    _skel = _world->getSkeleton("drchubo_v2");//huboplus");
+    std::cout << "huboplus found" << std::endl;
+
+    if (_skel) {
+        _skel->setSelfCollidable(false);
+
+        std::string arm_nodes[6] = {"Body_RSP","Body_RSR","Body_RSY","Body_REP","Body_RWY","Body_RWP"};
+        std::string body_nodes[6] = {"Body_Torso","Body_HNR","Body_HNP","Body_Hip","Body_LHY","Body_RHY"};
+
+        for (int i=0;i<6;i++) {
+            for (int j=0;j<6;j++) {
+                _world->getConstraintHandler()->getCollisionDetector()->enablePair(_world->getSkeleton(1)->getBodyNode(arm_nodes[i]),_world->getSkeleton(1)->getBodyNode(body_nodes[j]));
+            }
+        }
+
+        _index.clear();
+        std::cout << "index size: " << _index.size() << std::endl;
+        _index.push_back(_skel->getJoint("RSP")->getGenCoord(0)->getSkeletonIndex());
+        _index.push_back(_skel->getJoint("RSR")->getGenCoord(0)->getSkeletonIndex());
+        _index.push_back(_skel->getJoint("RSY")->getGenCoord(0)->getSkeletonIndex());
+        _index.push_back(_skel->getJoint("REP")->getGenCoord(0)->getSkeletonIndex());
+        _index.push_back(_skel->getJoint("RWY")->getGenCoord(0)->getSkeletonIndex());
+        _index.push_back(_skel->getJoint("RWP")->getGenCoord(0)->getSkeletonIndex());
+        std::cout << "index size: " << _index.size() << std::endl;
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void PlanningPlugin::interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation) {
+    double max_dx, dx, time, dt, t;
+    size_t count = 0;
+    std::list<Eigen::VectorXd>::iterator it_start = path.begin();
+    std::list<Eigen::VectorXd>::iterator it_last = path.begin();
+    for (++it_last;it_last!=path.end();++it_start,++it_last) {
+        Eigen::VectorXd& start = *it_start;
+        Eigen::VectorXd& last = *it_last;
+        max_dx = last[0] - start[0];
+        for (int j=1;j<start.size();++j) {
+            dx = last[j] - start[j];
+            if (dx>max_dx) {
+                max_dx = dx;
+            }
+        }
+        time = max_dx/1; // 1rad/sec
+        dt = time/200; // 200 Hz
+        t=0;
+        interpolation.push_back(start);
+        while (t<time) {
+            t+=dt;
+            interpolation.push_back((last-start)*t/time + start);
+        }
+        count++;
+        if (count > path.size()) {
+            std::cout << "SOS" << std::endl;
+            return;
+        }
+    }
+    interpolation.push_back(path.back());
+}
+
+void PlanningPlugin::on_planAndMoveButton_clicked()
 {
     if ((_startConf.cols() != 0)&&(_goalConf.cols() != 0)) {
 
@@ -152,68 +216,3 @@ void PlanningPlugin::on_PlanMoveButton_clicked()
         std::cout << "Start and/or goal configuration have not been saved." << std::endl;
     }
 }
-
-bool PlanningPlugin::updateIndex()
-{
-    _skel = _world->getSkeleton("drchubo_v2");//huboplus");
-    std::cout << "huboplus found" << std::endl;
-
-    if (_skel) {
-        _skel->setSelfCollidable(false);
-
-        std::string arm_nodes[6] = {"Body_RSP","Body_RSR","Body_RSY","Body_REP","Body_RWY","Body_RWP"};
-        std::string body_nodes[6] = {"Body_Torso","Body_HNR","Body_HNP","Body_Hip","Body_LHY","Body_RHY"};
-
-        for (int i=0;i<6;i++) {
-            for (int j=0;j<6;j++) {
-                _world->getConstraintHandler()->getCollisionDetector()->enablePair(_world->getSkeleton(1)->getBodyNode(arm_nodes[i]),_world->getSkeleton(1)->getBodyNode(body_nodes[j]));
-            }
-        }
-
-        _index.clear();
-        std::cout << "index size: " << _index.size() << std::endl;
-        _index.push_back(_skel->getJoint("RSP")->getGenCoord(0)->getSkeletonIndex());
-        _index.push_back(_skel->getJoint("RSR")->getGenCoord(0)->getSkeletonIndex());
-        _index.push_back(_skel->getJoint("RSY")->getGenCoord(0)->getSkeletonIndex());
-        _index.push_back(_skel->getJoint("REP")->getGenCoord(0)->getSkeletonIndex());
-        _index.push_back(_skel->getJoint("RWY")->getGenCoord(0)->getSkeletonIndex());
-        _index.push_back(_skel->getJoint("RWP")->getGenCoord(0)->getSkeletonIndex());
-        std::cout << "index size: " << _index.size() << std::endl;
-        return true;
-    } else {
-        return false;
-    }
-}
-
-void PlanningPlugin::interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation) {
-    double max_dx, dx, time, dt, t;
-    size_t count = 0;
-    std::list<Eigen::VectorXd>::iterator it_start = path.begin();
-    std::list<Eigen::VectorXd>::iterator it_last = path.begin();
-    for (++it_last;it_last!=path.end();++it_start,++it_last) {
-        Eigen::VectorXd& start = *it_start;
-        Eigen::VectorXd& last = *it_last;
-        max_dx = last[0] - start[0];
-        for (int j=1;j<start.size();++j) {
-            dx = last[j] - start[j];
-            if (dx>max_dx) {
-                max_dx = dx;
-            }
-        }
-        time = max_dx/1; // 1rad/sec
-        dt = time/200; // 200 Hz
-        t=0;
-        interpolation.push_back(start);
-        while (t<time) {
-            t+=dt;
-            interpolation.push_back((last-start)*t/time + start);
-        }
-        count++;
-        if (count > path.size()) {
-            std::cout << "SOS" << std::endl;
-            return;
-        }
-    }
-    interpolation.push_back(path.back());
-}
-

@@ -43,8 +43,7 @@ public:
 private slots:
     void on_saveStartButton_clicked();
     void on_saveGoalButton_clicked();
-    void on_PlanMoveButton_clicked();
-    void on_commandLinkButton_clicked();
+    void on_planAndMoveButton_clicked();
 };
 
 #endif // TESTGRIPPLUGIN_H
