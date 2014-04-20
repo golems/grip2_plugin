@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(walktab)
+project(workspacetab)
 
 #-----------------------------------------------
 #                COMPILE SETTINGS
@@ -83,8 +83,8 @@ QT4_ADD_RESOURCES(RESOURCES ${RC_FILES})
 file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
-add_library(walktab SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(walktab  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
+add_library(workspacetab SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
+target_link_libraries(workspacetab  ${QT_LIBRARIES} ${PCL_COMMON_LIBRARIES} ${PCL_IO_LIBRARIES} ${GRIP_LIBRARIES} ${DART_LIBRARIES})
 
 # Set project libraries variable
-set(project_libs walktab)
+set(project_libs workspacetab)
