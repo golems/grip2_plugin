@@ -55,9 +55,10 @@
 // DART includes
 #include <vector>
 #include <dart/dynamics/Skeleton.h>
+#include <dart/dynamics/BodyNode.h>
 
 enum Ids { LHY = 6, LHR = 7, LHP = 8, LKP = 9, LAP = 10, LAR = 11, RHY = 12, RHR = 13, RHP = 14, 
-		RKP = 15, RAP = 16, RAR = 17, LSP = 19, LEP = 22, RSP = 38, REP = 41 };
+		RKP = 15, RAP = 16, RAR = 17, LSP = 19, LEP = 22, RSP = 38, REP = 41, RWP = 43 };
 
 class WorkSpaceTab : public GripTab
 {
@@ -65,13 +66,15 @@ class WorkSpaceTab : public GripTab
     Q_INTERFACES(GripTab)
 
 public:
+		QTimer timer;
     WorkSpaceTab(QWidget *parent = 0);
 		void GRIPEventSceneLoaded();
 		void Refresh();
 private slots:
     void setStartPressed();
     void setGoalPressed();
-    
+protected Q_SLOTS:
+		void update ();
 private:
     Ui::WorkSpaceTabWidget *_ui;
 
