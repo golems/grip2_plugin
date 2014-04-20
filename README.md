@@ -1,6 +1,6 @@
-example3
+workspace_ctrl_arm
 ========
 
- Example3 is a walking tab example. 
+ This plugin demonstrates workspace control for the Hubo arm.
  Check out the video at https://vimeo.com/canerdogan/hubo-vs-obstacle.
 
