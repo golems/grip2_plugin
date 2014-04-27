@@ -66,8 +66,14 @@ void LaserScanPlugin::scan_slot()
     // Laser params
     const QString ip = ui->ip_input->text();
     const QString ip_port = ui->ip_port_input->text();
-    const QString min_detection_angle = ui->min_detection_angle->text();
-    const QString max_detection_angle = ui->max_detection_angle->text();
+    const QString min_detection_angle_input = ui->min_detection_angle->text();
+    const QString max_detection_angle_input = ui->max_detection_angle->text();
+
+    // Threshold parameters
+    const int min_detection_angle = std::min(135, std::max(-135, min_detection_angle_input.toInt()));
+    const int max_detection_angle = std::max(-135, std::min(135, max_detection_angle_input.toInt()));
+    if(min_detection_angle >= max_detection_angle)
+        return;
 
     // Dxl params
     const QString ttyUSB_dxl = ui->ttyUSB_input->text();
@@ -79,7 +85,7 @@ void LaserScanPlugin::scan_slot()
     {
         // Laser
         URGCPPWrapper urg(ip.toStdString(), ip_port.toInt());
-        urg.setDetectionAngleDegree(min_detection_angle.toInt(), max_detection_angle.toInt());
+        urg.setDetectionAngleDegree(min_detection_angle, max_detection_angle);
         std::cout << urg.getAllInfo() << std::endl;
 
         // Motors

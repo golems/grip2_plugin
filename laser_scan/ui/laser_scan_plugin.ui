@@ -138,7 +138,7 @@ QGroupBox::title {
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>-135</string>
+                <string>-40</string>
                </property>
               </widget>
              </item>
@@ -168,7 +168,7 @@ QGroupBox::title {
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>135</string>
+                <string>40s</string>
                </property>
               </widget>
              </item>
