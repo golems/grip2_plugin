@@ -12,46 +12,15 @@
 #include <dart/dynamics/PrismaticJoint.h>
 #include <dart/dynamics/GenCoord.h>
 #include <dart/constraint/ConstraintDynamics.h>
-//#include <dart/collision/bullet/BulletCollisionDetector.h>
 #include <dart/simulation/World.h>
 #include <dart/planning/PathPlanner.h>
 #include <dart/planning/PathShortener.h>
-#include <PCDLoader.h>
-
 
 PlanningPlugin::PlanningPlugin(QWidget *parent) : ui(new Ui::PlanningPlugin){
     ui->setupUi(this);
 }
 
 PlanningPlugin::~PlanningPlugin(){}
-
-//void PlanningPlugin::GRIPEventSimulationBeforeTimestep(){}
-//void PlanningPlugin::GRIPEventSimulationAfterTimestep(){}
-//void PlanningPlugin::GRIPEventSimulationStart(){}
-//void PlanningPlugin::GRIPEventSimulationStop(){}
-void PlanningPlugin::GRIPEventTreeViewSelectionChanged() {}
-
-//void PlanningPlugin::Load(TreeViewReturn* ret, ViewerWidget *viewer) {}
-
-//void PlanningPlugin::GRIPEventPlaybackBeforeFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed after every playback time step
- */
-//void PlanningPlugin::GRIPEventPlaybackAfterFrame() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the start of the playback
- */
-//void PlanningPlugin::GRIPEventPlaybackStart() {}
-
-/**
- * \brief called from the main window whenever the simulation history slider is being played
- * This method is executed at the end of the playback
- */
-//void PlanningPlugin::GRIPEventPlaybackStop() {}
 
 void PlanningPlugin::Refresh() {}
 

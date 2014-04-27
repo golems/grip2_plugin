@@ -5,7 +5,6 @@
 #include <grip/qtWidgets/GripTab.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
 #include <grip/osgGolems/ViewerWidget.h>
-#include <PCDLoader.h>
 
 class PlanningPlugin : public GripTab
 {
@@ -21,22 +20,12 @@ private:
     std::vector<int> _index;
     Eigen::VectorXd _startConf;
     Eigen::VectorXd _goalConf;
-    PCDLoader* loader;
 
     bool updateIndex();
     void interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation);
 
 public:
-//    void Load(TreeViewReturn* ret, ViewerWidget* viewer);
 
-//    void GRIPEventSimulationBeforeTimestep();
-//    void GRIPEventSimulationAfterTimestep();
-//    void GRIPEventSimulationStart();
-//    void GRIPEventSimulationStop();
-//    void GRIPEventPlaybackBeforeFrame();
-//    void GRIPEventPlaybackAfterFrame();
-//    void GRIPEventPlaybackStart();
-//    void GRIPEventPlaybackStop();
     void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
