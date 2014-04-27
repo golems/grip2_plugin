@@ -15,18 +15,25 @@ public:
     ~PlanningPlugin();
 
 private:
+    static const std::string ROBOT_SKELETON_NAME;
+    static const unsigned int CONTROLLED_JOINTS_COUNT = 6;
+    static const std::vector<std::string> CONTROLLED_JOINTS_NAMES;
+
     Ui::PlanningPlugin *ui;
     dart::dynamics::Skeleton* _skel;
-    std::vector<int> _index;
+
+    std::vector<int> _controlled_joints_index;
+
     Eigen::VectorXd _startConf;
     Eigen::VectorXd _goalConf;
 
-    bool updateIndex();
+    bool setUp();
+    void setUpJointsIndex();
+    void setUpCollision();
     void interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation);
 
 public:
 
-    void GRIPEventTreeViewSelectionChanged();
     void Refresh();
 
 private slots:
