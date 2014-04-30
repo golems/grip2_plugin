@@ -81,7 +81,7 @@ file(GLOB SRCS include/*.h src/*.cpp)
 
 # Add Qt Widgets library
 add_library(planning_plugin SHARED ${SRCS} ${UI} ${MOC} ${RESOURCES})
-target_link_libraries(planning_plugin  ${QT_LIBRARIES} ${PCL_LIBRARIES} ${DART_LIBRARIES} ${GRIP_LIBRARIES})
+target_link_libraries(planning_plugin  ${QT_LIBRARIES} ${PCL_LIBRARIES} ${DART_LIBRARIES} ${GRIP_LIBRARIES} HuboCan)
 
 # Set project libraries variable
 set(project_libs planning_plugin)

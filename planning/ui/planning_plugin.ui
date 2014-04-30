@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>312</width>
-    <height>160</height>
+    <width>532</width>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,14 @@
     <item>
      <widget class="QCommandLinkButton" name="planAndMoveButton">
       <property name="text">
-       <string>Plan and Move</string>
+       <string>Plan</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QCommandLinkButton" name="runButton">
+      <property name="text">
+       <string>Run on Hubo</string>
       </property>
      </widget>
     </item>

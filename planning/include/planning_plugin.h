@@ -5,6 +5,7 @@
 #include <grip/qtWidgets/GripTab.h>
 #include <grip/qtWidgets/TreeViewReturn.h>
 #include <grip/osgGolems/ViewerWidget.h>
+#include <HuboPath/Operator.hpp>
 
 class PlanningPlugin : public GripTab
 {
@@ -27,19 +28,21 @@ private:
     Eigen::VectorXd _startConf;
     Eigen::VectorXd _goalConf;
 
+    HuboPath::Operator _operator;
+    std::list<Eigen::VectorXd> _path;
+
     bool setUp();
     void setUpJointsIndex();
     void setUpCollision();
-    void interpolate(std::list<Eigen::VectorXd>& path, std::list<Eigen::VectorXd>& interpolation);
 
 public:
-
     void Refresh();
 
 private slots:
     void on_saveStartButton_clicked();
     void on_saveGoalButton_clicked();
     void on_planAndMoveButton_clicked();
+    void on_runButton_clicked();
 };
 
-#endif // TESTGRIPPLUGIN_H
+#endif // PLANNING_PLUGIN_H
